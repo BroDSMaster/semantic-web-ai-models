@@ -1,0 +1,10 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?topic ?topicName ?subfieldName ?fieldName ?domainName (COUNT(DISTINCT ?paper) AS ?papers) WHERE {
+  ?paper ex:hasTopic ?topic .
+  ?topic rdfs:label ?topicName ; ex:inSubfield ?subfield .
+  ?subfield rdfs:label ?subfieldName ; ex:inField ?field .
+  ?field rdfs:label ?fieldName ; ex:inDomain ?domain .
+  ?domain rdfs:label ?domainName .
+} GROUP BY ?topic ?topicName ?subfieldName ?fieldName ?domainName
+ORDER BY DESC(?papers) ?topic LIMIT 20

@@ -1,0 +1,117 @@
+# SYNTHETIC EXAMPLE ONLY. IDs and labels below are fixtures, not collected facts.
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/aimodels/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/aimodels/resource/paper/W1> a ex:ResearchPaper ;
+    rdfs:label "Example paper 1" ;
+    dcterms:identifier "W1" ;
+    dcterms:issued "2024-01-02"^^xsd:date ;
+    dcterms:references <https://example.org/aimodels/resource/paper/W2> ;
+    dcterms:source <https://openalex.org/W1> ;
+    dcterms:title "Example paper 1" ;
+    ex:citationCount "5"^^xsd:nonNegativeInteger ;
+    ex:hasAuthorship <https://example.org/aimodels/resource/authorship/W1-A1> ;
+    ex:hasTopic <https://example.org/aimodels/resource/topic/T1> ;
+    ex:isOpenAccess true ;
+    ex:primaryTopic <https://example.org/aimodels/resource/topic/T1> ;
+    ex:publicationYear "2024"^^xsd:gYear ;
+    ex:publishedIn <https://example.org/aimodels/resource/source/S1> ;
+    ex:workType "article" ;
+    schema:author <https://example.org/aimodels/resource/person/A1> .
+
+<https://example.org/aimodels/resource/authorship/W1-A1> a ex:Authorship ;
+    rdfs:label "Authorship W1-A1" ;
+    dcterms:source <https://openalex.org/W1> ;
+    ex:affiliatedInstitution <https://example.org/aimodels/resource/institution/I1> ;
+    ex:authorPerson <https://example.org/aimodels/resource/person/A1> ;
+    ex:authorPosition "first" ;
+    ex:isCorresponding false .
+
+<https://example.org/aimodels/resource/authorship/W2-A1> a ex:Authorship ;
+    rdfs:label "Authorship W2-A1" ;
+    dcterms:source <https://openalex.org/W2> ;
+    ex:affiliatedInstitution <https://example.org/aimodels/resource/institution/I2> ;
+    ex:authorPerson <https://example.org/aimodels/resource/person/A1> ;
+    ex:authorPosition "first" ;
+    ex:isCorresponding false .
+
+<https://example.org/aimodels/resource/institution/I1> a ex:ResearchInstitution ;
+    rdfs:label "Example Institution 1" ;
+    dcterms:identifier "I1" ;
+    dcterms:source <https://openalex.org/I1> ;
+    ex:countryCode "VN" ;
+    ex:institutionType "education" ;
+    ex:ror <https://ror.org/example1> .
+
+<https://example.org/aimodels/resource/institution/I2> a ex:ResearchInstitution ;
+    rdfs:label "Example Institution 2" ;
+    dcterms:identifier "I2" ;
+    dcterms:source <https://openalex.org/I2> ;
+    ex:countryCode "VN" ;
+    ex:institutionType "education" ;
+    ex:ror <https://ror.org/example2> .
+
+<https://example.org/aimodels/resource/paper/W2> a ex:ResearchPaper ;
+    rdfs:label "Example paper 2" ;
+    dcterms:identifier "W2" ;
+    dcterms:issued "2024-01-02"^^xsd:date ;
+    dcterms:source <https://openalex.org/W2> ;
+    dcterms:title "Example paper 2" ;
+    ex:citationCount "5"^^xsd:nonNegativeInteger ;
+    ex:hasAuthorship <https://example.org/aimodels/resource/authorship/W2-A1> ;
+    ex:hasTopic <https://example.org/aimodels/resource/topic/T1> ;
+    ex:isOpenAccess true ;
+    ex:primaryTopic <https://example.org/aimodels/resource/topic/T1> ;
+    ex:publicationYear "2024"^^xsd:gYear ;
+    ex:publishedIn <https://example.org/aimodels/resource/source/S1> ;
+    ex:workType "article" ;
+    schema:author <https://example.org/aimodels/resource/person/A1> .
+
+<https://example.org/aimodels/resource/publisher/P1> a ex:Publisher ;
+    rdfs:label "Example Publisher" ;
+    dcterms:identifier "P1" ;
+    dcterms:source <https://openalex.org/P1> .
+
+<https://example.org/aimodels/resource/domain/3> a ex:ResearchDomain ;
+    rdfs:label "Physical Sciences" ;
+    dcterms:identifier "3" ;
+    dcterms:source <https://openalex.org/domains/3> .
+
+<https://example.org/aimodels/resource/field/17> a ex:ResearchField ;
+    rdfs:label "Computer Science" ;
+    dcterms:identifier "17" ;
+    dcterms:source <https://openalex.org/fields/17> ;
+    skos:broader <https://example.org/aimodels/resource/domain/3> ;
+    ex:inDomain <https://example.org/aimodels/resource/domain/3> .
+
+<https://example.org/aimodels/resource/source/S1> a ex:PublicationSource ;
+    rdfs:label "Example Journal" ;
+    dcterms:identifier "S1" ;
+    dcterms:source <https://openalex.org/S1> ;
+    ex:publishedBy <https://example.org/aimodels/resource/publisher/P1> ;
+    ex:sourceType "journal" .
+
+<https://example.org/aimodels/resource/subfield/1702> a ex:ResearchSubfield ;
+    rdfs:label "Artificial Intelligence" ;
+    dcterms:identifier "1702" ;
+    dcterms:source <https://openalex.org/subfields/1702> ;
+    skos:broader <https://example.org/aimodels/resource/field/17> ;
+    ex:inField <https://example.org/aimodels/resource/field/17> .
+
+<https://example.org/aimodels/resource/person/A1> a ex:Person ;
+    rdfs:label "Example Author" ;
+    dcterms:identifier "A1" ;
+    dcterms:source <https://openalex.org/A1> ;
+    ex:orcid <https://orcid.org/0000-0001-0000-0001> .
+
+<https://example.org/aimodels/resource/topic/T1> a ex:ResearchTopic ;
+    rdfs:label "Example AI Topic" ;
+    dcterms:identifier "T1" ;
+    dcterms:source <https://openalex.org/T1> ;
+    skos:broader <https://example.org/aimodels/resource/subfield/1702> ;
+    ex:inSubfield <https://example.org/aimodels/resource/subfield/1702> .
+

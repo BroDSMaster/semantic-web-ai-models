@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="https://example.org/aimodels/publicationYear">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+    <rdfs:label xml:lang="en">publication year</rdfs:label>
+    <rdfs:comment xml:lang="en">Publication year reported by OpenAlex.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ResearchTopic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <rdfs:label xml:lang="en">Research topic</rdfs:label>
+    <rdfs:comment xml:lang="en">A specific OpenAlex classification concept, not a paper and not a subclass of its subfield.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/publishedIn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/PublicationSource"/>
+    <rdfs:label xml:lang="en">published in</rdfs:label>
+    <rdfs:comment xml:lang="en">Primary publication source reported by OpenAlex; missing source is allowed.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ror">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchInstitution"/>
+    <rdfs:label xml:lang="en">ROR URI</rdfs:label>
+    <rdfs:comment xml:lang="en">ROR organization identifier reported by OpenAlex, if available.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/institutionType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchInstitution"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">institution type</rdfs:label>
+    <rdfs:comment xml:lang="en">OpenAlex institution category, such as education or company.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b1">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+    <owl:members rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/countryCode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchInstitution"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">country code</rdfs:label>
+    <rdfs:comment xml:lang="en">Institution country code from OpenAlex; not the nationality of the authors.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/publishedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PublicationSource"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Publisher"/>
+    <rdfs:label xml:lang="en">published by</rdfs:label>
+    <rdfs:comment xml:lang="en">Connects a source to an OpenAlex publisher; institution-hosted repositories are not forced into this relation.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/isCorresponding">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Authorship"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:label xml:lang="en">is corresponding author</rdfs:label>
+    <rdfs:comment xml:lang="en">Corresponding status for this particular paper.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ResearchSubfield">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <rdfs:label xml:lang="en">Research subfield</rdfs:label>
+    <rdfs:comment xml:lang="en">A subfield concept in the OpenAlex four-level classification.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/primaryTopic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf rdf:resource="https://example.org/aimodels/hasTopic"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ResearchTopic"/>
+    <rdfs:label xml:lang="en">primary topic</rdfs:label>
+    <rdfs:comment xml:lang="en">Highest-ranked OpenAlex topic for the work.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b4">
+    <rdf:first rdf:resource="https://example.org/aimodels/Authorship"/>
+    <rdf:rest rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b5"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/authoredPaper">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Authorship"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:label xml:lang="en">authored paper</rdfs:label>
+    <rdfs:comment xml:lang="en">Inverse of hasAuthorship; inferred by OWL RL if not asserted.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/hasTopic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ResearchTopic"/>
+    <rdfs:label xml:lang="en">has topic</rdfs:label>
+    <rdfs:comment xml:lang="en">OpenAlex predicted topic assignment; not a manually verified research scope.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b5">
+    <rdf:first rdf:resource="https://schema.org/Organization"/>
+    <rdf:rest rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b6"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/authorPerson">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Authorship"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Person"/>
+    <rdfs:label xml:lang="en">author person</rdfs:label>
+    <rdfs:comment xml:lang="en">The human participant of an authorship record.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ResearchInstitution">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Organization"/>
+    <rdfs:label xml:lang="en">Research institution</rdfs:label>
+    <rdfs:comment xml:lang="en">An organization appearing in an authorship affiliation. Membership here is a role in the sample, not a claim of perpetual research activity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/workType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">work type</rdfs:label>
+    <rdfs:comment xml:lang="en">OpenAlex work-type string, e.g. article or preprint.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Publisher">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Organization"/>
+    <rdfs:label xml:lang="en">Publisher</rdfs:label>
+    <rdfs:comment xml:lang="en">An OpenAlex publisher entity with a P identifier hosting a publication source. Publishing is an organizational role; may overlap ResearchInstitution.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/inSubfield">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#broader"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchTopic"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ResearchSubfield"/>
+    <rdfs:label xml:lang="en">in subfield</rdfs:label>
+    <rdfs:comment xml:lang="en">Topic-to-subfield classification, not subclass inheritance.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/isOpenAccess">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:label xml:lang="en">is open access</rdfs:label>
+    <rdfs:comment xml:lang="en">OpenAlex open-access flag at collection time; does not license full text.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/PublicationSource">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Publication source</rdfs:label>
+    <rdfs:comment xml:lang="en">An OpenAlex journal, repository, conference or other publication source. It is a venue, not its publisher or a single paper.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/inDomain">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#broader"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchField"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ResearchDomain"/>
+    <rdfs:label xml:lang="en">in domain</rdfs:label>
+    <rdfs:comment xml:lang="en">Field-to-domain classification.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ResearchPaper">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/ScholarlyArticle"/>
+    <rdfs:label xml:lang="en">Research paper</rdfs:label>
+    <rdfs:comment xml:lang="en">An individual research article, conference paper, preprint or review in the selected OpenAlex sample. Paratext/proceedings collections, books, chapters and reports are excluded. Identity is the OpenAlex work ID.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/doi">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:label xml:lang="en">DOI URI</rdfs:label>
+    <rdfs:comment xml:lang="en">DOI resolver URI for this bibliographic work; retained as an identifier link.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/inField">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#broader"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchSubfield"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ResearchField"/>
+    <rdfs:label xml:lang="en">in field</rdfs:label>
+    <rdfs:comment xml:lang="en">Subfield-to-field classification.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/hasAuthorship">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Authorship"/>
+    <owl:inverseOf rdf:resource="https://example.org/aimodels/authoredPaper"/>
+    <rdfs:label xml:lang="en">has authorship</rdfs:label>
+    <rdfs:comment xml:lang="en">Connects a paper to contextual participation records. Multiple authors are allowed.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/sourceType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PublicationSource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">source type</rdfs:label>
+    <rdfs:comment xml:lang="en">OpenAlex publication source type, such as journal or repository.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ontology">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <rdfs:label xml:lang="en">AI Research Knowledge Graph ontology</rdfs:label>
+    <dcterms:description xml:lang="en">Bibliographic AI research metadata, contextual authorship and OpenAlex topic hierarchy. Designed using ONTOLOGY_ENGINEERING_SKILL.md.</dcterms:description>
+    <owl:versionInfo>1.0.0</owl:versionInfo>
+    <rdfs:seeAlso rdf:resource="https://help.openalex.org/"/>
+    <rdfs:seeAlso rdf:resource="https://schema.org/ScholarlyArticle"/>
+    <rdfs:seeAlso rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b3">
+    <rdf:first rdf:resource="https://example.org/aimodels/Person"/>
+    <rdf:rest rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b4"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b6">
+    <rdf:first rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/affiliatedInstitution">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Authorship"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ResearchInstitution"/>
+    <rdfs:label xml:lang="en">affiliated institution in this authorship</rdfs:label>
+    <rdfs:comment xml:lang="en">Affiliation reported for this paper; does not imply current employment or affiliation for all papers by the person.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/orcid">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Person"/>
+    <rdfs:label xml:lang="en">ORCID URI</rdfs:label>
+    <rdfs:comment xml:lang="en">ORCID researcher identifier reported by OpenAlex, if available.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/citationCount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+    <rdfs:label xml:lang="en">citation count</rdfs:label>
+    <rdfs:comment xml:lang="en">OpenAlex cited_by_count at snapshot time; not the number of reference triples and not a benchmark score.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/authorPosition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Authorship"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">author position</rdfs:label>
+    <rdfs:comment xml:lang="en">OpenAlex first/middle/last category; not an invented numeric author order.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/issnL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PublicationSource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">ISSN-L</rdfs:label>
+    <rdfs:comment xml:lang="en">Linking ISSN of a source, when available.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b2">
+    <rdf:first rdf:resource="https://example.org/aimodels/ResearchPaper"/>
+    <rdf:rest rdf:nodeID="n64b3c9c0498d4cc5a995ae79ed63f178b3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/collectionSearch">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">collection search</rdfs:label>
+    <rdfs:comment xml:lang="en">Search expression used to obtain a dataset snapshot.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Authorship">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Role"/>
+    <rdfs:label xml:lang="en">Authorship</rdfs:label>
+    <rdfs:comment xml:lang="en">An author's participation in a particular paper. Identity is (work ID, author ID); affiliations, position and corresponding status belong to this association.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ResearchField">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <rdfs:label xml:lang="en">Research field</rdfs:label>
+    <rdfs:comment xml:lang="en">A field concept grouping subfields in OpenAlex, e.g. Computer Science.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Person">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Person"/>
+    <rdfs:label xml:lang="en">Person</rdfs:label>
+    <rdfs:comment xml:lang="en">A human represented by an OpenAlex author ID; not a research role or an organization. Author disambiguation depends on OpenAlex.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ResearchDomain">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <rdfs:label xml:lang="en">Research domain</rdfs:label>
+    <rdfs:comment xml:lang="en">A broad domain concept grouping fields in OpenAlex, e.g. Physical Sciences.</rdfs:comment>
+  </rdf:Description>
+</rdf:RDF>

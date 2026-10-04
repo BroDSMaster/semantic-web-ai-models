@@ -1,0 +1,12 @@
+id,name,domain_id
+https://openalex.org/fields/13,"Biochemistry, Genetics and Molecular Biology",https://openalex.org/domains/1
+https://openalex.org/fields/14,"Business, Management and Accounting",https://openalex.org/domains/2
+https://openalex.org/fields/17,Computer Science,https://openalex.org/domains/3
+https://openalex.org/fields/18,Decision Sciences,https://openalex.org/domains/2
+https://openalex.org/fields/22,Engineering,https://openalex.org/domains/3
+https://openalex.org/fields/24,Immunology and Microbiology,https://openalex.org/domains/1
+https://openalex.org/fields/25,Materials Science,https://openalex.org/domains/3
+https://openalex.org/fields/27,Medicine,https://openalex.org/domains/4
+https://openalex.org/fields/32,Psychology,https://openalex.org/domains/2
+https://openalex.org/fields/33,Social Sciences,https://openalex.org/domains/2
+https://openalex.org/fields/36,Health Professions,https://openalex.org/domains/4

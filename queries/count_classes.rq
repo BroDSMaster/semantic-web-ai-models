@@ -1,0 +1,7 @@
+PREFIX ex: <https://example.org/aimodels/>
+SELECT ?class (COUNT(DISTINCT ?entity) AS ?count) WHERE {
+  VALUES ?class { ex:ResearchPaper ex:Person ex:ResearchInstitution ex:PublicationSource
+                 ex:Publisher ex:ResearchTopic ex:ResearchSubfield ex:ResearchField
+                 ex:ResearchDomain ex:Authorship }
+  ?entity a ?class .
+} GROUP BY ?class ORDER BY ?class

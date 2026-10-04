@@ -1,0 +1,23 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/aimodels/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:dataset a dcat:Dataset ;
+    dcterms:description "Sample of OpenAlex metadata, not full-text articles; classified within Computer Science."@en ;
+    dcterms:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    dcterms:modified "2026-10-04T12:06:27.079166+00:00"^^xsd:dateTime ;
+    dcterms:source <https://openalex.org/> ;
+    dcterms:title "AI research metadata: LLM papers from OpenAlex"@en ;
+    dcat:distribution ex:distribution-rdf,
+        ex:distribution-ttl ;
+    ex:collectionSearch "\"large language models\"" .
+
+ex:distribution-rdf a dcat:Distribution ;
+    dcterms:description "Local file src/data/gold/research.rdf; public download URL not yet assigned." ;
+    dcat:mediaType "application/rdf+xml" .
+
+ex:distribution-ttl a dcat:Distribution ;
+    dcterms:description "Local file src/data/gold/research.ttl; public download URL not yet assigned." ;
+    dcat:mediaType "text/turtle" .
+

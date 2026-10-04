@@ -1,0 +1,4 @@
+PREFIX ex: <https://example.org/aimodels/>
+SELECT ?year ?openAccess (COUNT(?paper) AS ?papers) WHERE {
+  ?paper a ex:ResearchPaper ; ex:publicationYear ?year ; ex:isOpenAccess ?openAccess .
+} GROUP BY ?year ?openAccess ORDER BY ?year ?openAccess

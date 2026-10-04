@@ -1,0 +1,8 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?paper ?title ?person ?author ?position ?institution ?institutionName WHERE {
+  ?paper a ex:ResearchPaper ; rdfs:label ?title ; ex:hasAuthorship ?role .
+  ?role ex:authorPerson ?person . ?person rdfs:label ?author .
+  OPTIONAL { ?role ex:authorPosition ?position }
+  OPTIONAL { ?role ex:affiliatedInstitution ?institution . ?institution rdfs:label ?institutionName }
+} ORDER BY ?paper ?author ?person ?institution LIMIT 100

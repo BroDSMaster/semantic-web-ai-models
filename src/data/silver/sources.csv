@@ -1,0 +1,66 @@
+id,name,type,issn_l,publisher_id,wikidata_id
+https://openalex.org/S106296714,Lecture notes in computer science,book series,0302-9743,https://openalex.org/P4310319900,Q924044
+https://openalex.org/S110346167,British Journal of Educational Technology,journal,0007-1013,https://openalex.org/P4310320595,
+https://openalex.org/S123849098,Behaviour and Information Technology,journal,0144-929X,https://openalex.org/P4310320547,
+https://openalex.org/S125754415,Proceedings of the National Academy of Sciences,journal,0027-8424,https://openalex.org/P4310320052,
+https://openalex.org/S129236917,World Wide Web,journal,1386-145X,https://openalex.org/P4310319900,
+https://openalex.org/S134668137,Nucleic Acids Research,journal,0305-1048,https://openalex.org/P4310311648,Q135122
+https://openalex.org/S137519996,Electronic Markets,journal,1019-6781,https://openalex.org/P4310319900,
+https://openalex.org/S137773608,Nature,journal,0028-0836,https://openalex.org/P4310319908,Q180445
+https://openalex.org/S141152059,Annals of Biomedical Engineering,journal,0090-6964,https://openalex.org/P4310319900,
+https://openalex.org/S142627899,ACM Transactions on Software Engineering and Methodology,journal,1049-331X,https://openalex.org/P4310319798,
+https://openalex.org/S155526855,Computational Linguistics,journal,0891-2017,https://openalex.org/P4310320244,
+https://openalex.org/S157921468,ACM Computing Surveys,journal,0360-0300,https://openalex.org/P4310319798,Q3295299
+https://openalex.org/S160466889,Minds and Machines,journal,0924-6495,https://openalex.org/P4310319900,Q6863950
+https://openalex.org/S16322639,Pharmaceuticals,journal,1424-8247,https://openalex.org/P4310310987,
+https://openalex.org/S165666656,Sustainable Development,journal,0968-0802,https://openalex.org/P4310320595,
+https://openalex.org/S166722454,Education and Information Technologies,journal,1360-2357,https://openalex.org/P4310319900,
+https://openalex.org/S18088403,Natural Language Engineering,journal,1351-3249,https://openalex.org/P4310311721,
+https://openalex.org/S183600629,Library Hi Tech News,journal,0741-9058,https://openalex.org/P4310319811,
+https://openalex.org/S199944782,IEEE Transactions on Pattern Analysis and Machine Intelligence,journal,0162-8828,https://openalex.org/P4310320439,Q3146632
+https://openalex.org/S203256638,Nature Medicine,journal,1078-8956,https://openalex.org/P4310319908,Q1633234
+https://openalex.org/S2484288132,IEEE/CAA Journal of Automatica Sinica,journal,2329-9266,https://openalex.org/P4310319808,Q28089618
+https://openalex.org/S2485537415,IEEE Access,journal,2169-3536,https://openalex.org/P4310319808,Q21015572
+https://openalex.org/S2492086750,ACM Transactions on Intelligent Systems and Technology,journal,2157-6904,https://openalex.org/P4310319798,Q27724473
+https://openalex.org/S2729999759,Transactions of the Association for Computational Linguistics,journal,2307-387X,https://openalex.org/P4310320244,
+https://openalex.org/S27339233,Business & Information Systems Engineering,journal,1867-0202,https://openalex.org/P4310319965,
+https://openalex.org/S2734413303,National Science Review,journal,2053-714X,https://openalex.org/P4310311648,
+https://openalex.org/S2737955091,Journal Of Big Data,journal,2196-1115,https://openalex.org/P4310319900,Q27726568
+https://openalex.org/S2764356416,Contemporary Educational Technology,journal,1309-517X,,
+https://openalex.org/S2764699309,Eurasia Journal of Mathematics Science and Technology Education,journal,1305-8215,https://openalex.org/P4328143497,
+https://openalex.org/S2764918247,Cogent Education,journal,2331-186X,https://openalex.org/P4310320547,
+https://openalex.org/S2912241403,Nature Machine Intelligence,journal,2522-5839,https://openalex.org/P4310319908,Q44062926
+https://openalex.org/S30283931,Pharmaceutics,journal,1999-4923,https://openalex.org/P4310310987,
+https://openalex.org/S30698027,IEEE Transactions on Knowledge and Data Engineering,journal,1041-4347,https://openalex.org/P4310320439,Q15755724
+https://openalex.org/S34838331,Future Internet,journal,1999-5903,https://openalex.org/P4310310987,
+https://openalex.org/S41803262,Tourism Review,journal,0251-3102,https://openalex.org/P4310319811,
+https://openalex.org/S4210172634,Computers & Education,journal,0360-1315,https://openalex.org/P4310320990,
+https://openalex.org/S4210186527,High-Confidence Computing,journal,2667-2952,https://openalex.org/P4310320990,
+https://openalex.org/S4210189963,International Journal of Innovative Science and Research Technology (IJISRT),journal,2456-2165,,
+https://openalex.org/S4210191458,Proceedings of the AAAI Conference on Artificial Intelligence,conference,2159-5399,https://openalex.org/P4310320058,Q27722923
+https://openalex.org/S4210195431,npj Digital Medicine,journal,2398-6352,https://openalex.org/P4310319908,Q73908508
+https://openalex.org/S4210201537,International Journal of Educational Technology in Higher Education,journal,2365-9440,https://openalex.org/P4310319965,Q50817184
+https://openalex.org/S4210218743,Science China Information Sciences,journal,1869-1919,https://openalex.org/P4310319965,
+https://openalex.org/S4210231404,Frontiers of Computer Science,journal,2095-2228,https://openalex.org/P4310311889,Q42609084
+https://openalex.org/S4306400194,arXiv (Cornell University),repository,2331-8422,,
+https://openalex.org/S4306400487,Infoscience (Ecole Polytechnique Fédérale de Lausanne),repository,,,
+https://openalex.org/S4306400562,Zenodo (CERN European Organization for Nuclear Research),repository,,,
+https://openalex.org/S4306402512,HAL (Le Centre pour la Communication Scientifique Directe),repository,,,
+https://openalex.org/S4363607743,CHI Conference on Human Factors in Computing Systems,conference,,,
+https://openalex.org/S4363607762,CHI Conference on Human Factors in Computing Systems Extended Abstracts,conference,,,
+https://openalex.org/S4363608463,"2022 ACM Conference on Fairness, Accountability, and Transparency",conference,,,
+https://openalex.org/S4363608652,Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers),conference,,,
+https://openalex.org/S4363608991,Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing,conference,,,
+https://openalex.org/S4377196569,DROPS (Schloss Dagstuhl – Leibniz Center for Informatics),repository,,,
+https://openalex.org/S4387290862,Meta-Radiology,journal,2950-1628,https://openalex.org/P4310320990,
+https://openalex.org/S4393917817,Leibniz international proceedings in informatics,journal,1868-8969,,
+https://openalex.org/S4394735545,ACM Transactions on Information Systems,journal,1046-8188,,
+https://openalex.org/S4819472,European Radiology,journal,0938-7994,https://openalex.org/P4310319900,
+https://openalex.org/S71191459,European Journal of Education,journal,0141-8211,https://openalex.org/P4310320595,
+https://openalex.org/S7407061190,OASIcs : OpenAccess Series in Informatics,journal,2190-6807,https://openalex.org/P4310313770,
+https://openalex.org/S7560371,Information Fusion,journal,1566-2535,https://openalex.org/P4310320990,
+https://openalex.org/S8351582,IEEE Transactions on Software Engineering,journal,0098-5589,https://openalex.org/P4310320439,
+https://openalex.org/S8802318,Annals of the New York Academy of Sciences,journal,0077-8923,https://openalex.org/P4310320595,
+https://openalex.org/S88577320,Finance research letters,journal,1544-6123,https://openalex.org/P4310320990,
+https://openalex.org/S90466346,Interactive Learning Environments,journal,1049-4820,https://openalex.org/P4310320547,
+https://openalex.org/S93630570,Journal of Product Innovation Management,journal,0737-6782,https://openalex.org/P4310320595,

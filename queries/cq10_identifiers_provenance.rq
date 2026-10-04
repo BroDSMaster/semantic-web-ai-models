@@ -1,0 +1,9 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?paper ?openalex ?doi ?person ?orcid ?institution ?ror WHERE {
+  ?paper a ex:ResearchPaper ; dcterms:source ?openalex ; ex:hasAuthorship ?role .
+  ?role ex:authorPerson ?person .
+  OPTIONAL { ?paper ex:doi ?doi }
+  OPTIONAL { ?person ex:orcid ?orcid }
+  OPTIONAL { ?role ex:affiliatedInstitution ?institution . OPTIONAL { ?institution ex:ror ?ror } }
+} ORDER BY ?paper ?person ?institution LIMIT 50

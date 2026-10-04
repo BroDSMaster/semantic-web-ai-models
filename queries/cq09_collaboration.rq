@@ -1,0 +1,8 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?paper ?title (COUNT(DISTINCT ?institution) AS ?institutionCount)
+       (GROUP_CONCAT(DISTINCT ?name; separator=" | ") AS ?institutions) WHERE {
+  ?paper rdfs:label ?title ; ex:hasAuthorship ?role .
+  ?role ex:affiliatedInstitution ?institution . ?institution rdfs:label ?name .
+} GROUP BY ?paper ?title HAVING (COUNT(DISTINCT ?institution) >= 2)
+ORDER BY DESC(?institutionCount) ?paper LIMIT 20

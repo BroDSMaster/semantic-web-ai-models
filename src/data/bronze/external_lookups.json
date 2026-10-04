@@ -1,0 +1,546 @@
+{
+  "requests": {
+    "wikidata-ror:00ypgyy34,01fvbaw18,029brtt94,036nfer12,03ad39j10,049s0rh22,05a0ya142,05g3dte14,05m7pjf47,05vt9qd57": {
+      "endpoint": "https://query.wikidata.org/sparql",
+      "query": "SELECT ?entity ?ror WHERE { VALUES ?ror { \"00ypgyy34\" \"01fvbaw18\" \"029brtt94\" \"036nfer12\" \"03ad39j10\" \"049s0rh22\" \"05a0ya142\" \"05g3dte14\" \"05m7pjf47\" \"05vt9qd57\" } ?entity <http://www.wikidata.org/prop/direct/P6782> ?ror . }",
+      "source": "Wikidata",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "vars": [
+            "entity",
+            "ror"
+          ]
+        },
+        "results": {
+          "bindings": [
+            {
+              "ror": {
+                "type": "literal",
+                "value": "05m7pjf47"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q1068258"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "036nfer12"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q143451"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "029brtt94"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q4032"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "00ypgyy34"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q4250919"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "049s0rh22"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q49116"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "05a0ya142"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q4971893"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "05vt9qd57"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q499451"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "03ad39j10"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q645663"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "01fvbaw18"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q768224"
+              }
+            },
+            {
+              "ror": {
+                "type": "literal",
+                "value": "05g3dte14"
+              },
+              "entity": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q861548"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q109409389": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q109409389> . BIND(<http://www.wikidata.org/entity/Q109409389> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Paris-Saclay_University"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q109409389"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q13371": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q13371> . BIND(<http://www.wikidata.org/entity/Q13371> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Harvard_University"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q13371"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q2283": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q2283> . BIND(<http://www.wikidata.org/entity/Q2283> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Microsoft"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q2283"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q27722923": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q27722923> . BIND(<http://www.wikidata.org/entity/Q27722923> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": []
+        }
+      }
+    },
+    "dbpedia-wikidata:Q27724473": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q27724473> . BIND(<http://www.wikidata.org/entity/Q27724473> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": []
+        }
+      }
+    },
+    "dbpedia-wikidata:Q28089618": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q28089618> . BIND(<http://www.wikidata.org/entity/Q28089618> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": []
+        }
+      }
+    },
+    "dbpedia-wikidata:Q380": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q380> . BIND(<http://www.wikidata.org/entity/Q380> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Meta_Platforms"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q380"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q4032": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q4032> . BIND(<http://www.wikidata.org/entity/Q4032> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Claude_Bernard_University_Lyon_1"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q4032"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q4250919": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q4250919> . BIND(<http://www.wikidata.org/entity/Q4250919> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/State_University_of_Malang"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q4250919"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q42609084": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q42609084> . BIND(<http://www.wikidata.org/entity/Q42609084> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Frontiers_of_Computer_Science"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q42609084"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q4971893": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q4971893> . BIND(<http://www.wikidata.org/entity/Q4971893> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Broad_Institute"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q4971893"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q645663": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q645663> . BIND(<http://www.wikidata.org/entity/Q645663> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/University_of_Pisa"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q645663"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q861548": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q861548> . BIND(<http://www.wikidata.org/entity/Q861548> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Florida_State_University"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q861548"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dbpedia-wikidata:Q924044": {
+      "endpoint": "https://dbpedia.org/sparql",
+      "query": "SELECT ?entity ?wd WHERE { ?entity <http://www.w3.org/2002/07/owl#sameAs> <http://www.wikidata.org/entity/Q924044> . BIND(<http://www.wikidata.org/entity/Q924044> AS ?wd) }",
+      "source": "DBpedia",
+      "retrieved_at": "2026-10-04T12:07:35.731086+00:00",
+      "response": {
+        "head": {
+          "link": [],
+          "vars": [
+            "entity",
+            "wd"
+          ]
+        },
+        "results": {
+          "distinct": false,
+          "ordered": true,
+          "bindings": [
+            {
+              "entity": {
+                "type": "uri",
+                "value": "http://dbpedia.org/resource/Lecture_Notes_in_Computer_Science"
+              },
+              "wd": {
+                "type": "uri",
+                "value": "http://www.wikidata.org/entity/Q924044"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "warnings": [
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql",
+    "HTTP 503 from https://dbpedia.org/sparql"
+  ]
+}
