@@ -90,6 +90,10 @@ SPARQL mà không cần bật suy luận; OWL RL là lựa chọn riêng của C
 
 ## 1. Năm yêu cầu capstone nằm ở đâu?
 
+Đọc [Giải thích project theo 5 bước capstone](docs/CAPSTONE_WALKTHROUGH.md)
+để xem cách phân tích ontology ở bước 1 và từng file xử lý gì, nhận đầu vào
+nào, tạo đầu ra nào ở các bước tiếp theo.
+
 | Yêu cầu | Code / file cần mở | Nội dung |
 |---|---|---|
 | **1. Define an ontology** | [res/ontology.ttl](res/ontology.ttl), [ontology-design](docs/ontology-design.md), [requirements](docs/requirements.md), [CQs](docs/competency-questions.md), [glossary](docs/glossary.md) | Phạm vi → kịch bản → câu hỏi → glossary → 10 lớp → properties/axioms → kiểm tra |
