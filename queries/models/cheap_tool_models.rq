@@ -1,0 +1,11 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?modelId ?provider ?mode ?inputPrice ?context ?conditions WHERE {
+  ?model ex:sourceId ?modelId .
+  ?offering ex:offersModel ?model ; ex:hostedBy ?host ; ex:serviceMode ?mode ;
+            ex:supportsCapability ?feature ; ex:contextLength ?context ; ex:hasPrice ?p .
+  ?feature rdfs:label "tools" . ?host rdfs:label ?provider .
+  ?p ex:priceCategory "prompt" ; ex:priceAmount ?inputPrice ; ex:priceUnit "million_tokens" ; ex:currency "USD" ; ex:priceTier "base" .
+  OPTIONAL { ?p ex:conditions ?conditions }
+  FILTER(?inputPrice < 1 && ?context >= 100000 && ?mode = "standard")
+} ORDER BY ?inputPrice ?modelId LIMIT 50

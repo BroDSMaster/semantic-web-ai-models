@@ -1,5 +1,8 @@
 # Glossary và quyết định class/instance/value
 
+Glossary này dành cho nhánh nghiên cứu. Glossary catalog model/API mới nằm
+trong [MODEL_ONTOLOGY.md](MODEL_ONTOLOGY.md).
+
 | Thuật ngữ ưu tiên | Định nghĩa | Đồng nghĩa / ví dụ | Phân loại và điểm dễ nhầm |
 |---|---|---|---|
 | ResearchPaper | Công trình nghiên cứu có bản ghi OpenAlex work | Paper, scholarly work; một bài LLM | Class; preprint cũng có thể là công trình; không khẳng định mọi bài đều peer-reviewed |

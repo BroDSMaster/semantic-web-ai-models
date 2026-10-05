@@ -1,5 +1,9 @@
 # Giải thích project theo 5 bước capstone
 
+Tài liệu này giải thích nhánh **nghiên cứu OpenAlex**. Với catalog model,
+provider và giá API mới, đọc [MODEL_ONTOLOGY.md](MODEL_ONTOLOGY.md) cho năm
+bước capstone và [MODEL_CATALOG.md](MODEL_CATALOG.md) cho input/output và query.
+
 Project mô tả **nghiên cứu AI/LLM**: bài báo, người viết, tổ chức, nguồn xuất
 bản và chủ đề nghiên cứu. Tài liệu này giải thích cách thiết kế ontology và
 trách nhiệm, đầu vào, đầu ra của từng file trong pipeline.

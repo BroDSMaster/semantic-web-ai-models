@@ -1,0 +1,5 @@
+[
+  {"title":"MiniMax M2 & Agent: Ingenious in Simplicity","author":"Simon Willison","date":"2025-10-29","source_url":"https://simonwillison.net/2025/Oct/29/minimax-m2/","model_ids":["minimax/minimax-m2"],"summary":"Nhận xét về MiniMax M2, khả năng agent, triển khai open weights và thử nghiệm tạo SVG. Đây là nhận xét cá nhân tại thời điểm bài viết."},
+  {"title":"Introducing Claude Sonnet 4.6","author":"Simon Willison","date":"2026-02-17","source_url":"https://simonwillison.net/2026/Feb/17/claude-sonnet-46/","model_ids":["anthropic/claude-sonnet-4.6","anthropic/claude-opus-4.6"],"summary":"Bình luận về Sonnet 4.6, tích hợp SDK và thử nghiệm SVG so với Opus. Các mức giá trong bài là thông tin lịch sử, không dùng làm giá hiện tại."},
+  {"title":"Claude Opus 4.8: a modest but tangible improvement","author":"Simon Willison","date":"2026-05-28","source_url":"https://simonwillison.net/2026/May/28/claude-opus-4-8/","model_ids":["anthropic/claude-opus-4.8"],"summary":"Bình luận về công bố Opus 4.8, cách model thể hiện độ chắc chắn và những thay đổi so với bản trước. Không phải điểm benchmark tổng hợp."}
+]

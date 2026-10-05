@@ -1,4 +1,66 @@
-# AI Research Linked Open Data Capstone
+# AI Models & Research Linked Open Data Capstone
+
+## Catalog model và API mới
+
+Project có thêm knowledge graph **model AI, provider/API offerings, giá,
+khả năng, thông số, benchmark và review**, ngoài nhánh nghiên cứu OpenAlex.
+Nguồn chính là OpenRouter; nguồn chính thức gồm OpenAI, Anthropic, Google,
+MiniMax, Z.AI, Mistral, Alibaba Cloud, xAI và Meta Llama. Giá trực tiếp đã có
+adapter nhận dạng schema cho OpenAI/Anthropic/MiniMax/Z.AI; các hãng còn lại
+có tài liệu nguồn liên quan và giá qua OpenRouter, chưa hứa trích xuất đầy đủ
+giá trực tiếp. Benchmark catalog được ghi **Artificial Analysis via
+OpenRouter**, cùng kết quả Aider có mapping model rõ ràng. Review có tác giả
+và ngày, không biến nhận xét cá nhân thành điểm benchmark.
+
+**Hướng dẫn mới:** [MODEL_CATALOG.md](docs/MODEL_CATALOG.md).
+**Ontology và năm bước capstone:** [MODEL_ONTOLOGY.md](docs/MODEL_ONTOLOGY.md).
+**Thống kê thực tế:** [model-coverage.json](res/model-coverage.json).
+**Kiểm tra local:** [model-validation-report.json](res/model-validation-report.json).
+**Kết quả kiểm chứng và query mẫu:** [MODEL_VALIDATION.md](docs/MODEL_VALIDATION.md) — 27 tests đạt, 13 query chạy thành công; query Opus trả 336 dòng giá có nguồn.
+
+Snapshot đã thu thập ngày **2026-10-05**: 466 listing OpenRouter và 15 model
+chỉ có trong phần giá chính thức, tổng **481 model/listing**, **1.909 offerings**,
+**8.174 price records** (gồm context overrides), **471 evaluation records**,
+**4 review–model records** từ ba bài, **92 publisher model cards** và **5
+external identity links**. Listing free/batch/alias không được tính là weights
+độc lập. Ba model-card requests có ID khác response nên bị bỏ qua; xem warnings
+trong coverage. Benchmark/review không có đủ cho mọi model.
+
+Tra provider và giá Opus ngay từ RDF trong repo:
+
+```bash
+cd /home/puda14/Desktop/Project/semantic-web/aimodels
+.venv/bin/python src/ask.py queries/models/opus_providers_prices.rq --dataset models
+```
+
+Để query trên giao diện Fuseki đang mở, cần **nạp catalog mới vào server**.
+Tạo dataset `aimodels-models`, hoặc thêm vào `/aimodels` đang có, rồi nạp bốn
+file vào default graph: `res/model-ontology.ttl`, `src/data/gold/models.ttl`,
+`res/model-links.nt`, `res/model-dataset-metadata.ttl`. Không nạp thêm
+`models.rdf` vì nó là bản XML của cùng graph. Agent không khởi động hoặc nạp
+dữ liệu vào server của bạn.
+
+```mermaid
+flowchart LR
+  OR[OpenRouter catalog + provider endpoints] --> B[Bronze snapshots + checksums]
+  OFF[Official model docs / pricing] --> B
+  BR[Aider / review sources] --> B
+  B --> F[Official schema extraction]
+  B --> N[Normalize models / offerings / prices]
+  F --> N
+  N --> S[Silver CSV]
+  S --> G[Gold models.ttl / models.rdf]
+  WD[Verified Wikidata / DBpedia identities] --> L[model-links.nt]
+  G --> Q[RDFLib CLI / Apache Jena Fuseki]
+  L --> Q
+```
+
+Lệnh `ask.py` giữ `--dataset research` làm mặc định cho tương thích. Khi tra
+catalog luôn truyền `--dataset models`; `--dataset all` kết hợp hai nhánh.
+Với `--endpoint`, URL quyết định dataset server. Thống kê/triple counts ở
+phần research bên dưới mô tả nhánh OpenAlex, không phải catalog mới.
+
+## Nhánh dữ liệu nghiên cứu hiện có
 
 Knowledge graph về **nghiên cứu AI và large language models**: bài báo,
 người viết, affiliation theo từng bài, nguồn xuất bản, publisher và hệ chủ

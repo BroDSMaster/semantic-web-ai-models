@@ -1,5 +1,8 @@
 # Thiết kế ontology theo Ontology Engineering Skill
 
+Đây là ontology nhánh nghiên cứu. Ontology 13 lớp cho model/API nằm tại
+[model-ontology.ttl](../res/model-ontology.ttl) và [MODEL_ONTOLOGY.md](MODEL_ONTOLOGY.md).
+
 Nguồn phương pháp: [ONTOLOGY_ENGINEERING_SKILL.md](../../ONTOLOGY_ENGINEERING_SKILL.md).
 Artifact: [ontology.ttl](../res/ontology.ttl), version `1.0.0`.
 Namespace: `https://example.org/aimodels/`. Đây là namespace mẫu, chưa có

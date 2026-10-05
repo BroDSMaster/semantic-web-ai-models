@@ -1,0 +1,905 @@
+[
+  {
+    "model_id": "openai/gpt-5.6-sol",
+    "name": "GPT-5.6 Sol",
+    "provider": "OpenAI",
+    "pricing": {
+      "prompt": "4.00",
+      "input_cache_read": "0.40",
+      "input_cache_write": "5.0000",
+      "completion": "20.00"
+    },
+    "facts": {
+      "contextLength": 1050000,
+      "maxOutputTokens": 128000,
+      "description": "Provider describes a flagship for complex professional work.",
+      "knowledgeCutoff": "Feb 16, 2026"
+    },
+    "conditions": "Standard text token rates; see source for service/tool charges. Long-context boundary: 272K input tokens; input multiplier 2, output multiplier 1.5. Published promotional guarantee through November 21, 2026. Cache-write multiplier 1.25.",
+    "tier": "standard",
+    "source_url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+    "source_sha256": "a35aa01c809287a81e9d94c43090f5099f7518701076e822aaa1a8060665faa5",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "openai/gpt-6-astra",
+    "name": "GPT-6 Astra",
+    "provider": "OpenAI",
+    "pricing": {
+      "prompt": "10.00",
+      "input_cache_read": "1.00",
+      "input_cache_write": "12.50",
+      "completion": "50.00"
+    },
+    "facts": {
+      "contextLength": 1050000,
+      "maxOutputTokens": 128000,
+      "description": "Provider describes capabilities in reasoning, coding, computer use, research and document creation.",
+      "knowledgeCutoff": "Apr 30, 2026"
+    },
+    "conditions": "Standard text token rates; see source for service/tool charges. Long-context boundary: 272K input tokens; input multiplier 2, output multiplier 1.5. Cache-write multiplier 1.25. Batch/Flex factor 50% of standard. Fast factor 2.",
+    "tier": "standard",
+    "source_url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+    "source_sha256": "2b8b1a9c08c4d239678f5dd9e590717fd7c88050400c094d6b731c0d5a4c9cbb",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-fable-5.1",
+    "name": "Claude Fable 5.1",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "10",
+      "completion": "50",
+      "input_cache_write": "12.50",
+      "input_cache_write_1h": "20",
+      "input_cache_read": "0.25"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-5.5",
+    "name": "Claude Opus 5.5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "4",
+      "completion": "20",
+      "input_cache_write": "5",
+      "input_cache_write_1h": "8",
+      "input_cache_read": "0.20"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-sonnet-5.5",
+    "name": "Claude Sonnet 5.5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "2",
+      "completion": "10",
+      "input_cache_write": "2.50",
+      "input_cache_write_1h": "4",
+      "input_cache_read": "0.20"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-haiku-4.5",
+    "name": "Claude Haiku 4.5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "1",
+      "completion": "5",
+      "input_cache_write": "1.25",
+      "input_cache_write_1h": "2",
+      "input_cache_read": "0.10"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-mythos-5.1",
+    "name": "Claude Mythos 5.1",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "10",
+      "completion": "50",
+      "input_cache_write": "12.50",
+      "input_cache_write_1h": "20",
+      "input_cache_read": "0.25"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-fable-5",
+    "name": "Claude Fable 5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "10",
+      "completion": "50",
+      "input_cache_write": "12.50",
+      "input_cache_write_1h": "20",
+      "input_cache_read": "1"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-mythos-5",
+    "name": "Claude Mythos 5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "10",
+      "completion": "50",
+      "input_cache_write": "12.50",
+      "input_cache_write_1h": "20",
+      "input_cache_read": "1"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-5",
+    "name": "Claude Opus 5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "5",
+      "completion": "25",
+      "input_cache_write": "6.25",
+      "input_cache_write_1h": "10",
+      "input_cache_read": "0.50"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-4.8",
+    "name": "Claude Opus 4.8",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "5",
+      "completion": "25",
+      "input_cache_write": "6.25",
+      "input_cache_write_1h": "10",
+      "input_cache_read": "0.50"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-4.7",
+    "name": "Claude Opus 4.7",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "5",
+      "completion": "25",
+      "input_cache_write": "6.25",
+      "input_cache_write_1h": "10",
+      "input_cache_read": "0.50"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-4.6",
+    "name": "Claude Opus 4.6",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "5",
+      "completion": "25",
+      "input_cache_write": "6.25",
+      "input_cache_write_1h": "10",
+      "input_cache_read": "0.50"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-4.5",
+    "name": "Claude Opus 4.5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "5",
+      "completion": "25",
+      "input_cache_write": "6.25",
+      "input_cache_write_1h": "10",
+      "input_cache_read": "0.50"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-4.1",
+    "name": "Claude Opus 4.1",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "15",
+      "completion": "75",
+      "input_cache_write": "18.75",
+      "input_cache_write_1h": "30",
+      "input_cache_read": "1.50"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-opus-4",
+    "name": "Claude Opus 4",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "15",
+      "completion": "75",
+      "input_cache_write": "18.75",
+      "input_cache_write_1h": "30",
+      "input_cache_read": "1.50"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-sonnet-5",
+    "name": "Claude Sonnet 5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "2",
+      "completion": "10",
+      "input_cache_write": "2.50",
+      "input_cache_write_1h": "4",
+      "input_cache_read": "0.20"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-sonnet-4.6",
+    "name": "Claude Sonnet 4.6",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "3",
+      "completion": "15",
+      "input_cache_write": "3.75",
+      "input_cache_write_1h": "6",
+      "input_cache_read": "0.30"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-sonnet-4.5",
+    "name": "Claude Sonnet 4.5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "3",
+      "completion": "15",
+      "input_cache_write": "3.75",
+      "input_cache_write_1h": "6",
+      "input_cache_read": "0.30"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-sonnet-4",
+    "name": "Claude Sonnet 4",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "3",
+      "completion": "15",
+      "input_cache_write": "3.75",
+      "input_cache_write_1h": "6",
+      "input_cache_read": "0.30"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "anthropic/claude-haiku-3.5",
+    "name": "Claude Haiku 3.5",
+    "provider": "Anthropic",
+    "pricing": {
+      "prompt": "0.80",
+      "completion": "4",
+      "input_cache_write": "1",
+      "input_cache_write_1h": "1.60",
+      "input_cache_read": "0.08"
+    },
+    "facts": {},
+    "conditions": "Base global Claude API token rates; 5m/1h cache writes distinguished; geography, batch, fast and platform modifiers may apply. Legacy rows do not assert current availability.",
+    "tier": "standard",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "source_sha256": "38e2bdd8d420869906a4234b7658a8ef4beb3ed64ebbeba662d1fd08e4ee6efd",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m3",
+    "name": "MiniMax-M3",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.30",
+      "completion": "1.20",
+      "input_cache_read": "0.06"
+    },
+    "facts": {},
+    "conditions": "MiniMax-M3 ≤ 512k input tokens Permanent 50% off; current discounted amount (last displayed amount); standard:up_to_512k",
+    "tier": "standard:up_to_512k",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m3",
+    "name": "MiniMax-M3",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.60",
+      "completion": "2.40",
+      "input_cache_read": "0.12"
+    },
+    "facts": {},
+    "conditions": "MiniMax-M3 > 512k input tokens* Permanent 50% off; current discounted amount (last displayed amount); standard:long_context",
+    "tier": "standard:long_context",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m3",
+    "name": "MiniMax-M3",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.45",
+      "completion": "1.80",
+      "input_cache_read": "0.09"
+    },
+    "facts": {},
+    "conditions": "MiniMax-M3 ≤ 512k input tokens Permanent 50% off; current discounted amount (last displayed amount); priority:up_to_512k",
+    "tier": "priority:up_to_512k",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m3",
+    "name": "MiniMax-M3",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.90",
+      "completion": "3.60",
+      "input_cache_read": "0.18"
+    },
+    "facts": {},
+    "conditions": "MiniMax-M3 > 512k input tokens Permanent 50% off; current discounted amount (last displayed amount); priority:long_context",
+    "tier": "priority:long_context",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m2.7",
+    "name": "MiniMax-M2.7",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.3",
+      "completion": "1.2",
+      "input_cache_read": "0.06",
+      "input_cache_write": "0.375"
+    },
+    "facts": {},
+    "conditions": "MiniMax text API USD/1M tokens; highspeed is a distinct model ID; legacy availability not asserted.",
+    "tier": "standard",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m2.7-highspeed",
+    "name": "MiniMax-M2.7-highspeed",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.6",
+      "completion": "2.4",
+      "input_cache_read": "0.06",
+      "input_cache_write": "0.375"
+    },
+    "facts": {},
+    "conditions": "MiniMax text API USD/1M tokens; highspeed is a distinct model ID; legacy availability not asserted.",
+    "tier": "standard",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m2.5",
+    "name": "MiniMax-M2.5",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.3",
+      "completion": "1.2",
+      "input_cache_read": "0.03",
+      "input_cache_write": "0.375"
+    },
+    "facts": {},
+    "conditions": "MiniMax text API USD/1M tokens; highspeed is a distinct model ID; legacy availability not asserted.",
+    "tier": "standard",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m2.5-highspeed",
+    "name": "MiniMax-M2.5-highspeed",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.6",
+      "completion": "2.4",
+      "input_cache_read": "0.03",
+      "input_cache_write": "0.375"
+    },
+    "facts": {},
+    "conditions": "MiniMax text API USD/1M tokens; highspeed is a distinct model ID; legacy availability not asserted.",
+    "tier": "standard",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m2.1",
+    "name": "MiniMax-M2.1",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.3",
+      "completion": "1.2",
+      "input_cache_read": "0.03",
+      "input_cache_write": "0.375"
+    },
+    "facts": {},
+    "conditions": "MiniMax text API USD/1M tokens; highspeed is a distinct model ID; legacy availability not asserted.",
+    "tier": "standard",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m2.1-highspeed",
+    "name": "MiniMax-M2.1-highspeed",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.6",
+      "completion": "2.4",
+      "input_cache_read": "0.03",
+      "input_cache_write": "0.375"
+    },
+    "facts": {},
+    "conditions": "MiniMax text API USD/1M tokens; highspeed is a distinct model ID; legacy availability not asserted.",
+    "tier": "standard",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "minimax/minimax-m2",
+    "name": "MiniMax-M2",
+    "provider": "MiniMax",
+    "pricing": {
+      "prompt": "0.3",
+      "completion": "1.2",
+      "input_cache_read": "0.03",
+      "input_cache_write": "0.375"
+    },
+    "facts": {},
+    "conditions": "MiniMax text API USD/1M tokens; highspeed is a distinct model ID; legacy availability not asserted.",
+    "tier": "standard",
+    "source_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+    "source_sha256": "b3b0fde436956f6cbfce907375adae92fc36bfea7a1a1654f1cf056ae7c43200",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-5.3-flash",
+    "name": "GLM-5.3-Flash",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.15",
+      "input_cache_read": "0.03",
+      "completion": "0.50"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-5.3-flashx",
+    "name": "GLM-5.3-FlashX",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.37",
+      "input_cache_read": "0.075",
+      "completion": "1.25"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-5.3",
+    "name": "GLM-5.3",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "1.4",
+      "input_cache_read": "0.26",
+      "completion": "4.4"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-5.2",
+    "name": "GLM-5.2",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "1.4",
+      "input_cache_read": "0.26",
+      "completion": "4.4"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-5.1",
+    "name": "GLM-5.1",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "1.4",
+      "input_cache_read": "0.26",
+      "completion": "4.4"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-5",
+    "name": "GLM-5",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "1",
+      "input_cache_read": "0.2",
+      "completion": "3.2"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.7",
+    "name": "GLM-4.7",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.6",
+      "input_cache_read": "0.11",
+      "completion": "2.2"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.7-flashx",
+    "name": "GLM-4.7-FlashX",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.07",
+      "input_cache_read": "0.01",
+      "completion": "0.4"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.6",
+    "name": "GLM-4.6",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.6",
+      "input_cache_read": "0.11",
+      "completion": "2.2"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.5",
+    "name": "GLM-4.5",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.6",
+      "input_cache_read": "0.11",
+      "completion": "2.2"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.5-x",
+    "name": "GLM-4.5-X",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "2.2",
+      "input_cache_read": "0.45",
+      "completion": "8.9"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.5-air",
+    "name": "GLM-4.5-Air",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.2",
+      "input_cache_read": "0.03",
+      "completion": "1.1"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.5-airx",
+    "name": "GLM-4.5-AirX",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "1.1",
+      "input_cache_read": "0.22",
+      "completion": "4.5"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4-32b-0414-128k",
+    "name": "GLM-4-32B-0414-128K",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.1",
+      "completion": "0.1"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.7-flash",
+    "name": "GLM-4.7-Flash",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0",
+      "input_cache_read": "0",
+      "completion": "0"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.5-flash",
+    "name": "GLM-4.5-Flash",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0",
+      "input_cache_read": "0",
+      "completion": "0"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.6v",
+    "name": "GLM-4.6V",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.3",
+      "input_cache_read": "0.05",
+      "completion": "0.9"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-ocr",
+    "name": "GLM-OCR",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.03",
+      "completion": "0.03"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.6v-flashx",
+    "name": "GLM-4.6V-FlashX",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.04",
+      "input_cache_read": "0.004",
+      "completion": "0.4"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.5v",
+    "name": "GLM-4.5V",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0.6",
+      "input_cache_read": "0.11",
+      "completion": "1.8"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  },
+  {
+    "model_id": "z-ai/glm-4.6v-flash",
+    "name": "GLM-4.6V-Flash",
+    "provider": "Z.AI",
+    "pricing": {
+      "prompt": "0",
+      "input_cache_read": "0",
+      "completion": "0"
+    },
+    "facts": {},
+    "conditions": "Z.AI API USD/1M tokens; cache storage pricing omitted because duration/billing unit differs.",
+    "tier": "standard",
+    "source_url": "https://docs.z.ai/guides/overview/pricing",
+    "source_sha256": "578fce97838d5056e33b9a3a24f3193a1142c9b356036056ce6384318f80436c",
+    "extraction": "recognized official schema; no inferred release date"
+  }
+]

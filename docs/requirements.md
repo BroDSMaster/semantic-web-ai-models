@@ -1,5 +1,10 @@
 # Phạm vi và yêu cầu ontology
 
+Tài liệu này mô tả **nhánh nghiên cứu OpenAlex**. Phạm vi catalog model,
+giá API và benchmark mới nằm ở [MODEL_ONTOLOGY.md](MODEL_ONTOLOGY.md) và
+[MODEL_CATALOG.md](MODEL_CATALOG.md); các mục ngoài phạm vi bên dưới chỉ áp
+dụng cho nhánh nghiên cứu.
+
 Phương pháp: [ONTOLOGY_ENGINEERING_SKILL.md](../../ONTOLOGY_ENGINEERING_SKILL.md).
 Miền được chọn là **nghiên cứu AI**, mẫu ban đầu gồm bài về large language
 models có primary field Computer Science theo OpenAlex; chỉ lấy individual

@@ -1,0 +1,6 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?modelId ?name WHERE {
+  ?model a ex:AIModel ; ex:sourceId ?modelId ; rdfs:label ?name ; ex:inputModality ?modality .
+  ?modality rdfs:label "image" .
+} ORDER BY ?modelId

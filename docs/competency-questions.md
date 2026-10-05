@@ -1,5 +1,9 @@
 # Competency questions: từ kịch bản đến truy vấn
 
+Các câu hỏi bên dưới thuộc nhánh nghiên cứu. Các câu hỏi model/provider/giá/
+benchmark mới được mô tả ở [MODEL_CATALOG.md](MODEL_CATALOG.md) và hiện thực
+trong `queries/models/`.
+
 Chạy mọi truy vấn trên ontology + dữ liệu + links + metadata trong default
 graph. `validate.py` lưu số dòng và first row vào validation-report.json.
 Mẫu OpenAlex thay đổi theo thời gian, nên không đóng đinh tên bài hay citation
