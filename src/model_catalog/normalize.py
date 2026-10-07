@@ -261,7 +261,7 @@ def main():
     manifest = read_json(BRONZE / "manifest.json")
     tables = normalize(read_json(BRONZE / manifest.get("catalog_file", "openrouter_models.json")),
                        read_json(BRONZE / manifest.get("endpoints_file", "openrouter_endpoints.json")),
-                       manifest, read_json(RES / "official-model-facts.json"), read_json(RES / "model-reviews.json"),
+                       manifest, read_json(RES / "official-model-facts.json"), read_json(RES / "reviews.json"),
                        read_json(BRONZE / manifest["model_cards_file"]) if manifest.get("model_cards_file") else {})
     from .benchmarks import add_aider
     add_aider(tables, manifest)
@@ -270,7 +270,7 @@ def main():
               "models_by_developer": dict(Counter(m["developer_name"] for m in tables["models"])),
               "offerings_by_kind": dict(Counter(o["kind"] for o in tables["offerings"])),
               "retrieved_at": manifest["retrieved_at"], "warnings": manifest["warnings"]}
-    write_json(RES / "model-coverage.json", report)
+    write_json(RES / "coverage.json", report)
     print(json.dumps(report["tables"], indent=2))
 
 

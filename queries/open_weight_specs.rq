@@ -1,0 +1,9 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX schema: <https://schema.org/>
+SELECT ?modelId ?property ?value ?source WHERE {
+  ?model ex:sourceId ?modelId .
+  ?obs ex:aboutEntity ?model ; ex:observedProperty ?property ; ex:literalValue ?value ; prov:wasDerivedFrom ?doc .
+  VALUES ?property { ex:parameterCount ex:license ex:libraryName ex:pipelineTag }
+  ?doc schema:url ?source .
+} ORDER BY ?modelId ?property

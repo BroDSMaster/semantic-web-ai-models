@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="https://example.org/aimodels/belongsToFamily">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/AIModel"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/ModelFamily"/>
+    <rdfs:label>belongs to family</rdfs:label>
+    <rdfs:comment>Model to its documented family.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/modelOntology">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <owl:versionInfo>2.0</owl:versionInfo>
+    <dcterms:title>AI models, API offerings and sourced evaluations</dcterms:title>
+    <dcterms:description>A catalog extension independent of the OpenAlex research ontology. Unknown values remain unknown; source observations are retained.</dcterms:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/canonicalSlug">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>canonical catalog slug</rdfs:label>
+    <rdfs:comment>Source slug; provenance retained, not owl:sameAs.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/evaluatedModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Evaluation"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/AIModel"/>
+    <rdfs:label>evaluated model</rdfs:label>
+    <rdfs:comment>Result to the explicitly mapped model ID.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/catalogCreated">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label>catalog creation timestamp</rdfs:label>
+    <rdfs:comment>Catalog/API timestamp; explicitly not model release date.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/linkTarget">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ExternalLink"/>
+    <rdfs:label>link target</rdfs:label>
+    <rdfs:comment>Evidence record to the verified external identity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/benchmarkVersion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>benchmark version</rdfs:label>
+    <rdfs:comment>Protocol version when supplied.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/evaluationConfig">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>evaluation configuration</rdfs:label>
+    <rdfs:comment>Conditions including effort and harness; unknown configuration remains explicit.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Capability">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Capability</rdfs:label>
+    <rdfs:comment>A named, documented API-supported feature or parameter; not a quality ranking.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/AIModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>AI model</rdfs:label>
+    <rdfs:comment>A source-identified AI model/version. IDs and aliases are not merged without identity evidence.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/sha256">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>SHA-256</rdfs:label>
+    <rdfs:comment>Content checksum of preserved source bytes.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/conditions">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>conditions</rdfs:label>
+    <rdfs:comment>Published pricing qualifiers; not inferred from observation date.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/relatedDocumentation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/SourceDocument"/>
+    <rdfs:label>related documentation</rdfs:label>
+    <rdfs:comment>Relevant developer documentation; relevance alone does not prove each field on a model.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/hasPrice">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ModelOffering"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/PriceSpecification"/>
+    <rdfs:label>has price</rdfs:label>
+    <rdfs:comment>Offering to a sourced price observation.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/hostedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ModelOffering"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Organization"/>
+    <rdfs:label>hosted by</rdfs:label>
+    <rdfs:comment>Offering to provider named in the source, which may itself be a platform.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/uptimeLastDay">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>uptime last day</rdfs:label>
+    <rdfs:comment>Source-reported rolling endpoint uptime percent; tied to snapshot time.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ModelOffering">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Service"/>
+    <rdfs:label>Model offering</rdfs:label>
+    <rdfs:comment>Access to a model through a service/endpoint; limits and prices are offering-specific.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/linkSubject">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ExternalLink"/>
+    <rdfs:label>link subject</rdfs:label>
+    <rdfs:comment>Evidence record to the local identity being mapped.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/parameterCount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label>checkpoint parameter count</rdfs:label>
+    <rdfs:comment>Total safetensors parameter count reported in publisher repository metadata; not an assertion about active MoE parameters.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/score">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Evaluation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>score</rdfs:label>
+    <rdfs:comment>Reported metric value; compare only compatible scales/configurations.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/minPromptTokens">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label>minimum prompt tokens</rdfs:label>
+    <rdfs:comment>Boundary supplied by source for a price override, not a model context limit.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/rawAmount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>raw amount</rdfs:label>
+    <rdfs:comment>Unmodified source amount before unit conversion.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/maxOutputTokens">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label>maximum output tokens</rdfs:label>
+    <rdfs:comment>Source-reported maximum completion tokens.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/offeringKind">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>offering kind</rdfs:label>
+    <rdfs:comment>direct, openrouter_catalog, or openrouter_endpoint.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/priceAmount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>price amount</rdfs:label>
+    <rdfs:comment>Amount in the specified currency/unit. Zero is valid; missing price is not zero.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/onBenchmark">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/Evaluation"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Benchmark"/>
+    <rdfs:label>on benchmark</rdfs:label>
+    <rdfs:comment>Result to metric/protocol evaluated.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/evaluator">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>evaluator</rdfs:label>
+    <rdfs:comment>Who produced the benchmark, distinct from the source through which data was retrieved.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/sourceId">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>source identifier</rdfs:label>
+    <rdfs:comment>Source-specific ID retained exactly; not assumed globally equivalent.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/resourceValue">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/FactObservation"/>
+    <rdfs:label>resource value</rdfs:label>
+    <rdfs:comment>Observation to its resource-valued statement object.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/huggingFaceId">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>Hugging Face repository identifier</rdfs:label>
+    <rdfs:comment>Repository ID as reported by catalog; repository is a document/software artifact, not automatically the model entity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/observedAt">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label>observed at</rdfs:label>
+    <rdfs:comment>Time snapshot was obtained, not an assertion of effective or publication date.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/priceCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>price category</rdfs:label>
+    <rdfs:comment>Input/prompt, output/completion, cache read/write or another billable category.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/latencyLast30Minutes">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>latency last 30 minutes</rdfs:label>
+    <rdfs:comment>Raw source-reported rolling latency; no undocumented unit conversion.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/priceUnit">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>price unit</rdfs:label>
+    <rdfs:comment>million_tokens, request, image, search, or unknown; only known token prices are multiplied.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/offersModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ModelOffering"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/AIModel"/>
+    <rdfs:label>offers model</rdfs:label>
+    <rdfs:comment>Offering to model accessed through it.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/contextLength">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label>context length</rdfs:label>
+    <rdfs:comment>Source-reported context token limit for this entity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/SourceDocument">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+    <rdfs:label>Source document</rdfs:label>
+    <rdfs:comment>A URL/content snapshot identified by its checksum and observation time.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/aboutEntity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/FactObservation"/>
+    <rdfs:label>about entity</rdfs:label>
+    <rdfs:comment>Observation to its statement subject.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/supportsCapability">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Capability"/>
+    <rdfs:label>supports capability</rdfs:label>
+    <rdfs:comment>Model/offering to a source-reported API feature. Absence is unknown.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/sourceKind">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>source kind</rdfs:label>
+    <rdfs:comment>official, catalog, benchmark, review or identity evidence.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/inputModality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Modality"/>
+    <rdfs:label>input modality</rdfs:label>
+    <rdfs:comment>Entity to its reported accepted input medium.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/libraryName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>library name</rdfs:label>
+    <rdfs:comment>Library reported by repository metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/snapshotFile">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>snapshot file</rdfs:label>
+    <rdfs:comment>Relative path to collected evidence.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Review">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Review"/>
+    <rdfs:label>Review</rdfs:label>
+    <rdfs:comment>An attributed review/commentary document about a model; no inferred star rating.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/attribution">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>attribution</rdfs:label>
+    <rdfs:comment>Named origin and intermediary of the collected result.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/throughputLast30Minutes">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>throughput last 30 minutes</rdfs:label>
+    <rdfs:comment>Raw source-reported rolling throughput; not a model quality benchmark.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/literalValue">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/FactObservation"/>
+    <rdfs:label>literal value</rdfs:label>
+    <rdfs:comment>Observation to its literal-valued statement object.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/developedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/AIModel"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Organization"/>
+    <rdfs:label>developed by</rdfs:label>
+    <rdfs:comment>Model to its developer, distinct from hosting service.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/knowledgeCutoff">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>knowledge cutoff</rdfs:label>
+    <rdfs:comment>Source-reported cutoff retained in its published precision.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/license">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>model card license</rdfs:label>
+    <rdfs:comment>License identifier reported by publisher model-card metadata, not the catalog dataset license or API price.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ModelFamily">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Model family</rdfs:label>
+    <rdfs:comment>A named collection of related models, such as Claude. A family is not a superclass of its member models.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/PriceSpecification">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/PriceSpecification"/>
+    <rdfs:label>Price specification</rdfs:label>
+    <rdfs:comment>A sourced observation of a price category, unit, currency and conditions for one offering.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/FactObservation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Fact observation</rdfs:label>
+    <rdfs:comment>A statement about a subject, property and value with source provenance; may conflict with another source.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/rawUnit">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>raw unit</rdfs:label>
+    <rdfs:comment>Unit used in source for lossless audit.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Benchmark">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Benchmark</rdfs:label>
+    <rdfs:comment>An evaluation metric/protocol identified with its evaluator and version where supplied.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/currency">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>currency</rdfs:label>
+    <rdfs:comment>ISO currency code such as USD.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/description">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>description</rdfs:label>
+    <rdfs:comment>Attributed description/claim, not an independently verified quality score.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/expirationDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>expiration date</rdfs:label>
+    <rdfs:comment>Source-reported catalog expiration, not inferred from creation time.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Modality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Modality</rdfs:label>
+    <rdfs:comment>An input/output medium such as text, image, audio, video or file.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/outputModality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://example.org/aimodels/Modality"/>
+    <rdfs:label>output modality</rdfs:label>
+    <rdfs:comment>Entity to its reported generated output medium.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/pipelineTag">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>pipeline task</rdfs:label>
+    <rdfs:comment>Repository task metadata, such as text-generation; not an independently validated capability.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/ExternalLink">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>External identity evidence</rdfs:label>
+    <rdfs:comment>An external identity mapping with evidence; document URLs are not entity identity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/endpointTag">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/ModelOffering"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>endpoint tag</rdfs:label>
+    <rdfs:comment>Source tag distinguishing provider endpoints or regions; retained without interpreting geography.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/scoreUnit">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>score unit</rdfs:label>
+    <rdfs:comment>percent, index_points or documented scale.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Evaluation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Evaluation</rdfs:label>
+    <rdfs:comment>One model's reported result on a benchmark with a recorded scale, configuration and source.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/observedProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/FactObservation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>observed property</rdfs:label>
+    <rdfs:comment>Observation to its statement predicate.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/discount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>discount fraction</rdfs:label>
+    <rdfs:comment>Source fraction; priceAmount includes rawAmount multiplied by (1 - discount). Negative source values represent a surcharge; values above 1 are invalid.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/priceTier">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://example.org/aimodels/PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>price tier</rdfs:label>
+    <rdfs:comment>Base price or a source-defined override; overrides carry boundary metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/quantization">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>quantization</rdfs:label>
+    <rdfs:comment>Source-reported endpoint quantization, with unknown retained explicitly.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/serviceMode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>service mode</rdfs:label>
+    <rdfs:comment>standard, batch, free or another documented pricing mode.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://example.org/aimodels/Organization">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Organization"/>
+    <rdfs:label>Organization</rdfs:label>
+    <rdfs:comment>An organization with developer or hosting roles expressed by relations.</rdfs:comment>
+  </rdf:Description>
+</rdf:RDF>

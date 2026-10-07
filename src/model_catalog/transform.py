@@ -107,9 +107,9 @@ def build_graph(tables):
 
 def load_model_graph():
     graph = Graph()
-    for path in [RES / "model-ontology.ttl", GOLD / "models.ttl", RES / "model-links.nt", RES / "model-dataset-metadata.ttl"]:
+    for path in [RES / "ontology.ttl", GOLD / "models.ttl", RES / "linked_output.nt", RES / "dataset-metadata.ttl"]:
         if not path.exists():
-            raise FileNotFoundError(f"Missing {path}; see docs/MODEL_CATALOG.md")
+            raise FileNotFoundError(f"Missing {path}; see docs/PIPELINE.md")
         graph.parse(path, format="nt" if path.suffix == ".nt" else "turtle")
     return graph
 
@@ -120,21 +120,21 @@ def main():
     GOLD.mkdir(parents=True, exist_ok=True)
     graph.serialize(GOLD / "models.ttl", format="turtle")
     graph.serialize(GOLD / "models.rdf", format="xml")
-    ontology = Graph().parse(RES / "model-ontology.ttl")
-    ontology.serialize(RES / "model-ontology.rdf", format="xml")
+    ontology = Graph().parse(RES / "ontology.ttl")
+    ontology.serialize(RES / "ontology.rdf", format="xml")
     meta = Graph()
     meta.bind("dcat", DCAT)
     meta.bind("dcterms", DCTERMS)
     dataset = URIRef(BASE + "dataset/models")
     meta.add((dataset, RDF.type, DCAT.Dataset))
     meta.add((dataset, DCTERMS.title, Literal("AI model catalog, offerings, sourced prices and evaluations")))
-    meta.add((dataset, DCTERMS.description, Literal("Source-specific terms apply. OpenAlex CC0 does not apply to model/provider data. example.org namespace is a local capstone placeholder.")))
+    meta.add((dataset, DCTERMS.description, Literal("Source-specific licenses and terms apply to model/provider data. example.org namespace is a local capstone placeholder.")))
     for doc in tables["documents"]:
         meta.add((dataset, DCTERMS.source, URIRef(doc["url"])))
-    meta.serialize(RES / "model-dataset-metadata.ttl", format="turtle")
-    if not (RES / "model-links.nt").exists():
-        Graph().serialize(RES / "model-links.nt", format="nt", encoding="utf-8")
-    write_json(RES / "model-transform-report.json", {"triples": len(graph), "ontology_triples": len(ontology),
+    meta.serialize(RES / "dataset-metadata.ttl", format="turtle")
+    if not (RES / "linked_output.nt").exists():
+        Graph().serialize(RES / "linked_output.nt", format="nt", encoding="utf-8")
+    write_json(RES / "transformation-report.json", {"triples": len(graph), "ontology_triples": len(ontology),
                "models": len(tables["models"]), "prices": len(tables["prices"]), "tables": {k: len(v) for k, v in tables.items()}})
     print(f"Exported {len(graph)} catalog triples to models.ttl / models.rdf")
 

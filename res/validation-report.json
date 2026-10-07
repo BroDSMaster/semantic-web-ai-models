@@ -1,119 +1,47 @@
 {
   "errors": [],
-  "asserted_triples": 52251,
-  "closure_triples": null,
-  "reasoning": "none",
-  "generated_at": "2026-10-04T14:00:57.433268+00:00",
-  "entity_counts": {
-    "ResearchPaper": 200,
-    "Person": 1807,
-    "ResearchInstitution": 307,
-    "PublicationSource": 65,
-    "Publisher": 19,
-    "ResearchTopic": 101,
-    "ResearchSubfield": 33,
-    "ResearchField": 11,
-    "ResearchDomain": 4,
-    "Authorship": 2128
+  "warnings": [],
+  "triples": 353882,
+  "counts": {
+    "models": 481,
+    "offerings": 1909,
+    "prices": 8174,
+    "observations": 31451,
+    "evaluations": 471,
+    "reviews": 4,
+    "external_links": 5
   },
-  "competency_queries": {
-    "cq01_top_papers.rq": {
-      "rows": 20,
-      "first_row": [
-        "https://example.org/aimodels/resource/paper/W4385245566",
-        "Exploiting Generative AI to Scale up Intelligent Tutoring Systems",
-        "2023",
-        "78458"
-      ]
-    },
-    "cq02_authorship_affiliations.rq": {
-      "rows": 100,
-      "first_row": [
-        "https://example.org/aimodels/resource/paper/W1524333225",
-        "Kaldi Speech Recognition Toolkit",
-        "https://example.org/aimodels/resource/person/A5084286453",
-        "Daniel Povey",
-        "first",
-        "https://example.org/aimodels/resource/institution/I1290206253",
-        "Microsoft (United States)"
-      ]
-    },
-    "cq03_institution_productivity.rq": {
-      "rows": 20,
-      "first_row": [
-        "https://example.org/aimodels/resource/institution/I1291425158",
-        "Google (United States)",
-        "20"
-      ]
-    },
-    "cq04_topic_hierarchy.rq": {
-      "rows": 20,
-      "first_row": [
-        "https://example.org/aimodels/resource/topic/T10028",
-        "Topic Modeling",
-        "Artificial Intelligence",
-        "Computer Science",
-        "Physical Sciences",
-        "131"
-      ]
-    },
-    "cq05_sources_publishers.rq": {
-      "rows": 65,
-      "first_row": [
-        "https://example.org/aimodels/resource/source/S4306400194",
-        "arXiv (Cornell University)",
-        "repository",
-        null,
-        "47"
-      ]
-    },
-    "cq06_open_access_by_year.rq": {
-      "rows": 19,
-      "first_row": [
-        "2007",
-        "false",
-        "1"
-      ]
-    },
-    "cq07_external_links.rq": {
-      "rows": 46,
-      "first_row": [
-        "https://example.org/aimodels/resource/institution/I100532134",
-        "Lyon 1 Université",
-        "http://dbpedia.org/resource/Claude_Bernard_University_Lyon_1"
-      ]
-    },
-    "cq08_references.rq": {
-      "rows": 50,
-      "first_row": [
-        "https://example.org/aimodels/resource/paper/W1524333225",
-        "Kaldi Speech Recognition Toolkit",
-        "https://openalex.org/W1491238342",
-        null
-      ]
-    },
-    "cq09_collaboration.rq": {
-      "rows": 20,
-      "first_row": [
-        "https://example.org/aimodels/resource/paper/W4391848979",
-        "Explainable Artificial Intelligence (XAI) 2.0: A manifesto of open challenges and interdisciplinary research directions",
-        "25",
-        "Institut national de recherche en sciences et technologies du numérique | University of Zagreb | Faculty of Electrical Engineering and Computing in Zagreb | The University of Queensland | University of Bayreuth | Saarland University | University of Glasgow | University of the Basque Country | Universidad de Granada | Tecnalia | IRCCS Ospedale Galeazzi - Sant'Ambrogio | University of Milano-Bicocca | Technological University Dublin | Fraunhofer Institute for Telecommunications, Heinrich Hertz Institute | Berlin Institute for the Foundations of Learning and Data | Technische Universität Berlin | BOKU University | Meiji University | Korea Advanced Institute of Science and Technology | Leiden University | University of Padua | Lancaster University | University of Pisa | University of Liechtenstein | Universidad de Los Andes"
-      ]
-    },
-    "cq10_identifiers_provenance.rq": {
-      "rows": 50,
-      "first_row": [
-        "https://example.org/aimodels/resource/paper/W1524333225",
-        "https://openalex.org/W1524333225",
-        "https://doi.org/10.57702/jb3fvbn9",
-        "https://example.org/aimodels/resource/person/A5084286453",
-        "https://orcid.org/0000-0002-0611-3634",
-        "https://example.org/aimodels/resource/institution/I1290206253",
-        "https://ror.org/00d0nc645"
-      ]
-    }
+  "query_rows": {
+    "benchmarks.rq": 471,
+    "cheap_tool_models.rq": 50,
+    "claude_models.rq": 37,
+    "conflicting_observations.rq": 0,
+    "coverage.rq": 58,
+    "direct_vs_router.rq": 1257,
+    "external_links.rq": 5,
+    "model_details.rq": 116,
+    "official_sources.rq": 399,
+    "open_weight_specs.rq": 391,
+    "opus_providers_prices.rq": 336,
+    "reviews.rq": 4,
+    "vision_models.rq": 295
   },
-  "sameAs_links": 2593,
-  "asserted_sameAs_links": 2593
+  "query_seconds": {
+    "benchmarks.rq": 0.336,
+    "cheap_tool_models.rq": 1.051,
+    "claude_models.rq": 0.027,
+    "conflicting_observations.rq": 0.253,
+    "coverage.rq": 0.045,
+    "direct_vs_router.rq": 4.182,
+    "external_links.rq": 0.01,
+    "model_details.rq": 0.072,
+    "official_sources.rq": 1.643,
+    "open_weight_specs.rq": 2.789,
+    "opus_providers_prices.rq": 6.731,
+    "reviews.rq": 0.016,
+    "vision_models.rq": 0.055
+  },
+  "source_snapshots": 576,
+  "owl_rl": "representative fixture; full catalog closure not run",
+  "fuseki": "not started or uploaded by agent"
 }

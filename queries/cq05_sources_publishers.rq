@@ -1,7 +1,0 @@
-PREFIX ex: <https://example.org/aimodels/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?source ?sourceName ?sourceType ?publisherName (COUNT(DISTINCT ?paper) AS ?papers) WHERE {
-  ?paper ex:publishedIn ?source . ?source rdfs:label ?sourceName .
-  OPTIONAL { ?source ex:sourceType ?sourceType }
-  OPTIONAL { ?source ex:publishedBy ?publisher . ?publisher rdfs:label ?publisherName }
-} GROUP BY ?source ?sourceName ?sourceType ?publisherName ORDER BY DESC(?papers) ?source

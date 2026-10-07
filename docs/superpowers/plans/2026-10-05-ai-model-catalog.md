@@ -1,3 +1,6 @@
+<!-- historical-before-split -->
+> Lịch sử thiết kế trước khi tách project. Cấu trúc và lệnh hiện tại xem README.md của aimodels.
+
 # AI Model Catalog Implementation Plan
 
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan task-by-task.
@@ -28,14 +31,14 @@
 1. [x] Tests trước: normalizer nhận catalog/endpoints + manifest; trả dictionary tables. Test zero/null/precision, variants, provider và benchmarks; collector test pagination và failed snapshot.
 2. [x] `src/model_catalog/common.py`, `collect.py`: snapshots công khai, checksum, manifests, bounded retries, offline replay; endpoints toàn catalog có concurrency hữu hạn; official HTML sources và Aider.
 3. [x] `normalize.py`, `benchmarks.py`: tables chuẩn hóa với source document ID; match model bằng mapping rõ ràng; unmatched lưu riêng.
-4. [x] `res/model-ontology.ttl`, `transform.py`, `link.py`: ontology 13 classes, statements/observations có nguồn, dataset metadata và links có evidence.
-5. [x] `src/ask.py`, `validate.py`, `queries/models/`, Fuseki config/load script: catalog CLI, CQs và đặc biệt query Opus provider/giá.
+4. [x] `res/ontology.ttl`, `transform.py`, `link.py`: ontology 13 classes, statements/observations có nguồn, dataset metadata và links có evidence.
+5. [x] `src/ask.py`, `validate.py`, `queries/`, Fuseki config/load script: catalog CLI, CQs và đặc biệt query Opus provider/giá.
 6. [x] Thu thập thật, tạo silver/gold, xác minh local; cập nhật README, walkthrough, ontology glossary/CQs, báo coverage thật và giới hạn.
 
 ## Verification commands
 
 Run tests: `.venv/bin/python -m unittest discover -s tests -v`.
-Run catalog queries: `.venv/bin/python src/ask.py queries/models/opus_providers_prices.rq --dataset models`.
+Run catalog queries: `.venv/bin/python src/ask.py queries/opus_providers_prices.rq --dataset models`.
 Run validation: `.venv/bin/python -m model_catalog.validate` from src with PYTHONPATH=src.
 Expected: RDF parses, tests pass, Opus query has concrete provider names and sourced USD/1M token prices.
 No server launch/upload command will be run by the agent.
@@ -51,7 +54,7 @@ Task 2: public catalog and endpoints collected; exact IDs required for :free/:ba
 Task 3: CSV normalization and official schema adapters implemented; source-bound qualifiers extracted from text, context override prices retained. Publisher cards added to enrich checkpoint totals/license/task.
 Task 4: ontology and RDF exported; 5 verified external links, one candidate official-site mismatch omitted.
 Task 5: model graph selection, Opus/provider pricing queries, default-graph load instructions and loader added; no server launch/upload.
-Task 6: completed. 27 regression tests pass; all 13 SPARQL files execute on 353882 combined triples with zero validation errors. CLI Opus returns 336 sourced price rows; coverage and MODEL_VALIDATION.md recorded. No Fuseki startup/upload performed.
+Task 6: completed. 27 regression tests pass; all 13 SPARQL files execute on 353882 combined triples with zero validation errors. CLI Opus returns 336 sourced price rows; coverage and VALIDATION.md recorded. No Fuseki startup/upload performed.
 Ruling: No direct Artificial Analysis adapter/key flow in this release; embedded AA metrics attributed via OpenRouter and public Aider records satisfy benchmark collection without requiring credentials.
 Ruling: “Latest release” omitted as a delivered query because catalog.created does not establish release dates; documentation explicitly states limitation.
 Ruling: Free/batch/alias listings remain distinct source references; counts are model/listing counts, not independent weights counts. Do not claim exact equivalence across source versions.

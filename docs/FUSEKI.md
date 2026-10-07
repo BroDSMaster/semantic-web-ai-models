@@ -1,157 +1,66 @@
-# Chạy Apache Jena Fuseki
+# Chạy Jena Fuseki cho aimodels
 
-Apache Jena cung cấp RDF/SPARQL engine và TDB2; Fuseki là SPARQL server của
-Jena. Project dùng **Fuseki 6.2.0, Java 21+**, Python chỉ làm ETL và terminal
-query. Phiên bản và yêu cầu Java: [Apache Jena downloads](https://jena.apache.org/download/).
+Apache Jena xử lý RDF; Fuseki cung cấp server SPARQL và giao diện web. Cần Java 21+; project cấu hình binary Fuseki 6.2.0. Chạy các lệnh từ thư mục `aimodels/`.
 
-Các lệnh dưới chạy từ thư mục `aimodels/` trên Linux/bash.
-
-## 1. Chuẩn bị Java và Fuseki
+## 1. Chuẩn bị
 
 ```bash
 java -version
-mkdir -p tools
-curl -fL https://dlcdn.apache.org/jena/binaries/apache-jena-fuseki-6.2.0.tar.gz \
-  -o tools/apache-jena-fuseki-6.2.0.tar.gz
-curl -fL https://downloads.apache.org/jena/binaries/apache-jena-fuseki-6.2.0.tar.gz.sha512 \
-  -o tools/apache-jena-fuseki-6.2.0.tar.gz.sha512
 ```
 
-Đối chiếu SHA512 trước khi giải nén. File SHA512 của Apache có thể chứa một
-hash hoặc kèm filename, nên kiểm tra bằng đoạn Python sau:
+Binary phải ở `tools/apache-jena-fuseki-6.2.0/fuseki-server`. Nếu chưa có, tải bản 6.2.0 từ [Apache Jena](https://jena.apache.org/download/) hoặc archive cùng phiên bản, kiểm tra checksum Apache công bố rồi giải nén vào tools/. Hai project có thể dùng bản Fuseki riêng; mỗi môi trường Python cài từ requirements.txt của project đó.
 
-```bash
-python - <<'PY'
-import hashlib, re
-from pathlib import Path
-p = Path('tools/apache-jena-fuseki-6.2.0.tar.gz')
-expected = re.search(r'\b[0-9a-fA-F]{128}\b', Path(str(p)+'.sha512').read_text()).group(0).lower()
-actual = hashlib.file_digest(p.open('rb'), 'sha512').hexdigest()
-assert actual == expected, 'SHA512 mismatch; do not extract'
-print('SHA512 OK')
-PY
-tar -xzf tools/apache-jena-fuseki-6.2.0.tar.gz -C tools
-```
-
-Nếu bản 6.2.0 đã rời mirror, dùng cùng filenames tại
-`https://archive.apache.org/dist/jena/binaries/`. Không trộn server và
-checksum của các phiên bản khác nhau. Binary Apache giữ license/NOTICE
-đi kèm; `tools/` không thuộc source code ETL.
-
-## 2. Terminal thứ nhất: chạy server
+## 2. Chạy server
 
 ```bash
 bash scripts/start_fuseki.sh
 ```
 
-- UI: <http://localhost:3030/>
-- Dataset được cấu hình sẵn: `aimodels`
-- SPARQL endpoint: <http://localhost:3030/aimodels/sparql>
-- Graph Store: <http://localhost:3030/aimodels/data>
-- Cấu hình: [res/fuseki-config.ttl](../res/fuseki-config.ttl)
-- TDB2 giữ dữ liệu trong `run/tdb2`; không mất khi dừng bằng Ctrl+C.
-- `run/fuseki` chứa runtime/config/log; không commit thư mục này.
-- Script chạy trên localhost và dùng Java trong PATH, bỏ JAVA_HOME kế thừa
-  để tránh đường dẫn JDK không tồn tại.
+- UI: http://localhost:3030/
+- Dataset: `aimodels`
+- SPARQL endpoint: http://localhost:3030/aimodels/sparql
+- Graph Store: http://localhost:3030/aimodels/data
+- Config: [fuseki-config.ttl](../res/fuseki-config.ttl)
+- Database TDB2: `run/tdb2-models`; runtime: `run/fuseki-models`.
 
-Nếu port 3030 đang dùng:
+Giữ terminal mở; Ctrl+C để dừng. Nếu cổng đã có server khác, dừng server đó hoặc đặt `FUSEKI_PORT=3032 bash scripts/start_fuseki.sh` rồi đổi port trong các URL nạp/query tương ứng. Không mở hai server cùng ghi một TDB2 store.
 
-```bash
-FUSEKI_PORT=3031 bash scripts/start_fuseki.sh
-```
-
-Khi đó đổi mọi URL của lệnh load/query sang port 3031.
-
-## 3. Terminal thứ hai: nạp graph
+## 3. Nạp dữ liệu bằng terminal thứ hai
 
 ```bash
 bash scripts/load_fuseki.sh
 ```
 
-Với port khác:
+Để nạp vào URL tùy chọn:
 
 ```bash
-bash scripts/load_fuseki.sh http://localhost:3031/aimodels
+bash scripts/load_fuseki.sh http://localhost:3030/aimodels/data
 ```
 
-Script POST bốn graph vào **default graph**: ontology, instance data, dataset
-metadata, sameAs links. Triples với cùng URI/literal không bị nhân đôi khi
-POST lại; cấu trúc OWL dùng blank nodes có thể có thêm anonymous nodes khi
-nạp nhiều lần. Nếu đã thu thập snapshot khác, việc POST là merge:
-nên dùng dataset mới để tránh lẫn snapshot, hoặc chủ động quản lý/xóa dữ liệu
-cũ qua UI. Script không tự xóa database.
+Hoặc UI → dataset → Add data, nạp bốn file vào default graph (để trống graph name):
 
-Cách giống HUST: vào UI → dataset `aimodels` → upload lần lượt:
-
-1. `res/ontology.ttl` (hoặc `ontology.owl.xml`)
-2. `src/data/gold/research.ttl` (hoặc `research.rdf`)
+1. `res/ontology.ttl`
+2. `src/data/gold/models.ttl`
 3. `res/linked_output.nt`
 4. `res/dataset-metadata.ttl`
 
-Chọn default graph. Không nhập cả hai serialization của cùng ontology/data
-với ý định chúng là hai datasets; đó là cùng một graph ở hai cú pháp.
+Ontology có bản XML `ontology.rdf` và data có bản `models.rdf`; mỗi graph chỉ chọn một định dạng. Loader POST để thêm dữ liệu, không xóa graph cũ. Nạp nhiều snapshots sẽ giữ cả thông tin cũ/mới; dùng dataset mới nếu muốn chỉ giữ một snapshot.
 
-## 4. Truy vấn UI, terminal hoặc curl
+## 4. Query
 
-UI → chọn `aimodels` → Query → paste nội dung
-[cq07_external_links.rq](../queries/cq07_external_links.rq) → Run.
+UI → dataset `aimodels` → Query → dán nội dung file [opus_providers_prices.rq](../queries/opus_providers_prices.rq) → ▶.
+
+Hoặc sau khi activate Python environment:
 
 ```bash
-source .venv/bin/activate
-python src/ask.py queries/count_classes.rq \
+python src/ask.py queries/opus_providers_prices.rq \
   --endpoint http://localhost:3030/aimodels/sparql
-python src/ask.py queries/cq07_external_links.rq \
-  --endpoint http://localhost:3030/aimodels/sparql
-curl --fail-with-body --silent --show-error \
-  -H 'Content-Type: application/sparql-query' \
-  -H 'Accept: application/sparql-results+json' \
-  --data-binary @queries/cq01_top_papers.rq \
-  http://localhost:3030/aimodels/sparql
 ```
 
-## 5. Suy luận
-
-TDB2 ở cấu hình chính lưu asserted triples; nó không tự bật OWL RL. Demo
-inverse `authoredPaper` bằng terminal:
+Query local cùng file (không cần server):
 
 ```bash
-python src/ask.py queries/inference_authored_paper.rq
-python src/ask.py queries/inference_authored_paper.rq --reasoning
+python src/ask.py queries/opus_providers_prices.rq
 ```
 
-Lệnh đầu chỉ có CSV header vì inverse không assert trong gold. Lệnh thứ hai
-có kết quả do OWL RL. Muốn xem closure trong Fuseki:
-
-```bash
-python src/validate.py --reasoning --export-inferred
-curl --fail-with-body --silent --show-error -X POST \
-  -H 'Content-Type: text/turtle' --data-binary @src/data/gold/research-inferred.ttl \
-  'http://localhost:3030/aimodels/data?graph=https%3A%2F%2Fexample.org%2Faimodels%2Finferred'
-```
-
-Graph suy luận ở named graph riêng, giữ default graph cho dữ liệu assert.
-Query named graph:
-
-```sparql
-PREFIX ex: <https://example.org/aimodels/>
-SELECT ?authorship ?paper WHERE {
-  GRAPH ex:inferred { ?authorship ex:authoredPaper ?paper }
-} LIMIT 20
-```
-
-Đây là closure tính bởi owlrl rồi nạp vào Jena; không mô tả thành Jena tự
-thực hiện OWL RL. Có thể cấu hình Jena reasoner khác khi cần; xem
-[Fuseki configuration](https://jena.apache.org/documentation/fuseki2/fuseki-configuration.html).
-
-## Xử lý lỗi thường gặp
-
-- `Connection refused`: chưa chạy server hoặc sai port.
-- Query không ra dữ liệu: kiểm tra đã load đủ bốn files vào default graph,
-  đúng dataset, đúng prefix `https://example.org/aimodels/`.
-- `Database lock`: chỉ chạy một server cho cùng `run/tdb2`; dừng server cũ.
-- `UnsupportedClassVersionError`: Java đang chạy không đủ mới; Java 21+.
-- Không tải được mirror: dùng Apache archive đúng phiên bản hoặc tải từ
-  trang Apache và giải nén vào `tools/`.
-
-Tham khảo: [running Fuseki](https://jena.apache.org/documentation/fuseki2/fuseki-server.html),
-[configuration](https://jena.apache.org/documentation/fuseki2/fuseki-configuration.html).
+Nếu có 0 kết quả, kiểm tra đúng dataset/prefix và đã nạp instance data vào default graph. Tạo lại RDF trên đĩa không tự cập nhật bản Fuseki. Lần tách project ngày 07/10/2026 không khởi động hoặc chỉnh dữ liệu server; các kiểm chứng runtime trước đó chỉ là lịch sử.

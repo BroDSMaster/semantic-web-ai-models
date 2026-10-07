@@ -46,7 +46,7 @@ def add_aider(tables, manifest):
         return
     parser = TableParser()
     parser.feed((BRONZE / source["file"]).read_text(encoding="utf-8"))
-    mappings = read_json(RES / "model-identity-mappings.json").get("aider", {})
+    mappings = read_json(RES / "identity-mappings.json").get("aider", {})
     models = {m["source_id"]: m["id"] for m in tables["models"]}
     document_id = next(d["id"] for d in tables["documents"] if d["url"] == source["url"])
     bench_id = uri("benchmark", "aider:polyglot-225")

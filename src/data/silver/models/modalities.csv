@@ -1,6 +1,0 @@
-id,name
-https://example.org/aimodels/resource/modality/audio,audio
-https://example.org/aimodels/resource/modality/file,file
-https://example.org/aimodels/resource/modality/image,image
-https://example.org/aimodels/resource/modality/text,text
-https://example.org/aimodels/resource/modality/video,video

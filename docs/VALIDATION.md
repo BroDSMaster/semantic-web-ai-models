@@ -1,105 +1,51 @@
-# Kết quả kiểm tra snapshot
+# Kiểm chứng AI model catalog
 
-Đã kiểm tra ngày 2026-10-04 UTC, trước khi người dùng yêu cầu tự chạy các
-lệnh. Các số dưới thuộc snapshot đi kèm; thu thập lại có thể thay đổi chúng.
+Snapshot thu thập ngày 2026-10-05 được kiểm chứng local lại sau khi tách project ngày 2026-10-07. Fuseki không được khởi động hoặc nạp dữ liệu trong lần tách này.
 
-## Dữ liệu và RDF
+## Kết quả
 
-| Class | Instances |
-|---|---:|
-| ResearchPaper | 200 |
-| Person | 1.807 |
-| ResearchInstitution | 307 |
-| PublicationSource | 65 |
-| Publisher | 19 |
-| ResearchTopic | 101 |
-| ResearchSubfield | 33 |
-| ResearchField | 11 |
-| ResearchDomain | 4 |
-| Authorship | 2.128 |
+- 17 unit/regression tests riêng của aimodels đạt. Tests nghiên cứu đã chuyển sang airesearch.
+- Cả 13 file SPARQL thực thi thành công trên graph đầy đủ.
+- Graph kết hợp có 353,882 triples; CSV/RDF entity counts khớp, không có dangling price/evaluation hoặc ID trùng.
+- 576 source snapshots vượt kiểm tra SHA-256 của response bytes lưu tại bronze.
+- OWL RL kiểm tra trên fixture đại diện của ontology; không chạy closure toàn catalog.
+- CLI ask.py đã chạy thành công với query Opus và lưu 336 dòng kết quả.
 
-Chỉ lấy article/conference-paper/preprint/review, loại paratext. JSON gốc và
-URL/thời điểm thu thập được giữ trong bronze.
+| Query | Số dòng | Thời gian query (giây) |
+|---|---:|---:|
+| `benchmarks.rq` | 471 | 0.336 |
+| `cheap_tool_models.rq` | 50 | 1.051 |
+| `claude_models.rq` | 37 | 0.027 |
+| `conflicting_observations.rq` | 0 | 0.253 |
+| `coverage.rq` | 58 | 0.045 |
+| `direct_vs_router.rq` | 1257 | 4.182 |
+| `external_links.rq` | 5 | 0.01 |
+| `model_details.rq` | 116 | 0.072 |
+| `official_sources.rq` | 399 | 1.643 |
+| `open_weight_specs.rq` | 391 | 2.789 |
+| `opus_providers_prices.rq` | 336 | 6.731 |
+| `reviews.rq` | 4 | 0.016 |
+| `vision_models.rq` | 295 | 0.055 |
 
-- Instance graph: **49.459 triples**.
-- Ontology: **184 triples**; metadata: **15 triples**.
-- Identity links: **2.593 triples**.
-- Tổng graph: **52.251 triples**.
-- OWL RL closure: **158.572 triples**, không phát hiện lỗi theo rule checks
-  và validator của project. Không coi đây là chứng minh toàn bộ OWL DL.
+Thời gian trên không bao gồm đọc/parse RDF từ đĩa. Query conflicts trả 0 là kết quả hợp lệ: không thấy model context/output/cutoff có nhiều giá trị trong tập quan sát đang xét. Không chứng minh mọi nguồn luôn đồng thuận.
 
-## Linking và giới hạn nguồn
+## Bằng chứng và chạy lại
 
-| Method | Links | Bằng chứng |
-|---|---:|---|
-| exact_openalex_id | 2.547 | IDs trong snapshot OpenAlex |
-| openalex_declared_wikidata_id | 25 | QIDs trong OpenAlex full records |
-| exact_ror_P6782 | 10 | ROR khớp chính xác trong Wikidata SPARQL |
-| dbpedia_declared_sameAs_wikidata | 11 | DBpedia trả sameAs đúng QID |
-
-35 QID được tra DBpedia: 11 có mapping xác nhận; 21 lookup trả HTTP 503;
-3 lookup khác hoàn tất nhưng không có resource hợp lệ được chấp nhận.
-Lỗi mạng không có nghĩa “DBpedia không có entity”. Không đoán URI để bù
-links; bản offline chỉ dùng phản hồi đã ghi.
-
-Xem [linking report](../res/linking-report.json),
-[evidence CSV](../res/entity_links.csv),
-[lookup snapshots](../src/data/bronze/external_lookups.json).
-
-## Kiểm thử và reproducibility
-
-**10 tests pass:** duplicate works; affiliation theo paper; thiếu author ID;
-typed literals; loại proceedings collections; exact identity matching;
-JSON/SPARQL media types; phân trang 150 bài không lặp; round-trip và expected
-answers cho 10 CQs trên fixture synthetic.
-
-Kiểm tra dữ liệu thật đã xác nhận bronze tạo cùng silver; silver tạo cùng
-graph với cả Turtle/RDF/XML; ontology serializations isomorphic; linker
-offline tạo cùng graph/evidence, giữ nguyên thời điểm kiểm tra nguồn.
-Report: [reproducibility-report.json](../res/reproducibility-report.json).
-
-## Fuseki thật
-
-Đã nạp bốn files vào default graph của Apache Jena Fuseki 6.2.0/Java 21,
-cấu hình TDB2 của project. Truy vấn qua HTTP POST và so toàn bộ values với
-RDFLib local, không chỉ row counts.
-
-| Query | Dòng local / Fuseki | Kết quả |
-|---|---:|---|
-| count_classes | 10 / 10 | Khớp |
-| CQ1 | 20 / 20 | Khớp |
-| CQ2 | 100 / 100 | Khớp |
-| CQ3 | 20 / 20 | Khớp |
-| CQ4 | 20 / 20 | Khớp |
-| CQ5 | 65 / 65 | Khớp |
-| CQ6 | 19 / 19 | Khớp |
-| CQ7 | 46 / 46 | Khớp |
-| CQ8 | 50 / 50 | Khớp |
-| CQ9 | 20 / 20 | Khớp |
-| CQ10 | 50 / 50 | Khớp |
-
-Với GROUP_CONCAT institutions, check bỏ khác biệt thứ tự chuỗi gộp vì SPARQL
-không quy định thứ tự đó. Triple count local/Fuseki cùng 52.251.
-Report: [fuseki-validation.json](../res/fuseki-validation.json).
-CLI ask.py --endpoint cũng đã chạy thật.
-
-Fuseki hiện được dừng theo yêu cầu người dùng. Để tự kiểm tra:
+- [Báo cáo máy đọc được](../res/validation-report.json)
+- [Coverage và cảnh báo collection](../res/coverage.json)
+- [Toàn bộ kết quả CLI Opus](../res/opus-provider-prices.csv)
+- [Mẫu giá Opus 4.6](../res/opus-4.6-price-sample.json)
+- [Hướng dẫn chạy và nạp Fuseki](PIPELINE.md)
 
 ```bash
-# Terminal 1, từ aimodels/
-bash scripts/start_fuseki.sh
-# Terminal 2, từ aimodels/, sau khi activate .venv
-bash scripts/load_fuseki.sh
-python tests/check_fuseki.py
+cd /home/puda14/Desktop/Project/semantic-web/aimodels
+.venv/bin/python -m unittest discover -s tests
+PYTHONPATH=src .venv/bin/python -m model_catalog.validate
+.venv/bin/python src/ask.py queries/opus_providers_prices.rq
 ```
 
-TDB2 cấu hình lưu tại run/tdb2. Có thể tự kiểm tra persistence bằng cách
-dừng/khởi động lại server và chạy count_classes, không load lại dữ liệu.
-Phiên kiểm tra chưa xác nhận lại query sau restart.
+## Phạm vi và giới hạn
 
-## Giới hạn của kết luận
+Đây là kiểm chứng local, chưa xác minh query qua Fuseki server của người dùng. Ba Hugging Face responses không khớp repository ID đã bị bỏ qua; một ứng viên identity Wikidata chưa xác nhận được official website nên không xuất sameAs. Những cảnh báo này nằm trong coverage/link report, không bị coi là dữ liệu đã xác minh.
 
-Kiểm tra xác nhận cấu trúc, mappings, reproducibility, một tập OWL RL
-semantics và CQs. Không chứng minh mọi affiliation, topic/citation count hay
-entity resolution của nguồn đều đúng ngoài đời. Namespace example.org là
-minh họa; chưa công bố LOD public với URI dereference/download URLs.
+Benchmark/review chỉ có cho một phần model. Giá trực tiếp có parser nhận dạng cho OpenAI, Anthropic, MiniMax và Z.AI; các hãng khác có catalog/router prices và tài liệu liên quan. Các listing alias/free/batch không phải những bộ weights độc lập. Namespace example.org cần được thay và xuất bản để công bố LOD truy cập công khai.

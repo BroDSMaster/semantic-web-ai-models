@@ -1,4 +1,0 @@
-PREFIX ex: <https://example.org/aimodels/>
-SELECT ?authorship ?paper WHERE {
-  ?authorship ex:authoredPaper ?paper .
-} ORDER BY ?paper LIMIT 20

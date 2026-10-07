@@ -1,6 +1,0 @@
-PREFIX ex: <https://example.org/aimodels/>
-PREFIX prov: <http://www.w3.org/ns/prov#>
-SELECT ?subject ?target ?evidence ?source WHERE {
-  ?link a ex:ExternalLink ; ex:linkSubject ?subject ; ex:linkTarget ?target ;
-        ex:description ?evidence ; prov:wasDerivedFrom ?source .
-} ORDER BY ?subject ?target

@@ -1,6 +1,0 @@
-PREFIX ex: <https://example.org/aimodels/>
-PREFIX dcterms: <http://purl.org/dc/terms/>
-SELECT ?paper ?title ?year ?citations WHERE {
-  ?paper a ex:ResearchPaper ; dcterms:title ?title ;
-         ex:publicationYear ?year ; ex:citationCount ?citations .
-} ORDER BY DESC(?citations) ?paper LIMIT 20

@@ -1,6 +1,0 @@
-PREFIX ex: <https://example.org/aimodels/>
-PREFIX dcterms: <http://purl.org/dc/terms/>
-SELECT ?paper ?title ?reference ?localReferenceTitle WHERE {
-  ?paper a ex:ResearchPaper ; dcterms:title ?title ; dcterms:references ?reference .
-  OPTIONAL { ?reference a ex:ResearchPaper ; dcterms:title ?localReferenceTitle }
-} ORDER BY ?paper ?reference LIMIT 50

@@ -1,0 +1,10 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?modelId ?benchmark ?score ?unit ?config ?attribution ?source WHERE {
+  ?evaluation a ex:Evaluation ; ex:evaluatedModel ?model ; ex:onBenchmark ?bench ;
+              ex:score ?score ; ex:scoreUnit ?unit ; ex:evaluationConfig ?config ;
+              ex:attribution ?attribution ; prov:wasDerivedFrom ?doc .
+  ?model ex:sourceId ?modelId . ?bench rdfs:label ?benchmark . ?doc schema:url ?source .
+} ORDER BY ?benchmark DESC(?score) ?modelId

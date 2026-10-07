@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
+# Add catalog data to the default graph. Never clears an existing dataset.
 set -euo pipefail
-cd "$(dirname "${BASH_SOURCE[0]}")/.."
-fuseki_dataset="${1:-http://localhost:3030/aimodels}"
-# POST merges into the default graph. Do not PUT each file: PUT replaces it.
-for turtle_file in res/ontology.ttl src/data/gold/research.ttl res/dataset-metadata.ttl; do
-  curl --fail-with-body --silent --show-error -X POST \
-    -H 'Content-Type: text/turtle' --data-binary "@$turtle_file" "$fuseki_dataset/data?default"
+cd "$(dirname "$0")/.."
+catalog_endpoint="${1:-http://localhost:3030/aimodels/data}"
+for catalog_file in res/ontology.ttl src/data/gold/models.ttl res/linked_output.nt res/dataset-metadata.ttl; do
+  catalog_type="text/turtle"
+  if [[ "$catalog_file" == *.nt ]]; then catalog_type="application/n-triples"; fi
+  curl --fail --show-error --silent -X POST -H "Content-Type: $catalog_type" \
+    --data-binary "@$catalog_file" "${catalog_endpoint}?default"
+  echo "Loaded $catalog_file"
 done
-curl --fail-with-body --silent --show-error -X POST \
-  -H 'Content-Type: application/n-triples' --data-binary @res/linked_output.nt "$fuseki_dataset/data?default"
-echo "Loaded ontology, research data, metadata and identity links into $fuseki_dataset."

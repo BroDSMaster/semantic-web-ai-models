@@ -1,112 +1,85 @@
 @prefix ex: <https://example.org/aimodels/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema: <https://schema.org/> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
-ex:ontology a owl:Ontology ;
-    rdfs:label "AI Research Knowledge Graph ontology"@en ;
-    dcterms:description "Bibliographic AI research metadata, contextual authorship and OpenAlex topic hierarchy. Designed using ONTOLOGY_ENGINEERING_SKILL.md."@en ;
-    owl:versionInfo "1.0.0" ;
-    rdfs:seeAlso <https://help.openalex.org/>, <https://schema.org/ScholarlyArticle>, <http://www.w3.org/2004/02/skos/core> .
+ex:modelOntology a owl:Ontology ; owl:versionInfo "2.0" ;
+    dcterms:title "AI models, API offerings and sourced evaluations" ;
+    dcterms:description "A catalog extension independent of the OpenAlex research ontology. Unknown values remain unknown; source observations are retained." .
 
-# Ten domain classes. Person is a type; authorship is a contextual role.
-ex:ResearchPaper a owl:Class ; rdfs:subClassOf schema:ScholarlyArticle ;
-    rdfs:label "Research paper"@en ;
-    rdfs:comment "An individual research article, conference paper, preprint or review in the selected OpenAlex sample. Paratext/proceedings collections, books, chapters and reports are excluded. Identity is the OpenAlex work ID."@en .
-ex:Person a owl:Class ; rdfs:subClassOf schema:Person ;
-    rdfs:label "Person"@en ;
-    rdfs:comment "A human represented by an OpenAlex author ID; not a research role or an organization. Author disambiguation depends on OpenAlex."@en .
-ex:ResearchInstitution a owl:Class ; rdfs:subClassOf schema:Organization ;
-    rdfs:label "Research institution"@en ;
-    rdfs:comment "An organization appearing in an authorship affiliation. Membership here is a role in the sample, not a claim of perpetual research activity."@en .
-ex:PublicationSource a owl:Class ;
-    rdfs:label "Publication source"@en ;
-    rdfs:comment "An OpenAlex journal, repository, conference or other publication source. It is a venue, not its publisher or a single paper."@en .
-ex:Publisher a owl:Class ; rdfs:subClassOf schema:Organization ;
-    rdfs:label "Publisher"@en ;
-    rdfs:comment "An OpenAlex publisher entity with a P identifier hosting a publication source. Publishing is an organizational role; may overlap ResearchInstitution."@en .
-ex:ResearchTopic a owl:Class ; rdfs:subClassOf skos:Concept ;
-    rdfs:label "Research topic"@en ;
-    rdfs:comment "A specific OpenAlex classification concept, not a paper and not a subclass of its subfield."@en .
-ex:ResearchSubfield a owl:Class ; rdfs:subClassOf skos:Concept ;
-    rdfs:label "Research subfield"@en ; rdfs:comment "A subfield concept in the OpenAlex four-level classification."@en .
-ex:ResearchField a owl:Class ; rdfs:subClassOf skos:Concept ;
-    rdfs:label "Research field"@en ; rdfs:comment "A field concept grouping subfields in OpenAlex, e.g. Computer Science."@en .
-ex:ResearchDomain a owl:Class ; rdfs:subClassOf skos:Concept ;
-    rdfs:label "Research domain"@en ; rdfs:comment "A broad domain concept grouping fields in OpenAlex, e.g. Physical Sciences."@en .
-ex:Authorship a owl:Class ; rdfs:subClassOf schema:Role ;
-    rdfs:label "Authorship"@en ;
-    rdfs:comment "An author's participation in a particular paper. Identity is (work ID, author ID); affiliations, position and corresponding status belong to this association."@en .
+ex:AIModel a owl:Class ; rdfs:label "AI model" ; rdfs:comment "A source-identified AI model/version. IDs and aliases are not merged without identity evidence." .
+ex:ModelFamily a owl:Class ; rdfs:label "Model family" ; rdfs:comment "A named collection of related models, such as Claude. A family is not a superclass of its member models." .
+ex:Organization a owl:Class ; rdfs:subClassOf schema:Organization ; rdfs:label "Organization" ; rdfs:comment "An organization with developer or hosting roles expressed by relations." .
+ex:ModelOffering a owl:Class ; rdfs:subClassOf schema:Service ; rdfs:label "Model offering" ; rdfs:comment "Access to a model through a service/endpoint; limits and prices are offering-specific." .
+ex:Capability a owl:Class ; rdfs:label "Capability" ; rdfs:comment "A named, documented API-supported feature or parameter; not a quality ranking." .
+ex:Modality a owl:Class ; rdfs:label "Modality" ; rdfs:comment "An input/output medium such as text, image, audio, video or file." .
+ex:PriceSpecification a owl:Class ; rdfs:subClassOf schema:PriceSpecification ; rdfs:label "Price specification" ; rdfs:comment "A sourced observation of a price category, unit, currency and conditions for one offering." .
+ex:Benchmark a owl:Class ; rdfs:label "Benchmark" ; rdfs:comment "An evaluation metric/protocol identified with its evaluator and version where supplied." .
+ex:Evaluation a owl:Class ; rdfs:label "Evaluation" ; rdfs:comment "One model's reported result on a benchmark with a recorded scale, configuration and source." .
+ex:Review a owl:Class ; rdfs:subClassOf schema:Review ; rdfs:label "Review" ; rdfs:comment "An attributed review/commentary document about a model; no inferred star rating." .
+ex:SourceDocument a owl:Class ; rdfs:subClassOf prov:Entity ; rdfs:label "Source document" ; rdfs:comment "A URL/content snapshot identified by its checksum and observation time." .
+ex:FactObservation a owl:Class ; rdfs:label "Fact observation" ; rdfs:comment "A statement about a subject, property and value with source provenance; may conflict with another source." .
+ex:ExternalLink a owl:Class ; rdfs:label "External identity evidence" ; rdfs:comment "An external identity mapping with evidence; document URLs are not entity identity." .
 
-# Clear identity distinctions. Organizational roles may overlap; no blanket disjointness.
-[] a owl:AllDisjointClasses ; owl:members (ex:ResearchPaper ex:Person ex:Authorship schema:Organization skos:Concept) .
+ex:belongsToFamily a owl:ObjectProperty ; rdfs:domain ex:AIModel ; rdfs:range ex:ModelFamily ; rdfs:label "belongs to family" ; rdfs:comment "Model to its documented family." .
+ex:developedBy a owl:ObjectProperty ; rdfs:domain ex:AIModel ; rdfs:range ex:Organization ; rdfs:label "developed by" ; rdfs:comment "Model to its developer, distinct from hosting service." .
+ex:offersModel a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range ex:AIModel ; rdfs:label "offers model" ; rdfs:comment "Offering to model accessed through it." .
+ex:hostedBy a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range ex:Organization ; rdfs:label "hosted by" ; rdfs:comment "Offering to provider named in the source, which may itself be a platform." .
+ex:hasPrice a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range ex:PriceSpecification ; rdfs:label "has price" ; rdfs:comment "Offering to a sourced price observation." .
+ex:supportsCapability a owl:ObjectProperty ; rdfs:range ex:Capability ; rdfs:label "supports capability" ; rdfs:comment "Model/offering to a source-reported API feature. Absence is unknown." .
+ex:inputModality a owl:ObjectProperty ; rdfs:range ex:Modality ; rdfs:label "input modality" ; rdfs:comment "Entity to its reported accepted input medium." .
+ex:outputModality a owl:ObjectProperty ; rdfs:range ex:Modality ; rdfs:label "output modality" ; rdfs:comment "Entity to its reported generated output medium." .
+ex:relatedDocumentation a owl:ObjectProperty ; rdfs:range ex:SourceDocument ; rdfs:label "related documentation" ; rdfs:comment "Relevant developer documentation; relevance alone does not prove each field on a model." .
+ex:aboutEntity a owl:ObjectProperty ; rdfs:domain ex:FactObservation ; rdfs:label "about entity" ; rdfs:comment "Observation to its statement subject." .
+ex:observedProperty a owl:ObjectProperty ; rdfs:domain ex:FactObservation ; rdfs:range rdf:Property ; rdfs:label "observed property" ; rdfs:comment "Observation to its statement predicate." .
+ex:resourceValue a owl:ObjectProperty ; rdfs:domain ex:FactObservation ; rdfs:label "resource value" ; rdfs:comment "Observation to its resource-valued statement object." .
+ex:literalValue a owl:DatatypeProperty ; rdfs:domain ex:FactObservation ; rdfs:label "literal value" ; rdfs:comment "Observation to its literal-valued statement object." .
+ex:evaluatedModel a owl:ObjectProperty ; rdfs:domain ex:Evaluation ; rdfs:range ex:AIModel ; rdfs:label "evaluated model" ; rdfs:comment "Result to the explicitly mapped model ID." .
+ex:onBenchmark a owl:ObjectProperty ; rdfs:domain ex:Evaluation ; rdfs:range ex:Benchmark ; rdfs:label "on benchmark" ; rdfs:comment "Result to metric/protocol evaluated." .
+ex:linkSubject a owl:ObjectProperty ; rdfs:domain ex:ExternalLink ; rdfs:label "link subject" ; rdfs:comment "Evidence record to the local identity being mapped." .
+ex:linkTarget a owl:ObjectProperty ; rdfs:domain ex:ExternalLink ; rdfs:label "link target" ; rdfs:comment "Evidence record to the verified external identity." .
 
-ex:hasAuthorship a owl:ObjectProperty ; rdfs:domain ex:ResearchPaper ; rdfs:range ex:Authorship ;
-    owl:inverseOf ex:authoredPaper ; rdfs:label "has authorship"@en ;
-    rdfs:comment "Connects a paper to contextual participation records. Multiple authors are allowed."@en .
-ex:authoredPaper a owl:ObjectProperty ; rdfs:domain ex:Authorship ; rdfs:range ex:ResearchPaper ;
-    rdfs:label "authored paper"@en ; rdfs:comment "Inverse of hasAuthorship; inferred by OWL RL if not asserted."@en .
-ex:authorPerson a owl:ObjectProperty ; rdfs:domain ex:Authorship ; rdfs:range ex:Person ;
-    rdfs:label "author person"@en ; rdfs:comment "The human participant of an authorship record."@en .
-ex:affiliatedInstitution a owl:ObjectProperty ; rdfs:domain ex:Authorship ; rdfs:range ex:ResearchInstitution ;
-    rdfs:label "affiliated institution in this authorship"@en ;
-    rdfs:comment "Affiliation reported for this paper; does not imply current employment or affiliation for all papers by the person."@en .
-ex:publishedIn a owl:ObjectProperty ; rdfs:domain ex:ResearchPaper ; rdfs:range ex:PublicationSource ;
-    rdfs:label "published in"@en ; rdfs:comment "Primary publication source reported by OpenAlex; missing source is allowed."@en .
-ex:publishedBy a owl:ObjectProperty ; rdfs:domain ex:PublicationSource ; rdfs:range ex:Publisher ;
-    rdfs:label "published by"@en ; rdfs:comment "Connects a source to an OpenAlex publisher; institution-hosted repositories are not forced into this relation."@en .
-ex:hasTopic a owl:ObjectProperty ; rdfs:domain ex:ResearchPaper ; rdfs:range ex:ResearchTopic ;
-    rdfs:label "has topic"@en ; rdfs:comment "OpenAlex predicted topic assignment; not a manually verified research scope."@en .
-ex:primaryTopic a owl:ObjectProperty ; rdfs:subPropertyOf ex:hasTopic ;
-    rdfs:domain ex:ResearchPaper ; rdfs:range ex:ResearchTopic ;
-    rdfs:label "primary topic"@en ; rdfs:comment "Highest-ranked OpenAlex topic for the work."@en .
-ex:inSubfield a owl:ObjectProperty ; rdfs:subPropertyOf skos:broader ;
-    rdfs:domain ex:ResearchTopic ; rdfs:range ex:ResearchSubfield ;
-    rdfs:label "in subfield"@en ; rdfs:comment "Topic-to-subfield classification, not subclass inheritance."@en .
-ex:inField a owl:ObjectProperty ; rdfs:subPropertyOf skos:broader ;
-    rdfs:domain ex:ResearchSubfield ; rdfs:range ex:ResearchField ;
-    rdfs:label "in field"@en ; rdfs:comment "Subfield-to-field classification."@en .
-ex:inDomain a owl:ObjectProperty ; rdfs:subPropertyOf skos:broader ;
-    rdfs:domain ex:ResearchField ; rdfs:range ex:ResearchDomain ;
-    rdfs:label "in domain"@en ; rdfs:comment "Field-to-domain classification."@en .
-
-# Identity URLs are not given a paper/person class range: that would infer types
-# onto identifier resources. sameAs links are exported separately with evidence.
-ex:doi a owl:ObjectProperty ; rdfs:domain ex:ResearchPaper ;
-    rdfs:label "DOI URI"@en ; rdfs:comment "DOI resolver URI for this bibliographic work; retained as an identifier link."@en .
-ex:orcid a owl:ObjectProperty ; rdfs:domain ex:Person ;
-    rdfs:label "ORCID URI"@en ; rdfs:comment "ORCID researcher identifier reported by OpenAlex, if available."@en .
-ex:ror a owl:ObjectProperty ; rdfs:domain ex:ResearchInstitution ;
-    rdfs:label "ROR URI"@en ; rdfs:comment "ROR organization identifier reported by OpenAlex, if available."@en .
-
-ex:publicationYear a owl:DatatypeProperty ; rdfs:domain ex:ResearchPaper ; rdfs:range xsd:gYear ;
-    rdfs:label "publication year"@en ; rdfs:comment "Publication year reported by OpenAlex."@en .
-ex:citationCount a owl:DatatypeProperty ; rdfs:domain ex:ResearchPaper ; rdfs:range xsd:nonNegativeInteger ;
-    rdfs:label "citation count"@en ; rdfs:comment "OpenAlex cited_by_count at snapshot time; not the number of reference triples and not a benchmark score."@en .
-ex:isOpenAccess a owl:DatatypeProperty ; rdfs:domain ex:ResearchPaper ; rdfs:range xsd:boolean ;
-    rdfs:label "is open access"@en ; rdfs:comment "OpenAlex open-access flag at collection time; does not license full text."@en .
-ex:workType a owl:DatatypeProperty ; rdfs:domain ex:ResearchPaper ; rdfs:range xsd:string ;
-    rdfs:label "work type"@en ; rdfs:comment "OpenAlex work-type string, e.g. article or preprint."@en .
-ex:countryCode a owl:DatatypeProperty ; rdfs:domain ex:ResearchInstitution ; rdfs:range xsd:string ;
-    rdfs:label "country code"@en ; rdfs:comment "Institution country code from OpenAlex; not the nationality of the authors."@en .
-ex:institutionType a owl:DatatypeProperty ; rdfs:domain ex:ResearchInstitution ; rdfs:range xsd:string ;
-    rdfs:label "institution type"@en ; rdfs:comment "OpenAlex institution category, such as education or company."@en .
-ex:sourceType a owl:DatatypeProperty ; rdfs:domain ex:PublicationSource ; rdfs:range xsd:string ;
-    rdfs:label "source type"@en ; rdfs:comment "OpenAlex publication source type, such as journal or repository."@en .
-ex:issnL a owl:DatatypeProperty ; rdfs:domain ex:PublicationSource ; rdfs:range xsd:string ;
-    rdfs:label "ISSN-L"@en ; rdfs:comment "Linking ISSN of a source, when available."@en .
-ex:authorPosition a owl:DatatypeProperty ; rdfs:domain ex:Authorship ; rdfs:range xsd:string ;
-    rdfs:label "author position"@en ; rdfs:comment "OpenAlex first/middle/last category; not an invented numeric author order."@en .
-ex:isCorresponding a owl:DatatypeProperty ; rdfs:domain ex:Authorship ; rdfs:range xsd:boolean ;
-    rdfs:label "is corresponding author"@en ; rdfs:comment "Corresponding status for this particular paper."@en .
-ex:collectionSearch a owl:DatatypeProperty ; rdfs:range xsd:string ;
-    rdfs:label "collection search"@en ; rdfs:comment "Search expression used to obtain a dataset snapshot."@en .
-
-# Reuse dcterms:title, identifier, source, issued, references; schema:author;
-# rdfs:label and skos:broader without replacing their established definitions.
-# Domain/range infer types. CSV/graph validation implements completeness checks;
-# no OWL minimum cardinality or functional property is imposed on partial data.
+ex:sourceId a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "source identifier" ; rdfs:comment "Source-specific ID retained exactly; not assumed globally equivalent." .
+ex:description a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "description" ; rdfs:comment "Attributed description/claim, not an independently verified quality score." .
+ex:contextLength a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:label "context length" ; rdfs:comment "Source-reported context token limit for this entity." .
+ex:maxOutputTokens a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:label "maximum output tokens" ; rdfs:comment "Source-reported maximum completion tokens." .
+ex:catalogCreated a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:label "catalog creation timestamp" ; rdfs:comment "Catalog/API timestamp; explicitly not model release date." .
+ex:knowledgeCutoff a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "knowledge cutoff" ; rdfs:comment "Source-reported cutoff retained in its published precision." .
+ex:expirationDate a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "expiration date" ; rdfs:comment "Source-reported catalog expiration, not inferred from creation time." .
+ex:canonicalSlug a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "canonical catalog slug" ; rdfs:comment "Source slug; provenance retained, not owl:sameAs." .
+ex:huggingFaceId a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "Hugging Face repository identifier" ; rdfs:comment "Repository ID as reported by catalog; repository is a document/software artifact, not automatically the model entity." .
+ex:parameterCount a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:label "checkpoint parameter count" ; rdfs:comment "Total safetensors parameter count reported in publisher repository metadata; not an assertion about active MoE parameters." .
+ex:license a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "model card license" ; rdfs:comment "License identifier reported by publisher model-card metadata, not the catalog dataset license or API price." .
+ex:libraryName a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "library name" ; rdfs:comment "Library reported by repository metadata." .
+ex:pipelineTag a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "pipeline task" ; rdfs:comment "Repository task metadata, such as text-generation; not an independently validated capability." .
+ex:offeringKind a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "offering kind" ; rdfs:comment "direct, openrouter_catalog, or openrouter_endpoint." .
+ex:serviceMode a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "service mode" ; rdfs:comment "standard, batch, free or another documented pricing mode." .
+ex:endpointTag a owl:DatatypeProperty ; rdfs:domain ex:ModelOffering ; rdfs:range xsd:string ; rdfs:label "endpoint tag" ; rdfs:comment "Source tag distinguishing provider endpoints or regions; retained without interpreting geography." .
+ex:quantization a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "quantization" ; rdfs:comment "Source-reported endpoint quantization, with unknown retained explicitly." .
+ex:priceCategory a owl:DatatypeProperty ; rdfs:domain ex:PriceSpecification ; rdfs:range xsd:string ; rdfs:label "price category" ; rdfs:comment "Input/prompt, output/completion, cache read/write or another billable category." .
+ex:priceAmount a owl:DatatypeProperty ; rdfs:domain ex:PriceSpecification ; rdfs:range xsd:decimal ; rdfs:label "price amount" ; rdfs:comment "Amount in the specified currency/unit. Zero is valid; missing price is not zero." .
+ex:priceUnit a owl:DatatypeProperty ; rdfs:domain ex:PriceSpecification ; rdfs:range xsd:string ; rdfs:label "price unit" ; rdfs:comment "million_tokens, request, image, search, or unknown; only known token prices are multiplied." .
+ex:priceTier a owl:DatatypeProperty ; rdfs:domain ex:PriceSpecification ; rdfs:range xsd:string ; rdfs:label "price tier" ; rdfs:comment "Base price or a source-defined override; overrides carry boundary metadata." .
+ex:discount a owl:DatatypeProperty ; rdfs:domain ex:PriceSpecification ; rdfs:range xsd:decimal ; rdfs:label "discount fraction" ; rdfs:comment "Source fraction; priceAmount includes rawAmount multiplied by (1 - discount). Negative source values represent a surcharge; values above 1 are invalid." .
+ex:minPromptTokens a owl:DatatypeProperty ; rdfs:domain ex:PriceSpecification ; rdfs:range xsd:integer ; rdfs:label "minimum prompt tokens" ; rdfs:comment "Boundary supplied by source for a price override, not a model context limit." .
+ex:currency a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "currency" ; rdfs:comment "ISO currency code such as USD." .
+ex:conditions a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "conditions" ; rdfs:comment "Published pricing qualifiers; not inferred from observation date." .
+ex:rawAmount a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "raw amount" ; rdfs:comment "Unmodified source amount before unit conversion." .
+ex:rawUnit a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "raw unit" ; rdfs:comment "Unit used in source for lossless audit." .
+ex:observedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:label "observed at" ; rdfs:comment "Time snapshot was obtained, not an assertion of effective or publication date." .
+ex:sourceKind a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "source kind" ; rdfs:comment "official, catalog, benchmark, review or identity evidence." .
+ex:sha256 a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "SHA-256" ; rdfs:comment "Content checksum of preserved source bytes." .
+ex:snapshotFile a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "snapshot file" ; rdfs:comment "Relative path to collected evidence." .
+ex:score a owl:DatatypeProperty ; rdfs:domain ex:Evaluation ; rdfs:range xsd:decimal ; rdfs:label "score" ; rdfs:comment "Reported metric value; compare only compatible scales/configurations." .
+ex:scoreUnit a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "score unit" ; rdfs:comment "percent, index_points or documented scale." .
+ex:evaluationConfig a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "evaluation configuration" ; rdfs:comment "Conditions including effort and harness; unknown configuration remains explicit." .
+ex:evaluator a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "evaluator" ; rdfs:comment "Who produced the benchmark, distinct from the source through which data was retrieved." .
+ex:benchmarkVersion a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "benchmark version" ; rdfs:comment "Protocol version when supplied." .
+ex:attribution a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "attribution" ; rdfs:comment "Named origin and intermediary of the collected result." .
+ex:uptimeLastDay a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:label "uptime last day" ; rdfs:comment "Source-reported rolling endpoint uptime percent; tied to snapshot time." .
+ex:latencyLast30Minutes a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:label "latency last 30 minutes" ; rdfs:comment "Raw source-reported rolling latency; no undocumented unit conversion." .
+ex:throughputLast30Minutes a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:label "throughput last 30 minutes" ; rdfs:comment "Raw source-reported rolling throughput; not a model quality benchmark." .

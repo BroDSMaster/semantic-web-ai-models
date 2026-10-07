@@ -1,6 +1,9 @@
+<!-- historical-before-split -->
+> Lịch sử thiết kế trước khi tách project. Cấu trúc và lệnh hiện tại xem README.md của aimodels.
+
 # Thiết kế mở rộng AI Models Knowledge Graph
 
-Ngày: 2026-10-05. Trạng thái: đã được người dùng chỉ định triển khai và thu thập; xem README/MODEL_CATALOG.md và validation report cho trạng thái thực tế.
+Ngày: 2026-10-05. Trạng thái: đã được người dùng chỉ định triển khai và thu thập; xem README/PIPELINE.md và validation report cho trạng thái thực tế.
 
 ## Mục tiêu và yêu cầu đã xác nhận
 
@@ -174,17 +177,17 @@ Tạo `src/model_catalog/` với module riêng: `common.py`, `collect.py`,
 `official_sources.py`, `benchmarks.py`, `normalize.py`, `transform.py`,
 `link.py`, `validate.py`. Tránh thay các schema OpenAlex trong `src/common.py`.
 
-- Bronze mới: `src/data/bronze/models/`; raw JSON/HTML, source URL, retrieved
+- Bronze mới: `src/data/bronze/`; raw JSON/HTML, source URL, retrieved
   time, checksum, trạng thái; snapshot không chứa secrets.
-- Silver mới: `src/data/silver/models/`: models, families, organizations,
+- Silver mới: `src/data/silver/`: models, families, organizations,
   offerings, prices, capabilities, modalities, observations, evaluations,
   benchmarks, reviews, documents, external_links, unmatched CSV.
 - Gold mới: `src/data/gold/models.ttl` và `models.rdf`.
-- Config mới: `res/model-sources.json`, `res/model-identity-mappings.json`,
-  `res/official-model-facts.json`, `res/model-reviews.json` có source per record.
-- Ontology/examples mới: `res/model-ontology.ttl`, `res/model-example-data.ttl`.
-- Links/metadata mới: `res/model-links.nt`, `res/model-dataset-metadata.ttl`.
-- Query mới: `queries/models/`; giữ nguyên các research queries hiện có.
+- Config mới: `res/sources.json`, `res/identity-mappings.json`,
+  `res/official-model-facts.json`, `res/reviews.json` có source per record.
+- Ontology/examples mới: `res/ontology.ttl`, `res/model-example-data.ttl`.
+- Links/metadata mới: `res/linked_output.nt`, `res/dataset-metadata.ttl`.
+- Query mới: `queries/`; giữ nguyên các research queries hiện có.
 - `src/ask.py` thêm `--dataset models|research|all`; giữ default research
   để tương thích lệnh cũ. Hướng dẫn catalog luôn truyền `--dataset models`.
 - Fuseki models dùng service `aimodels-models`, cấu hình và TDB2 location riêng;
@@ -256,7 +259,7 @@ hiển thị rõ trong manifest/README thay vì hứa mọi model có đủ mọ
 
 Người dùng đã chỉ định “triển khai code và thu thập luôn”. Nhánh catalog đã
 được triển khai, thu thập public metadata và tạo silver/RDF; giữ nhánh research.
-Chi tiết kiểm chứng ở res/model-validation-report.json và docs/MODEL_VALIDATION.md.
+Chi tiết kiểm chứng ở res/validation-report.json và docs/VALIDATION.md.
 Không inference hoặc khởi động/nạp Fuseki. API trực tiếp Artificial Analysis
 chưa có adapter trong bản này: dùng embedded metrics qua OpenRouter và Aider;
 giới hạn này được ghi rõ. Câu hỏi newest release chưa có dữ liệu ngày phát hành

@@ -1,5 +1,0 @@
-evaluator,id,name,unit,version
-artificial_analysis,https://example.org/aimodels/resource/benchmark/artificial_analysis%3Aagentic_index,agentic_index,index_points,not supplied by catalog
-artificial_analysis,https://example.org/aimodels/resource/benchmark/artificial_analysis%3Acoding_index,coding_index,index_points,not supplied by catalog
-artificial_analysis,https://example.org/aimodels/resource/benchmark/artificial_analysis%3Aintelligence_index,intelligence_index,index_points,not supplied by catalog
-Aider,https://example.org/aimodels/resource/benchmark/aider%3Apolyglot-225,Aider polyglot coding (225 exercises),percent,polyglot-225

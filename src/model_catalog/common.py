@@ -10,8 +10,8 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
-BRONZE = ROOT / "src/data/bronze/models"
-SILVER = ROOT / "src/data/silver/models"
+BRONZE = ROOT / "src/data/bronze"
+SILVER = ROOT / "src/data/silver"
 GOLD = ROOT / "src/data/gold"
 RES = ROOT / "res"
 BASE = "https://example.org/aimodels/"

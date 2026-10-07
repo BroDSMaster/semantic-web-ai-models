@@ -40,7 +40,7 @@ def validate():
             errors.append(f"CSV/RDF count mismatch in {name}: {len(tables[name])}/{count}")
     query_results = {}
     query_times = {}
-    for path in sorted((ROOT / "queries/models").glob("*.rq")):
+    for path in sorted((ROOT / "queries").glob("*.rq")):
         print("Checking " + path.name, flush=True)
         try:
             started = time.perf_counter()
@@ -54,7 +54,7 @@ def validate():
             errors.append(f"Query {path.name}: {type(exc).__name__}: {exc}")
     # OWL RL on representative sourced data, not a costly closure of every snapshot observation.
     from owlrl import DeductiveClosure, OWLRL_Semantics
-    fixture = Graph().parse(RES / "model-ontology.ttl")
+    fixture = Graph().parse(RES / "ontology.ttl")
     sample_model = URIRef(tables["models"][0]["id"])
     fixture.add((sample_model, RDF.type, EX.AIModel))
     family = URIRef(tables["models"][0]["family_id"])
@@ -66,7 +66,7 @@ def validate():
     report = {"errors": errors, "warnings": warnings, "triples": len(graph), "counts": counts,
               "query_rows": query_results, "query_seconds": query_times, "source_snapshots": len(manifest["documents"]),
               "owl_rl": "representative fixture; full catalog closure not run", "fuseki": "not started or uploaded by agent"}
-    write_json(RES / "model-validation-report.json", report)
+    write_json(RES / "validation-report.json", report)
     print(json.dumps(report, indent=2))
     if errors:
         raise SystemExit(1)

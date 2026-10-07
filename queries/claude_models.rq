@@ -1,0 +1,6 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?model ?name ?modelId WHERE {
+  ?model a ex:AIModel ; rdfs:label ?name ; ex:sourceId ?modelId ; ex:belongsToFamily ?family .
+  ?family rdfs:label "Claude" .
+} ORDER BY ?name

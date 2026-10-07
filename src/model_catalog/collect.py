@@ -99,7 +99,7 @@ def collect(endpoint_limit=None, workers=6, offline=False):
                 manifest["warnings"].append({"model_id": model_id, "error": str(exc)})
             if index % 40 == 0 or index == len(models):
                 print(f"Endpoints {index}/{len(models)}; {manifest['endpoints']} provider entries", flush=True)
-    sources = read_json(RES / "model-sources.json")
+    sources = read_json(RES / "sources.json")
     for source in sources:
         try:
             content = fetch(source["url"])

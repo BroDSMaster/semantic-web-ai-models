@@ -77,7 +77,7 @@ class CatalogTests(unittest.TestCase):
             "endpoints": [{"name": "Azure | opus", "tag": "azure/global", "provider_name": "Azure",
                            "pricing": {"prompt": "0.000005", "completion": "0.000025"}}]}}})
         graph = build_graph(tables)
-        query = (Path(__file__).resolve().parents[1] / "queries/models/opus_providers_prices.rq").read_text()
+        query = (Path(__file__).resolve().parents[1] / "queries/opus_providers_prices.rq").read_text()
         result = list(graph.query(query))
         azure = [row for row in result if str(row.provider) == "Azure"]
         self.assertEqual({(str(row.category), str(row.usdPerMillionTokens)) for row in azure},

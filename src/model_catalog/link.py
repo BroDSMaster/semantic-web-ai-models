@@ -79,14 +79,14 @@ def export_links(lookups):
             graph.add((ident, EX.description, Literal(reason)))
             evidence.append({"id": str(ident), "subject": str(subject), "target": target,
                              "source_url": source, "reason": reason, "retrieved_at": lookup["retrieved_at"]})
-    graph.serialize(RES / "model-links.nt", format="nt", encoding="utf-8")
+    graph.serialize(RES / "linked_output.nt", format="nt", encoding="utf-8")
     write_tables({"external_links": evidence})
-    if (RES / "model-coverage.json").exists():
-        coverage = read_json(RES / "model-coverage.json")
+    if (RES / "coverage.json").exists():
+        coverage = read_json(RES / "coverage.json")
         coverage["tables"]["external_links"] = len(evidence)
-        write_json(RES / "model-coverage.json", coverage)
+        write_json(RES / "coverage.json", coverage)
     warning_fields = {"local_id", "qid", "source_url", "retrieved_at", "warning", "dbpedia_warning"}
-    write_json(RES / "model-link-report.json", {"links": len(evidence), "warnings": [
+    write_json(RES / "linking-report.json", {"links": len(evidence), "warnings": [
         {key: value for key, value in row.items() if key in warning_fields}
         for row in lookups if row.get("warning") or row.get("dbpedia_warning")]})
     print(f"Verified external links: {len(evidence)}")

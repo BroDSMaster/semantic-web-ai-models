@@ -1,6 +1,0 @@
-PREFIX ex: <https://example.org/aimodels/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?institution ?name (COUNT(DISTINCT ?paper) AS ?papersInSample) WHERE {
-  ?paper ex:hasAuthorship ?role . ?role ex:affiliatedInstitution ?institution .
-  ?institution rdfs:label ?name .
-} GROUP BY ?institution ?name ORDER BY DESC(?papersInSample) ?institution LIMIT 20
