@@ -1,511 +1,436 @@
-# AI Models & Research Linked Open Data Capstone
+# AI Models & Research — dự án Semantic Web
 
-## Catalog model và API mới
+## Overview: hệ thống làm gì?
 
-Project có thêm knowledge graph **model AI, provider/API offerings, giá,
-khả năng, thông số, benchmark và review**, ngoài nhánh nghiên cứu OpenAlex.
-Nguồn chính là OpenRouter; nguồn chính thức gồm OpenAI, Anthropic, Google,
-MiniMax, Z.AI, Mistral, Alibaba Cloud, xAI và Meta Llama. Giá trực tiếp đã có
-adapter nhận dạng schema cho OpenAI/Anthropic/MiniMax/Z.AI; các hãng còn lại
-có tài liệu nguồn liên quan và giá qua OpenRouter, chưa hứa trích xuất đầy đủ
-giá trực tiếp. Benchmark catalog được ghi **Artificial Analysis via
-OpenRouter**, cùng kết quả Aider có mapping model rõ ràng. Review có tác giả
-và ngày, không biến nhận xét cá nhân thành điểm benchmark.
+Dự án thu thập thông tin về nghiên cứu AI và các model AI, tổ chức chúng thành một mạng dữ liệu có liên kết, rồi cho phép người dùng truy vấn. Ví dụ: tìm tác giả và tổ chức của một bài nghiên cứu, hoặc tìm những bên cung cấp API Claude Opus và giá của từng bên.
 
-**Hướng dẫn mới:** [MODEL_CATALOG.md](docs/MODEL_CATALOG.md).
-**Ontology và năm bước capstone:** [MODEL_ONTOLOGY.md](docs/MODEL_ONTOLOGY.md).
-**Thống kê thực tế:** [model-coverage.json](res/model-coverage.json).
-**Kiểm tra local:** [model-validation-report.json](res/model-validation-report.json).
-**Kết quả kiểm chứng và query mẫu:** [MODEL_VALIDATION.md](docs/MODEL_VALIDATION.md) — 27 tests đạt, 13 query chạy thành công; query Opus trả 336 dòng giá có nguồn.
+Thông tin mô tả, hay **metadata**, gồm tên bài, tác giả, năm, tên model, khả năng và nguồn thông tin. Project thu thập và liên kết các thông tin này để trả lời câu hỏi bằng dữ liệu có cấu trúc.
 
-Snapshot đã thu thập ngày **2026-10-05**: 466 listing OpenRouter và 15 model
-chỉ có trong phần giá chính thức, tổng **481 model/listing**, **1.909 offerings**,
-**8.174 price records** (gồm context overrides), **471 evaluation records**,
-**4 review–model records** từ ba bài, **92 publisher model cards** và **5
-external identity links**. Listing free/batch/alias không được tính là weights
-độc lập. Ba model-card requests có ID khác response nên bị bỏ qua; xem warnings
-trong coverage. Benchmark/review không có đủ cho mọi model.
+**Semantic Web** là cách biểu diễn dữ liệu trên Web để máy tính hiểu các thực thể và quan hệ giữa chúng. Trong dự án, máy đọc được “bài báo có tác giả”, “tác giả thuộc tổ chức trong bài đó”, “dịch vụ cung cấp model” và “dịch vụ có giá”. Mạng các thực thể và quan hệ này được gọi là **knowledge graph**, hay đồ thị tri thức.
 
-Tra provider và giá Opus ngay từ RDF trong repo:
+Repo hiện có hai phần:
+
+| Phần | Dữ liệu và câu hỏi chính | Ontology / dữ liệu RDF |
+|---|---|---|
+| Nghiên cứu AI | Bài nào nhiều trích dẫn? Ai viết? Thuộc tổ chức nào? Công bố ở đâu? | [ontology.ttl](res/ontology.ttl): 10 lớp; [research.ttl](src/data/gold/research.ttl) |
+| Model và API | Model có thông số gì? Những bên nào cung cấp API? Giá và kết quả đánh giá ra sao? | [model-ontology.ttl](res/model-ontology.ttl): 13 lớp; [models.ttl](src/data/gold/models.ttl) |
+
+Hai phần có pipeline riêng. Dữ liệu bài báo chưa được tự nối với model bằng quan hệ “bài này tạo ra model này”. Năm bước bên dưới giải thích đầy đủ phần nghiên cứu OpenAlex theo yêu cầu ontology 10 lớp; mỗi bước cũng chỉ ra file tương ứng của phần model/API.
+
+### Luồng tổng thể
+
+Các tên Bronze, Silver và Gold chỉ ba giai đoạn xử lý: dữ liệu nguồn, bảng đã chuẩn hóa và dữ liệu RDF dùng để truy vấn.
+
+```mermaid
+flowchart LR
+  OA["OpenAlex: metadata bài nghiên cứu"] --> B["Bronze: lưu JSON nguồn"]
+  API["OpenRouter / Hugging Face: JSON<br/>Tài liệu hãng / đánh giá: HTML"] --> BM["Bronze model: lưu phản hồi nguồn"]
+  B --> C["clean_data.py"] --> S["Silver: CSV thực thể và quan hệ"]
+  BM --> N["model_catalog: trích xuất và chuẩn hóa"] --> SM["Silver model: CSV"]
+  S --> T["transform.py"]
+  SM --> TM["model_catalog.transform"]
+  O["Ontology: định nghĩa lớp và thuộc tính"] --> T
+  O --> TM
+  T --> G["Gold: RDF Turtle / RDF XML"]
+  TM --> G
+  S --> L["Đối chiếu định danh"]
+  SM --> L
+  WD["Wikidata / DBpedia"] --> L --> E["Các liên kết danh tính"]
+  G --> Q["Graph truy vấn: RDF + ontology + links + metadata"]
+  E --> Q
+  Q --> CLI["Terminal: ask.py"]
+  Q --> F["Jena Fuseki: giao diện web / SPARQL endpoint"]
+```
+
+Ontology mô tả cấu trúc; Gold chứa các thực thể thật; links nối thực thể với nguồn bên ngoài; metadata ghi nguồn, thời điểm và thông tin về tập dữ liệu. Người dùng truy vấn graph kết hợp bốn thành phần này.
+
+### Tình trạng hiện tại
+
+Các con số dưới là của snapshot đã lưu trong repo, không phải dữ liệu cập nhật trực tiếp mỗi lần query.
+
+| Phần | Snapshot / kết quả đã ghi nhận |
+|---|---|
+| Nghiên cứu — 04/10/2026 | 200 bài, 1.807 người, 307 tổ chức, 65 nguồn xuất bản, 19 publisher, 2.128 lượt tham gia viết bài |
+| Phân loại nghiên cứu | 101 topic, 33 subfield, 11 field, 4 domain |
+| RDF nghiên cứu | 49.459 triples dữ liệu; graph kết hợp ontology, links và metadata có 52.251 triples |
+| Liên kết nghiên cứu | 2.593 links: 2.547 về OpenAlex, 35 về Wikidata, 11 về DBpedia |
+| Model/API — 05/10/2026 | 481 model/listing, 1.909 dịch vụ/cấu hình cung cấp API, 8.174 bản ghi giá |
+| Thông tin model bổ sung | 92 bộ thông tin mô tả model từ đơn vị phát hành trên Hugging Face; 471 kết quả đánh giá; 4 bản ghi model–bài nhận xét từ 3 bài |
+| Kiểm chứng đã lưu | Nghiên cứu: 10 query và báo cáo không có lỗi; model: 13 query, graph kết hợp có 353.882 triples; [báo cáo](docs/MODEL_VALIDATION.md) ghi 27 tests đạt |
+
+Một mục trong danh mục (listing) có thể là tên gọi khác, bản dùng miễn phí (free) hoặc bản xử lý theo lô (batch) của cùng model. Vì vậy, 481 mục không đồng nghĩa 481 bộ trọng số độc lập. Điểm đánh giá và bài nhận xét chỉ có cho một phần model. Cấu hình chạy Fuseki đã có; kết quả trên server phụ thuộc các file bạn đã nạp vào dataset.
+
+## 1. Define an ontology — định nghĩa cấu trúc dữ liệu
+
+### Ontology là gì và được thiết kế thế nào?
+
+Ontology là bộ định nghĩa cho các loại thực thể, thuộc tính và quan hệ của miền dữ liệu. **Class/lớp** là một loại, ví dụ `Person`; **instance/thực thể** là một đối tượng cụ thể, ví dụ Daniel Povey. **Property/thuộc tính** mô tả một giá trị hoặc nối hai thực thể, ví dụ năm xuất bản hoặc quan hệ bài–tác giả.
+
+Dự án thiết kế ontology theo [ONTOLOGY_ENGINEERING_SKILL.md](../ONTOLOGY_ENGINEERING_SKILL.md):
+
+| Bước thiết kế | Quyết định cụ thể của project | Tài liệu |
+|---|---|---|
+| Phạm vi | Metadata bài nghiên cứu AI/LLM trong mẫu OpenAlex: tác giả, tổ chức, nơi xuất bản, phân loại, tài liệu tham khảo. Giữ thông tin affiliation theo từng bài. | [requirements.md](docs/requirements.md) |
+| Kịch bản | Sinh viên tìm bài; nhóm nghiên cứu xem tổ chức/hợp tác; người đánh giá kiểm tra nguồn và liên kết dữ liệu. | [requirements.md](docs/requirements.md) |
+| Câu hỏi | Bài nào nhiều trích dẫn? Ai viết và thuộc tổ chức nào trong bài đó? Topic nằm trong ngành nào? Thực thể nào có link ngoài? | [competency-questions.md](docs/competency-questions.md) |
+| Glossary | Bảng giải nghĩa thống nhất: Paper là công trình; Person là người; Authorship là một người tham gia viết một bài cụ thể; Source khác Publisher. | [glossary.md](docs/glossary.md) |
+| 10 lớp | Chọn các loại thực thể cần để trả lời những câu hỏi trên. | [ontology.ttl](res/ontology.ttl) |
+| Properties/axioms | Định nghĩa quan hệ, kiểu giá trị và các quy tắc suy luận. | [ontology-design.md](docs/ontology-design.md) |
+| Kiểm tra | Đọc được RDF, kiểm tra cấu trúc/kiểu dữ liệu, chạy query có kết quả kỳ vọng và kiểm tra suy luận. | [validate.py](src/validate.py), [test_pipeline.py](tests/test_pipeline.py) |
+
+“Competency question” là câu hỏi dùng để kiểm tra ontology có mô tả đủ dữ liệu cho bài toán không. Ví dụ câu “ai viết bài và thuộc tổ chức nào?” dẫn đến ba lớp Person, Authorship, ResearchInstitution và các quan hệ nối chúng.
+
+### Cụ thể có 10 lớp nào?
+
+| Class | Ý nghĩa / ví dụ | Bảng CSV tương ứng |
+|---|---|---|
+| `ResearchPaper` | Một công trình: article, conference paper, preprint hoặc review | `papers.csv` |
+| `Person` | Người tham gia viết bài, như Daniel Povey | `people.csv` |
+| `ResearchInstitution` | Tổ chức được ghi trong affiliation: trường, phòng thí nghiệm, công ty | `institutions.csv` |
+| `PublicationSource` | Nơi công bố/lưu bài: tạp chí, hội nghị, repository như arXiv | `sources.csv` |
+| `Publisher` | Tổ chức xuất bản được OpenAlex nhận diện bằng ID P | `publishers.csv` |
+| `ResearchTopic` | Chủ đề chi tiết, ví dụ Topic Modeling | `topics.csv` |
+| `ResearchSubfield` | Nhóm chủ đề, ví dụ Artificial Intelligence | `subfields.csv` |
+| `ResearchField` | Ngành, ví dụ Computer Science | `fields.csv` |
+| `ResearchDomain` | Nhóm ngành rộng, ví dụ Physical Sciences; “domain” ở đây là lĩnh vực | `domains.csv` |
+| `Authorship` | Một người tham gia viết một bài, kèm vị trí tác giả và affiliation | `authorships.csv` |
+
+Authorship giải quyết việc cùng một người có thể thuộc tổ chức I1 khi viết bài W1 và tổ chức I2 khi viết bài W2. Project tạo hai Authorship riêng, nhận diện bằng cặp work ID + author ID.
+
+### Quan hệ, giá trị và quy tắc
+
+**Object property** nối hai thực thể; **datatype property** gắn thực thể với giá trị như số, ngày hoặc chuỗi.
+
+| Quan hệ / giá trị | Cách đọc |
+|---|---|
+| `ResearchPaper —hasAuthorship→ Authorship —authorPerson→ Person` | Bài có một lượt tham gia viết của người này |
+| `Authorship —affiliatedInstitution→ ResearchInstitution` | Người báo affiliation này trong bối cảnh bài đó |
+| `ResearchPaper —publishedIn→ PublicationSource —publishedBy→ Publisher` | Bài ở nguồn xuất bản; nguồn do publisher này xuất bản |
+| `ResearchPaper —hasTopic/primaryTopic→ ResearchTopic` | Bài được OpenAlex gán chủ đề/chủ đề chính |
+| `ResearchTopic —inSubfield→ ResearchSubfield —inField→ ResearchField —inDomain→ ResearchDomain` | Các cấp phân loại chủ đề |
+| `dcterms:references`, `schema:author`, `dcterms:source` | Bài tham khảo công trình; bài có tác giả; bản ghi lấy từ nguồn nào |
+| `publicationYear`, `citationCount`, `isOpenAccess` | Năm xuất bản, số lần được trích dẫn, trạng thái truy cập mở |
+| `authorPosition`, `isCorresponding` | Vị trí first/middle/last và trạng thái tác giả liên hệ của Authorship |
+
+**Axiom** là một quy tắc logic của ontology. `ResearchPaper` là lớp con của `schema:ScholarlyArticle`; Person là lớp con của `schema:Person`; tổ chức tái sử dụng `schema:Organization`; các lớp phân loại là `skos:Concept`.
+
+`hasAuthorship` và `authoredPaper` là hai quan hệ ngược nhau: biết bài có Authorship thì bộ suy luận có thể tạo cạnh Authorship thuộc bài. `primaryTopic` là quan hệ con của `hasTopic`. Topic thuộc subfield qua quan hệ phân loại; project không định nghĩa Topic là lớp con của Subfield.
+
+`domain/range` cho biết loại thực thể ở hai đầu thuộc tính và có thể suy ra type. Ví dụ `authorPerson` có domain Authorship, range Person. Chúng không phải kiểm tra “bắt buộc điền cột”. Ontology khai báo một số loại tách biệt, như Paper và Person; Publisher và ResearchInstitution được phép cùng mô tả một tổ chức.
+
+### Kiểm tra cụ thể ra sao?
+
+[validate.py](src/validate.py) kiểm tra tên/tiêu đề, đúng datatype, mỗi Authorship có đúng một người và thuộc đúng một bài trong bản xuất; affiliation được gắn đúng Authorship. Nó chạy 10 query trong `queries/cq*.rq` và lưu số dòng cùng dòng kết quả đầu tiên.
+
+[Tests](tests/test_pipeline.py) dựng dữ liệu nhỏ có đáp án biết trước: cùng một người viết hai bài với hai affiliations; query phải giữ được từng bối cảnh. Chế độ `--reasoning` dùng OWL RL, một tập quy tắc suy luận, để kiểm tra quan hệ ngược, lớp con và xung đột giữa các loại tách biệt.
 
 ```bash
-cd /home/puda14/Desktop/Project/semantic-web/aimodels
-.venv/bin/python src/ask.py queries/models/opus_providers_prices.rq --dataset models
+# Chạy từ aimodels/ sau khi chuẩn bị môi trường Python ở bước 5
+python -m unittest discover -s tests
+python src/validate.py
+python src/validate.py --reasoning
 ```
 
-Để query trên giao diện Fuseki đang mở, cần **nạp catalog mới vào server**.
-Tạo dataset `aimodels-models`, hoặc thêm vào `/aimodels` đang có, rồi nạp bốn
-file vào default graph: `res/model-ontology.ttl`, `src/data/gold/models.ttl`,
-`res/model-links.nt`, `res/model-dataset-metadata.ttl`. Không nạp thêm
-`models.rdf` vì nó là bản XML của cùng graph. Agent không khởi động hoặc nạp
-dữ liệu vào server của bạn.
+Ontology 13 lớp của phần model/API gồm: AIModel, ModelFamily, Organization, ModelOffering, Capability, Modality, PriceSpecification, Benchmark, Evaluation, Review, SourceDocument, FactObservation và ExternalLink. Chúng mô tả model, dịch vụ API, khả năng, kiểu đầu vào/đầu ra, giá, đánh giá, tài liệu nguồn và bằng chứng cho từng thông tin. Xem [MODEL_ONTOLOGY.md](docs/MODEL_ONTOLOGY.md).
 
-```mermaid
-flowchart LR
-  OR[OpenRouter catalog + provider endpoints] --> B[Bronze snapshots + checksums]
-  OFF[Official model docs / pricing] --> B
-  BR[Aider / review sources] --> B
-  B --> F[Official schema extraction]
-  B --> N[Normalize models / offerings / prices]
-  F --> N
-  N --> S[Silver CSV]
-  S --> G[Gold models.ttl / models.rdf]
-  WD[Verified Wikidata / DBpedia identities] --> L[model-links.nt]
-  G --> Q[RDFLib CLI / Apache Jena Fuseki]
-  L --> Q
-```
+## 2. Collect relevant data — thu thập từ nguồn nào?
 
-Lệnh `ask.py` giữ `--dataset research` làm mặc định cho tương thích. Khi tra
-catalog luôn truyền `--dataset models`; `--dataset all` kết hợp hai nhánh.
-Với `--endpoint`, URL quyết định dataset server. Thống kê/triple counts ở
-phần research bên dưới mô tả nhánh OpenAlex, không phải catalog mới.
+**API** là giao diện cho chương trình yêu cầu dữ liệu từ một dịch vụ. OpenAlex trả JSON, dạng dữ liệu có các cặp tên–giá trị và danh sách lồng nhau. Một work chứa thông tin bài, danh sách tác giả, tổ chức, chủ đề và tài liệu tham khảo.
 
-## Nhánh dữ liệu nghiên cứu hiện có
-
-Knowledge graph về **nghiên cứu AI và large language models**: bài báo,
-người viết, affiliation theo từng bài, nguồn xuất bản, publisher và hệ chủ
-đề OpenAlex. Có ontology 10 lớp, thu thập nguồn thật, RDF Turtle/RDF/XML,
-liên kết OpenAlex–Wikidata–DBpedia và truy vấn terminal/Apache Jena Fuseki.
-
-Project giữ cấu trúc của `hust-semantic-web`: **src/** xử lý dữ liệu,
-**res/** chứa ontology/liên kết/cấu hình, **docs/** mô tả, dữ liệu qua ba tầng
-bronze → silver → gold. Thiết kế ontology tuân theo
-[ONTOLOGY_ENGINEERING_SKILL.md](../ONTOLOGY_ENGINEERING_SKILL.md).
-
-## Overview hệ thống
-
-Hệ thống thu thập metadata nghiên cứu từ OpenAlex, tách JSON thành các bảng
-CSV, chuyển các bảng thành RDF theo ontology, rồi bổ sung liên kết danh tính
-đến Wikidata/DBpedia. Người dùng truy vấn graph đã kết hợp bằng terminal
-hoặc Apache Jena Fuseki.
-
-```mermaid
-flowchart TD
-  subgraph SOURCES["Nguồn dữ liệu bên ngoài"]
-    OA["OpenAlex API<br/>Bài báo, tác giả, tổ chức, nguồn xuất bản, chủ đề"]
-    WD["Wikidata SPARQL<br/>QID và đối chiếu ROR"]
-    DP["DBpedia SPARQL<br/>Resource sameAs với QID"]
-  end
-
-  subgraph ETL["Thu thập và chuyển đổi"]
-    COLLECT["collect_data.py"]
-    BRONZE["Bronze: JSON nguồn<br/>src/data/bronze/"]
-    CLEAN["clean_data.py"]
-    SILVER["Silver: CSV entities và quan hệ<br/>src/data/silver/"]
-    TRANSFORM["transform.py"]
-    GOLD["Gold: research.ttl / research.rdf<br/>src/data/gold/"]
-  end
-
-  subgraph LINKING["Liên kết ngoài và bằng chứng"]
-    LINKER["link_entities.py"]
-    CACHE["external_lookups.json<br/>Query, phản hồi, thời điểm kiểm tra"]
-    LINKS["linked_output.nt<br/>Triples owl:sameAs"]
-    EVIDENCE["entity_links.csv<br/>Bằng chứng cho từng link"]
-  end
-
-  subgraph QUERYING["Graph và truy vấn"]
-    ONTOLOGY["res/ontology.ttl<br/>10 lớp, properties, axioms"]
-    META["res/dataset-metadata.ttl<br/>Nguồn, license, snapshot"]
-    KG["Graph truy vấn<br/>Ontology + dữ liệu + links + metadata"]
-    LOCAL["ask.py<br/>SPARQL local bằng RDFLib"]
-    LOAD["scripts/load_fuseki.sh"]
-    FUSEKI["Apache Jena Fuseki<br/>Dataset: aimodels"]
-    TDB["TDB2: run/tdb2<br/>Lưu graph của server trên đĩa"]
-    REMOTE["Fuseki UI / ask.py --endpoint<br/>SPARQL qua HTTP"]
-    CHECK["validate.py<br/>Kiểm tra dữ liệu, CQs, optional OWL RL"]
-  end
-
-  OA --> COLLECT --> BRONZE --> CLEAN --> SILVER --> TRANSFORM --> GOLD
-  BRONZE -->|"manifest thu thập"| TRANSFORM
-  ONTOLOGY -.->|"vocabulary và bản RDF/XML"| TRANSFORM
-  TRANSFORM --> META
-  SILVER --> LINKER
-  BRONZE -->|"manifest nguồn"| LINKER
-  WD -->|"lookup online"| LINKER
-  DP -->|"lookup online"| LINKER
-  LINKER -->|"lưu phản hồi online"| CACHE
-  CACHE -.->|"đọc lại khi --offline"| LINKER
-  LINKER --> LINKS
-  LINKER --> EVIDENCE
-  ONTOLOGY --> KG
-  GOLD --> KG
-  LINKS --> KG
-  META --> KG
-  KG --> LOCAL
-  KG --> CHECK
-  KG -->|"nạp bốn file RDF"| LOAD --> FUSEKI
-  FUSEKI --- TDB
-  FUSEKI --> REMOTE
-```
-
-Mũi tên liền thể hiện đầu vào/đầu ra hoặc đường truy vấn; mũi tên nét đứt
-thể hiện vocabulary hướng dẫn chuyển đổi và đường dùng cache offline.
-`research.ttl` và `research.rdf` là hai cách ghi **cùng một graph**; chọn một
-file để nạp. `entity_links.csv` và JSON cache dùng để kiểm tra bằng chứng;
-file links được nạp vào Fuseki là `linked_output.nt`.
-
-**Hai cách truy vấn cùng dữ liệu:** `ask.py` local đọc các file RDF trong
-project mỗi lần chạy; Fuseki truy vấn bản đã nạp vào TDB2 qua HTTP. Chạy lại
-ETL làm thay đổi các file trong repo; để server sử dụng snapshot mới, bạn
-cần chủ động cập nhật dataset Fuseki. Ontology và dữ liệu có thể xem qua
-SPARQL mà không cần bật suy luận; OWL RL là lựa chọn riêng của CLI/validator.
-
-## 1. Năm yêu cầu capstone nằm ở đâu?
-
-Đọc [Giải thích project theo 5 bước capstone](docs/CAPSTONE_WALKTHROUGH.md)
-để xem cách phân tích ontology ở bước 1 và từng file xử lý gì, nhận đầu vào
-nào, tạo đầu ra nào ở các bước tiếp theo.
-
-| Yêu cầu | Code / file cần mở | Nội dung |
+| Nguồn | Dạng cung cấp và thông tin dùng trong project | Code / file |
 |---|---|---|
-| **1. Define an ontology** | [res/ontology.ttl](res/ontology.ttl), [ontology-design](docs/ontology-design.md), [requirements](docs/requirements.md), [CQs](docs/competency-questions.md), [glossary](docs/glossary.md) | Phạm vi → kịch bản → câu hỏi → glossary → 10 lớp → properties/axioms → kiểm tra |
-| **2. Collect relevant data** | [src/collect_data.py](src/collect_data.py), [bronze manifest](src/data/bronze/collection_manifest.json) | OpenAlex API: works, institutions, sources; giữ JSON gốc và URL truy xuất |
-| **3. Transform into 4-star data** | [src/clean_data.py](src/clean_data.py), [src/transform.py](src/transform.py), [research.ttl](src/data/gold/research.ttl) | Chuẩn hóa CSV; định danh HTTP URI ổn định; RDF/vocabulary chuẩn và typed literals |
-| **4. Link toward 5-star data** | [src/link_entities.py](src/link_entities.py), [linked_output.nt](res/linked_output.nt), [entity_links.csv](res/entity_links.csv) | Khớp ID OpenAlex; QID từ nguồn; exact ROR trong Wikidata; sameAs Wikidata trong DBpedia |
-| **5. SPARQL endpoint/terminal** | [src/ask.py](src/ask.py), [queries/](queries/), [Fuseki guide](docs/FUSEKI.md) | CLI offline, Fuseki UI và endpoint `/aimodels/sparql` |
+| OpenAlex `/works` | API JSON: ID, tên bài, DOI, năm/ngày, citation count, open access, authorships, nguồn xuất bản, topics, referenced works | [collect_data.py](src/collect_data.py) → [openalex_works.json](src/data/bronze/openalex_works.json) |
+| OpenAlex `/institutions/{id}` | API JSON: tên tổ chức, quốc gia/loại, ROR và ID Wikidata nếu có; bổ sung full record cho tổ chức hay xuất hiện | [openalex_institutions.json](src/data/bronze/openalex_institutions.json) |
+| OpenAlex `/sources/{id}` | API JSON: tên/loại nguồn xuất bản, ISSN-L, tổ chức quản lý/publisher, ID Wikidata nếu có | [openalex_sources.json](src/data/bronze/openalex_sources.json) |
+| Wikidata | SPARQL trả JSON kết quả: thực thể và ROR để đối chiếu tổ chức | [link_entities.py](src/link_entities.py), dùng ở bước 4 |
+| DBpedia | SPARQL trả JSON kết quả: URI resource nối bằng `owl:sameAs` tới QID đã biết | [external_lookups.json](src/data/bronze/external_lookups.json), dùng ở bước 4 |
+| DOI / ORCID / ROR | ID có sẵn trong metadata OpenAlex: nhận diện công trình / người / tổ chức | Giữ trong CSV/RDF; project không gọi API riêng để thu thập toàn bộ các hệ thống này |
 
-Đây là bản thực hành local các bước RDF và linking. Để công bố thành LOD
-4/5 sao trên Web, còn cần namespace do bạn quản lý, URI HTTP dereference
-được và bản dữ liệu tải công khai có license phù hợp. `example.org` hiện
-là namespace minh họa; mở URI đó trên trình duyệt chưa trả dữ liệu dự án.
-Không cần mua tên miền chỉ để chạy/demo capstone local.
+[collect_data.py](src/collect_data.py) tìm `"large language models"`, lọc primary field Computer Science, loại paratext và giữ article/conference-paper/preprint/review; chọn tối đa 200 bài theo citation count giảm dần. Authors và topics được lấy từ thông tin lồng trong works. Collector lấy thêm full records của tối đa 25 institutions và 25 sources phổ biến.
 
-## 2. Dữ liệu và nguồn
+[collection_manifest.json](src/data/bronze/collection_manifest.json) ghi URL requests, điều kiện tìm, giới hạn, thời điểm, số bài và lỗi. Bronze giữ các đối tượng JSON từ nguồn để chuẩn hóa lại và đối chiếu; collector OpenAlex lưu danh sách works/records, không lưu nguyên vẹn HTTP headers hoặc toàn bộ response envelope.
 
-Snapshot đi kèm có **200 bài**, **1.807 người**, **307 tổ chức**, **65 sources**,
-**19 publishers**, **101 topics**, **33 subfields**, **11 fields**, **4 domains**,
-**2.128 authorships** và **49.459 triples instance data**. Thống kê cập nhật
-xem [cleaning report](src/data/silver/cleaning-report.json),
-[linking report](res/linking-report.json), [validation](docs/VALIDATION.md).
+Đây là mẫu metadata theo tìm kiếm/phân loại của OpenAlex. Toàn văn bài và toàn bộ nghiên cứu AI trên thế giới nằm ngoài tập đã thu thập.
 
-Có **2.593 identity links**, gồm 35 links Wikidata và 11 links DBpedia đã
-xác nhận; phần còn lại nối về IDs OpenAlex. Một số lookup DBpedia trả HTTP
-503 nên coverage còn thiếu. Các links đã xuất có bằng chứng và dùng được
-offline; xem VALIDATION.md.
+### Nguồn của phần model/API
 
-| Nguồn | Lấy gì? | Cách sử dụng |
-|---|---|---|
-| [OpenAlex](https://help.openalex.org/api/) | Metadata works/authorships/topics, institutions, sources/publishers | Nguồn dữ liệu chính; API JSON; ID W/A/I/S/P/T và IDs phân loại |
-| [Wikidata](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service) | URI QID; đối chiếu ROR bằng [P6782](https://www.wikidata.org/wiki/Property:P6782) | Nhận QID được khai báo trong OpenAlex; tra thêm institutions thiếu QID bằng ROR |
-| [DBpedia](https://dbpedia.org/sparql) | URI resource có `owl:sameAs` tới QID đã biết | SPARQL identity lookup; chỉ xuất link khi phản hồi endpoint xác nhận exact identity |
-| [ORCID](https://orcid.org/) / [ROR](https://ror.org/) / DOI | Persistent identifiers có sẵn trong metadata | Giữ bằng `ex:orcid`, `ex:ror`, `ex:doi`; không nói rằng đã crawl API riêng của các nguồn này |
-
-Search mặc định là `"large language models"`, lọc
-`primary_topic.field.id:17` (Computer Science), loại paratext và chỉ giữ
-`article|conference-paper|preprint|review`; sắp xếp `cited_by_count:desc`.
-Đây là cách chọn mẫu theo search và classification của OpenAlex. Không phải
-toàn bộ bài AI; primary field là Computer Science nhưng secondary topics có
-thể ở lĩnh vực khác. Nhãn topic là dự đoán của nguồn.
-
-Tối đa 25 institutions và 25 sources phổ biến được lấy full records để
-enrich. Các entity khác vẫn được giữ từ nested records của works. Sources
-có publisher ID `P...` mới ánh xạ Publisher; repository do institution `I...`
-quản lý không bị gán nhầm là publisher.
-
-[OpenAlex metadata là CC0](https://help.openalex.org/api/); điều này không
-cấp license cho toàn văn bài báo. `dataset-metadata.ttl` mô tả riêng bản
-metadata OpenAlex đã chuyển đổi. Ontology, code và bản đồ liên kết ngoài
-cần quyết định license riêng khi công bố; README không tự gán chúng là CC0.
-
-### 2.1. Các project và tập dữ liệu trong repo semantic-web
-
-| Thư mục project | Miền dữ liệu | Các tập dữ liệu chính | README tương ứng |
-|---|---|---|---|
-| `aimodels/` | Nghiên cứu AI/LLM | OpenAlex works, authorships, institutions, sources, topics; mapping Wikidata/DBpedia | [README này](README.md) |
-| `vnschools/` | Trường học Việt Nam | CSV trường học, tên/ID tỉnh và địa phương; RDF trường–địa phương–tỉnh | [Vietnam School LOD](../vnschools/README.md) |
-| `hust-semantic-web/` | Điện thoại thông minh | Dữ liệu smartphone, ontology thiết bị, dữ liệu DBpedia để đối chiếu bằng Silk | [HUST Semantic Web](../hust-semantic-web/README.md) |
-| `Movie-Knowledge-Graph/` | Phim | TMDB movies, cast, crew, genres, companies, countries/languages; movie links Wikidata/DBpedia | [Movie Knowledge Graph](../Movie-Knowledge-Graph/README.MD) |
-
-Mỗi thư mục là một project riêng, có dữ liệu và ontology riêng. Pipeline
-`aimodels/` xử lý các file bên trong project này; dataset Fuseki `aimodels`
-được xây từ ontology, research data, links và metadata của nghiên cứu AI.
-Các phần tiếp theo giải thích chi tiết những tập dữ liệu đó.
-
-### 2.2. Bronze — dữ liệu gốc và bằng chứng từ nguồn
-
-Các file dưới nằm trong `src/data/bronze/`. Đây là JSON lưu từ API hoặc
-endpoint, giúp kiểm tra dữ liệu đã đến từ đâu và rebuild khi không có mạng.
-
-| File | Nội dung | Quy mô snapshot / vai trò |
-|---|---|---|
-| [openalex_works.json](src/data/bronze/openalex_works.json) | Một danh sách works: ID, title, DOI, năm/ngày, cited_by_count, open access, authorships, primary location, topics và referenced_works | 200 bài; dữ liệu lồng nhau là đầu vào chính của bước chuẩn hóa |
-| [openalex_institutions.json](src/data/bronze/openalex_institutions.json) | Full records của institutions phổ biến: ID, name, ROR, country/type, external IDs như Wikidata | Tối đa 25 tổ chức được enrich; các tổ chức còn lại vẫn có thể xuất hiện trong nested works |
-| [openalex_sources.json](src/data/bronze/openalex_sources.json) | Full records của publication sources: ID, name, type, ISSN-L, host organization/publisher, external IDs | Tối đa 25 sources được enrich; một source có thể là journal, repository hoặc venue |
-| [collection_manifest.json](src/data/bronze/collection_manifest.json) | Search, filter, sort, giới hạn, số works, URL requests, thời điểm thu thập và warnings | Metadata của lần lấy mẫu; không phải một danh sách bài báo |
-| [external_lookups.json](src/data/bronze/external_lookups.json) | Query/endpoint Wikidata hoặc DBpedia, JSON response, thời điểm kiểm tra và warnings | Cache bằng chứng cho linker; `--offline` đọc file này thay vì gọi endpoint |
-
-Vì một work có nhiều tác giả, mỗi tác giả nhiều affiliations và mỗi bài
-nhiều topics/references, JSON nguồn không tương đương một bảng CSV phẳng.
-Các full records bổ sung thông tin cho entities đã xuất hiện trong works;
-chúng không làm tăng số bài nghiên cứu của mẫu.
-
-### 2.3. Silver — các bảng entities và quan hệ
-
-Các file dưới nằm trong `src/data/silver/`, được tạo bởi `clean_data.py`.
-Một entity chỉ có một dòng trong bảng định danh; các quan hệ nhiều–nhiều
-được tách thành bảng riêng. ID OpenAlex là khóa để nối các bảng.
-
-| Bảng entity | Số dòng | Một dòng đại diện cho | Các cột chính |
-|---|---:|---|---|
-| [papers.csv](src/data/silver/papers.csv) | 200 | Một bài nghiên cứu | `id`, `name`, `doi`, `year`, `date`, `citations`, `is_oa`, `type`, `source_id`, `primary_topic_id` |
-| [people.csv](src/data/silver/people.csv) | 1.807 | Một người có author ID | `id`, `name`, `orcid` |
-| [institutions.csv](src/data/silver/institutions.csv) | 307 | Một tổ chức có affiliation trong mẫu | `id`, `name`, `ror`, `country`, `type`, `wikidata_id` |
-| [sources.csv](src/data/silver/sources.csv) | 65 | Một nguồn xuất bản/venue | `id`, `name`, `type`, `issn_l`, `publisher_id`, `wikidata_id` |
-| [publishers.csv](src/data/silver/publishers.csv) | 19 | Một OpenAlex publisher entity | `id`, `name` |
-| [topics.csv](src/data/silver/topics.csv) | 101 | Một topic concept | `id`, `name`, `subfield_id` |
-| [subfields.csv](src/data/silver/subfields.csv) | 33 | Một subfield concept | `id`, `name`, `field_id` |
-| [fields.csv](src/data/silver/fields.csv) | 11 | Một field concept | `id`, `name`, `domain_id` |
-| [domains.csv](src/data/silver/domains.csv) | 4 | Một domain concept | `id`, `name` |
-| [authorships.csv](src/data/silver/authorships.csv) | 2.128 | Một người tham gia viết một bài cụ thể | `id`, `paper_id`, `person_id`, `position`, `is_corresponding` |
-
-`sources.csv` chứa nơi bài xuất hiện; `publishers.csv` chứa tổ chức xuất bản.
-Ví dụ repository và tổ chức quản lý repository là những thực thể khác nhau.
-Các bảng topics → subfields → fields → domains giữ phân loại bốn cấp của
-OpenAlex, trong đó mỗi concept có ID riêng.
-
-| Bảng quan hệ | Số dòng | Các cột | Ý nghĩa |
-|---|---:|---|---|
-| [authorship_institutions.csv](src/data/silver/authorship_institutions.csv) | 1.608 | `authorship_id`, `institution_id` | Một affiliation được báo trong bối cảnh người viết bài đó; một authorship có thể có nhiều hoặc thiếu affiliation |
-| [paper_topics.csv](src/data/silver/paper_topics.csv) | 578 | `paper_id`, `topic_id`, `score` | Một bài được gán một topic cùng score của OpenAlex; một bài có thể có nhiều topics |
-| [references.csv](src/data/silver/references.csv) | 15.715 | `paper_id`, `referenced_id` | Một cạnh bài → công trình được tham khảo; target có thể nằm ngoài 200 bài của mẫu |
-
-**Cách đọc số lượng:** 1.807 người khác nhau có 2.128 lần tham gia viết bài,
-vì một người có thể viết nhiều bài. 15.715 dòng references là số cạnh tham
-khảo, không phải 15.715 bài đầy đủ đã thu thập và cũng không phải tổng số
-lần 200 bài được người khác trích dẫn. Số lần được trích dẫn theo snapshot
-nằm trong cột `papers.citations`.
-
-Score trong `paper_topics.csv` thuộc cặp paper–topic; transformer hiện chỉ
-xuất quan hệ topic, giữ score ở CSV. Nó không gắn một score chung lên mọi
-lần xuất hiện của Topic trong RDF.
-
-[cleaning-report.json](src/data/silver/cleaning-report.json) ghi số dòng,
-duplicates và các records bị bỏ qua. Snapshot hiện ghi **445 bản ghi tác
-giả thiếu author ID** bị bỏ qua; đây là số entries trong authorships nguồn,
-không phải kết luận rằng có 445 người khác nhau. ORCID/DOI/affiliation thiếu
-được giữ là thiếu, không điền dữ liệu giả.
-
-### 2.4. Gold — graph nghiên cứu bằng RDF
-
-| File | Nội dung | Dùng để làm gì? |
-|---|---|---|
-| [research.ttl](src/data/gold/research.ttl) | 49.459 triples instances và relations, ghi bằng Turtle | Đọc RDF tương đối dễ, truy vấn local và nạp Fuseki |
-| [research.rdf](src/data/gold/research.rdf) | Cùng graph như Turtle, ghi bằng RDF/XML | Dùng với công cụ nhận RDF/XML; không phải dataset bổ sung |
-| [transformation-report.json](src/data/gold/transformation-report.json) | Thời điểm tạo file và triple count | Đối chiếu kết quả chuyển đổi |
-| `research-inferred.ttl` — tùy chọn | Closure gồm các facts assert và suy ra bởi OWL RL | Chỉ được tạo khi bạn tự chạy validator với `--reasoning --export-inferred` |
-
-Một dòng CSV thường tạo nhiều triples: loại entity, label, ID, provenance,
-các thuộc tính và quan hệ. Vì vậy số triples không bằng số dòng CSV.
-References đến bài trong mẫu dùng local paper URI; references ngoài mẫu
-giữ URI OpenAlex, nên target ngoài mẫu có thể chưa có title để hiển thị.
-
-### 2.5. res/ — ontology, links, metadata và artifacts hỗ trợ
-
-| File | Loại nội dung | Vai trò |
-|---|---|---|
-| [ontology.ttl](res/ontology.ttl) / [ontology.owl.xml](res/ontology.owl.xml) | Schema/vocabulary | Định nghĩa 10 lớp, properties, domain/range và axioms; cùng ontology ở hai cú pháp |
-| [linked_output.nt](res/linked_output.nt) | RDF identity links | 2.593 triples `owl:sameAs`: 2.547 OpenAlex, 35 Wikidata, 11 DBpedia |
-| [entity_links.csv](res/entity_links.csv) | Bảng bằng chứng linking | Local/external URI, method, shared identifier, evidence source, status và checked_at cho từng link |
-| [dataset-metadata.ttl](res/dataset-metadata.ttl) | Metadata cấp dataset | Tên/mô tả, nguồn OpenAlex, license metadata, thời điểm snapshot và hai RDF distributions local |
-| [example-data.ttl](res/example-data.ttl) | Fixture synthetic | Ví dụ nhỏ để hiểu ontology; tách khỏi graph dữ liệu thật |
-| [fuseki-config.ttl](res/fuseki-config.ttl) | Cấu hình server bằng Turtle | Tên dataset/endpoints và vị trí TDB2; không phải instance graph nghiên cứu |
-| [linking-report.json](res/linking-report.json) | Report linking | Số links theo method, mode online/offline và warnings nguồn/cache |
-| [validation-report.json](res/validation-report.json) | Report kiểm tra | Errors, class counts, kết quả CQs và thông tin reasoning của lần chạy gần nhất |
-| [reproducibility-report.json](res/reproducibility-report.json) / [fuseki-validation.json](res/fuseki-validation.json) | Report kiểm tra đã lưu | Đối chiếu rebuild offline và kết quả local/endpoint ở thời điểm kiểm tra |
-
-`owl:sameAs` diễn tả cùng một thực thể, chẳng hạn local institution và
-Wikidata/DBpedia URI của tổ chức đó. Nó khác với `hasTopic` (bài có chủ đề)
-và `dcterms:references` (bài tham khảo bài khác). Các URI DOI/ORCID/ROR được
-giữ làm định danh trên entity tương ứng; project chưa tải toàn bộ datasets
-DOI, ORCID, ROR, Wikidata hoặc DBpedia về repo.
-
-Trong mode offline, `HTTP 503` của lần lookup trước có thể xuất hiện lại từ
-warnings lưu trong cache. `No cached DBpedia response` nghĩa là không có
-phản hồi thành công để thiết lập link cho QID đó. Những records thiếu bằng
-chứng không được bổ sung sameAs; các links đã xác nhận vẫn được xuất.
-
-### 2.6. Bốn graph được kết hợp để truy vấn
-
-```text
-res/ontology.ttl                  184 triples
-src/data/gold/research.ttl     49.459 triples
-res/linked_output.nt           2.593 triples
-res/dataset-metadata.ttl           15 triples
-                            ───────────────
-Graph truy vấn snapshot       52.251 triples
-```
-
-Đây là bốn phần bổ sung ngữ nghĩa cho nhau: định nghĩa mô hình, facts về
-nghiên cứu, danh tính liên kết ngoài và metadata của dataset. CLI kết hợp
-chúng trong bộ nhớ; script load nạp chúng vào default graph của Fuseki.
-`run/tdb2` là bản lưu của server sau khi nạp, không phải nguồn dữ liệu thứ
-năm. Các con số thuộc snapshot hiện tại; ontology hoặc dữ liệu thay đổi,
-hay nạp lại anonymous nodes của ontology nhiều lần, có thể làm tổng khác đi.
-
-## 3. Cấu trúc thư mục
-
-```text
-aimodels/
-├── README.md
-├── requirements.txt
-├── src/
-│   ├── collect_data.py          # API → bronze JSON
-│   ├── clean_data.py            # bronze JSON → silver CSV
-│   ├── transform.py             # silver CSV → RDF + metadata
-│   ├── link_entities.py         # identifiers/endpoint → links + evidence
-│   ├── validate.py              # graph checks + CQs + optional OWL RL
-│   ├── ask.py                   # query local / SPARQL HTTP
-│   ├── common.py                # paths, I/O, namespace, stable URI
-│   └── data/
-│       ├── bronze/              # JSON nguồn + manifest + lookup snapshots
-│       ├── silver/              # entity/relation CSVs + cleaning report
-│       └── gold/                # research.ttl, research.rdf, report
-├── res/
-│   ├── ontology.ttl             # 10 lớp + properties + axioms
-│   ├── ontology.owl.xml         # cùng ontology, cú pháp RDF/XML
-│   ├── example-data.ttl         # ví dụ synthetic; không load vào graph thật
-│   ├── linked_output.nt         # các triples owl:sameAs
-│   ├── entity_links.csv         # bằng chứng cho từng link
-│   ├── dataset-metadata.ttl     # dataset/source/license/snapshot metadata
-│   ├── fuseki-config.ttl        # SPARQL service và TDB2
-│   ├── linking-report.json
-│   └── validation-report.json
-├── queries/                     # 10 CQs + counts/inference/DBpedia extraction
-├── scripts/                     # start_fuseki.sh, load_fuseki.sh
-├── tests/test_pipeline.py       # offline regression/competency tests
-├── docs/                        # ontology engineering, Fuseki, validation
-├── tools/                       # binary Fuseki, được gitignore
-└── run/                         # TDB2/log khi chạy, được gitignore
-```
-
-## 4. Ontology có những lớp nào?
-
-| Class | Đại diện cho |
+| Nguồn | Dạng dữ liệu và nội dung |
 |---|---|
-| ResearchPaper | Công trình nghiên cứu, bài báo/preprint |
-| Person | Người tham gia viết bài; subclass của schema:Person |
-| ResearchInstitution | Tổ chức có affiliation trong mẫu |
-| PublicationSource | Journal/conference/repository/venue |
-| Publisher | Tổ chức xuất bản có OpenAlex publisher ID |
-| ResearchTopic | Concept topic chi tiết |
-| ResearchSubfield | Concept subfield, ví dụ Artificial Intelligence |
-| ResearchField | Concept field, ví dụ Computer Science |
-| ResearchDomain | Concept domain rộng, ví dụ Physical Sciences |
-| Authorship | Quan hệ có bối cảnh: một người viết một bài |
+| OpenRouter | API JSON: danh sách model, mô tả, đầu vào/đầu ra, khả năng API, context; endpoint từng model bổ sung provider, giá và giới hạn |
+| Tài liệu hãng: OpenAI, Anthropic, Google, MiniMax, Z.AI, Mistral, Alibaba Cloud, xAI, Meta | Trang HTML về model/giá. Parser hiện trích giá trực tiếp cho OpenAI, Anthropic, MiniMax, Z.AI; các hãng khác có tài liệu liên quan và giá qua OpenRouter |
+| Hugging Face | API JSON mô tả model do đơn vị phát hành đăng: giấy phép, tổng số tham số model khi có, thư viện phần mềm và loại tác vụ |
+| Artificial Analysis | Một đơn vị đánh giá model. Project lấy một số điểm do đơn vị này đánh giá từ các trường trong JSON OpenRouter; không gọi trực tiếp API Artificial Analysis |
+| Aider | Công cụ trợ lý lập trình có bảng đánh giá khả năng giải bài lập trình của model. Project đọc bảng HTML và dùng bảng đối chiếu tên Aider với ID model để gắn kết quả đúng model |
+| Các bài review (nhận xét) đã chọn | HTML của bài viết, hiện từ Simon Willison; lưu tác giả, ngày, URL và tóm tắt ngắn có ghi nguồn |
 
-```mermaid
-flowchart LR
-  P[ResearchPaper] -->|hasAuthorship| A[Authorship]
-  A -->|authorPerson| H[Person]
-  A -->|affiliatedInstitution| I[ResearchInstitution]
-  P -->|publishedIn| S[PublicationSource]
-  S -->|publishedBy| U[Publisher]
-  P -->|hasTopic| T[ResearchTopic]
-  T -->|inSubfield| B[ResearchSubfield]
-  B -->|inField| F[ResearchField]
-  F -->|inDomain| D[ResearchDomain]
-```
+Các nguồn được khai báo trong [model-sources.json](res/model-sources.json). Code thu thập là [collect.py](src/model_catalog/collect.py), [model_cards.py](src/model_catalog/model_cards.py); snapshot và URL/checksum nằm trong [bronze/models](src/data/bronze/models/). Checksum là mã tính từ nội dung, dùng kiểm tra file nguồn có bị thay đổi không. Phần này có hướng dẫn riêng tại [MODEL_CATALOG.md](docs/MODEL_CATALOG.md).
 
-Ví dụ: cùng người A1 có affiliation I1 trong W1 và I2 trong W2. Ta tạo
-Authorship W1-A1 và W2-A1, không gán hai nơi làm việc toàn cục lên Person.
-Các thuộc tính first/middle/last và corresponding cũng gắn vào Authorship.
+## 3. Transform into 4-star data — từ dữ liệu nguồn sang RDF
 
-URI mẫu `https://example.org/aimodels/resource/paper/W...` giữ W ID của
-OpenAlex; tác giả dùng `person/A...`; authorship dùng `W...-A...`. Con số
-không phải thứ hạng bài hay số dòng CSV. Turtle có thể sắp theo ký tự URI;
-muốn thứ tự năm/trích dẫn dùng SPARQL `ORDER BY`.
+### Bronze → Silver → Gold biến đổi những gì?
 
-## 5. Luồng: mỗi file Python nhận gì và tạo gì?
-
-```mermaid
-flowchart LR
-  B["Bronze<br/>JSON lồng nhau"] --> N["clean_data.py"]
-  N --> S["Silver<br/>CSV entities và quan hệ"]
-  S --> T["transform.py"]
-  T --> G["Gold<br/>RDF triples"]
-```
-
-| File code | Đầu vào | Đầu ra |
+| Tầng | Dữ liệu đầu vào → xử lý → đầu ra | Code |
 |---|---|---|
-| collect_data.py | API, search/limit/enrich-limit | `bronze/openalex_works.json`, `openalex_institutions.json`, `openalex_sources.json`, `collection_manifest.json` |
-| clean_data.py | 3 JSON snapshots | CSV papers/people/institutions/sources/publishers/topics/subfields/fields/domains/authorships; CSV cạnh authorship_institutions/paper_topics/references; cleaning report |
-| transform.py | silver CSV + ontology Turtle + manifest | gold `research.ttl`/`research.rdf`; ontology RDF/XML; dataset metadata; transformation report |
-| link_entities.py | silver IDs + manifest; external SPARQL hoặc cache | sameAs N-Triples; evidence CSV; raw lookup JSON; linking report |
-| validate.py | ontology + gold + links + metadata | validation report; optional inferred graph |
-| ask.py | `.rq` và graph local hoặc URL endpoint | CSV trên terminal, hay boolean với ASK |
+| Bronze | API OpenAlex → lưu các đối tượng JSON lồng nhau và URL/thời điểm thu thập | [collect_data.py](src/collect_data.py) |
+| Silver | JSON Bronze → dùng ID để loại trùng, giữ giá trị đã biết, tách thực thể và quan hệ → CSV trong [silver/](src/data/silver/) | [clean_data.py](src/clean_data.py) |
+| Gold | CSV Silver + manifest → tạo URI, triples và typed literals → [research.ttl](src/data/gold/research.ttl), [research.rdf](src/data/gold/research.rdf) | [transform.py](src/transform.py) |
+| Liên kết và metadata | ID CSV + nguồn/cache → links có bằng chứng; manifest → mô tả dataset | [link_entities.py](src/link_entities.py), hàm `metadata()` trong transform |
+| Graph truy vấn | Ontology + Gold + links + metadata → graph cho SPARQL | `load_graph()` trong [common.py](src/common.py) |
 
-Bronze ở đây là JSON thay vì một `raw/data.csv`: một bài chứa nhiều tác giả,
-mỗi tác giả nhiều institutions, nhiều topics và references. Giữ nested JSON
-tránh mất quan hệ; silver mới tách thành các CSV dễ đọc. `papers.csv` gồm ID,
-title, DOI, year/date, citation count, open access, work type, source ID,
-primary topic ID. Các tác giả và affiliations nằm ở CSV quan hệ riêng.
+Silver có 10 bảng thực thể tương ứng 10 lớp ở bước 1, cùng ba bảng quan hệ: `authorship_institutions.csv`, `paper_topics.csv`, `references.csv`. ID là khóa nối các bảng. Một người có một dòng trong people nhưng có thể có nhiều dòng trong authorships.
 
-`research.ttl` và `research.rdf` chứa **cùng graph** ở Turtle và RDF/XML.
-`ontology.ttl` định nghĩa vocabulary; `research.ttl` là instances;
-`linked_output.nt` là links; `dataset-metadata.ttl` mô tả dataset, không phải
-một bài nghiên cứu.
+Ví dụ rút gọn từ snapshot: work Kaldi chứa một tác giả Daniel Povey và affiliation Microsoft.
 
-## 6. Chạy thử nhanh, không cần Internet
+```json
+{
+  "id": "https://openalex.org/W1524333225",
+  "display_name": "Kaldi Speech Recognition Toolkit",
+  "authorships": [{
+    "author": {
+      "id": "https://openalex.org/A5084286453",
+      "display_name": "Daniel Povey"
+    },
+    "author_position": "first",
+    "institutions": [{
+      "id": "https://openalex.org/I1290206253",
+      "display_name": "Microsoft (United States)"
+    }]
+  }]
+}
+```
 
-Các snapshots, CSV, RDF và links đã tạo được giữ trong project. Chỉ lần cài
-dependencies đầu tiên cần tải Python packages. Yêu cầu Python 3.10+.
+`clean_data.py` tách cấu trúc này ra các bảng:
 
-Từ root `semantic-web/`:
+| Bảng | Phần dữ liệu trong một dòng |
+|---|---|
+| papers | W1524333225, Kaldi Speech Recognition Toolkit |
+| people | A5084286453, Daniel Povey |
+| institutions | I1290206253, Microsoft (United States) |
+| authorships | W1524333225-A5084286453, paper ID, person ID, first |
+| authorship_institutions | W1524333225-A5084286453, institution ID |
+
+Bảng trên viết gọn ID cho dễ đọc; CSV thực tế dùng URL OpenAlex đầy đủ ở các cột entity IDs. Dữ liệu thiếu được giữ là thiếu. Snapshot ghi 445 entries tác giả thiếu author ID bị bỏ qua; đây là số entries, không khẳng định 445 người khác nhau.
+
+### URI, prefix, RDF và typed literal
+
+**URI** là tên định danh duy nhất của thực thể. Hàm `resource()` trong [common.py](src/common.py) lấy ID nguồn để tạo URI HTTP ổn định:
+
+```text
+https://openalex.org/W1524333225
+→ https://example.org/aimodels/resource/paper/W1524333225
+```
+
+Cùng ID luôn tạo cùng URI; đổi tên bài không đổi URI. W/A/I/S/P/T là các ID loại work/author/institution/source/publisher/topic của OpenAlex; phần số không phải số dòng hay thứ hạng.
+
+**RDF** biểu diễn một phát biểu bằng ba thành phần: subject — predicate — object. Ví dụ: bài — có Authorship — lượt viết bài của Daniel. Mỗi phát biểu là một **triple**.
+
+**Prefix** viết tắt phần đầu URI. `ex:ResearchPaper` là `https://example.org/aimodels/ResearchPaper`. `a` viết tắt `rdf:type`, nghĩa là “thuộc lớp”.
+
+```turtle
+@prefix ex: <https://example.org/aimodels/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://example.org/aimodels/resource/paper/W1524333225>
+    a ex:ResearchPaper ;
+    rdfs:label "Kaldi Speech Recognition Toolkit" ;
+    ex:hasAuthorship <https://example.org/aimodels/resource/authorship/W1524333225-A5084286453> .
+
+<https://example.org/aimodels/resource/authorship/W1524333225-A5084286453>
+    a ex:Authorship ;
+    ex:authorPerson <https://example.org/aimodels/resource/person/A5084286453> ;
+    ex:affiliatedInstitution <https://example.org/aimodels/resource/institution/I1290206253> .
+```
+
+`transform.py` tái sử dụng vocabulary chuẩn: RDF/RDFS/OWL cho cấu trúc và ontology; Schema.org cho bài/người/tác giả; Dublin Core (`dcterms`) cho tiêu đề/ngày/nguồn/tham khảo; SKOS cho phân loại. Vocabulary là tập các tên lớp/thuộc tính có ý nghĩa đã được định nghĩa, giúp nguồn khác hiểu cùng cách.
+
+**Literal** là giá trị trực tiếp, như tên, năm hoặc số. **Typed literal** ghi thêm kiểu để SPARQL xử lý đúng:
+
+| Giá trị | Ví dụ Turtle | Cách dùng |
+|---|---|---|
+| Năm | `"2024"^^xsd:gYear` | Năm xuất bản |
+| Ngày | `"2024-01-01"^^xsd:date` | Ngày xuất bản; giá trị minh họa |
+| Số nguyên không âm | `"4837"^^xsd:nonNegativeInteger` | Citation count trong snapshot Kaldi |
+| Boolean | `"true"^^xsd:boolean` | Trạng thái open access |
+| Số thập phân | `"5.0"^^xsd:decimal` | Giá trong graph model/API |
+
+`xsd:` viết tắt `http://www.w3.org/2001/XMLSchema#`; `^^` gắn giá trị với datatype. Giá có kiểu số thì query có thể so `?price < 10`. Đơn vị và tiền tệ vẫn cần trường riêng để biết số đó là USD/token hay USD/triệu token.
+
+`research.ttl` dùng Turtle; `research.rdf` dùng RDF/XML. Chúng chứa cùng graph, nên chỉ chọn một bản để nạp. [dataset-metadata.ttl](res/dataset-metadata.ttl) mô tả nguồn, license metadata OpenAlex, thời điểm và các bản RDF; file này mô tả tập dữ liệu.
+
+4-star LOD dùng định danh URI và chuẩn RDF để liên kết/diễn giải dữ liệu. Project đã tạo các thành phần kỹ thuật này ở local. Muốn công bố đạt 4-star trên Web cần URI truy cập được và dữ liệu tải công khai với license phù hợp. `example.org` hiện là namespace minh họa, chưa trả dữ liệu dự án khi mở URL.
+
+Phần model/API cũng đi qua Bronze → Silver → Gold: [official_sources.py](src/model_catalog/official_sources.py) trích thông tin từ tài liệu; [benchmarks.py](src/model_catalog/benchmarks.py) đọc bảng Aider; [normalize.py](src/model_catalog/normalize.py) tạo CSV model, tổ chức, offering, giá, đánh giá và nguồn; [transform.py](src/model_catalog/transform.py) xuất RDF. “Offering” là một dịch vụ/cấu hình cung cấp model; giá và giới hạn gắn với dịch vụ đó.
+
+## 4. Link toward 5-star data — nối với dataset khác
+
+**QID** là ID một thực thể trong Wikidata, bắt đầu bằng Q; Microsoft có Q2283. URI tương ứng là `http://www.wikidata.org/entity/Q2283`.
+
+**ROR** (Research Organization Registry) là hệ thống định danh tổ chức nghiên cứu. Ví dụ Microsoft được snapshot nhận diện bằng `https://ror.org/00d0nc645`. ID này giúp đối chiếu tổ chức dù tên hiển thị khác nhau.
+
+**owl:sameAs** khẳng định hai URI chỉ cùng một thực thể. Đây là quan hệ danh tính mạnh; tên gần giống nhau hoặc hai trang nói về cùng chủ đề không đủ làm bằng chứng.
+
+[link_entities.py](src/link_entities.py) đọc ID từ CSV rồi nối theo bốn cách:
+
+| Cách nối | Kiểm tra trước khi xuất link |
+|---|---|
+| Local → OpenAlex | URI local được tạo trực tiếp từ đúng OpenAlex ID, nên giữ link tới ID nguồn |
+| Local → Wikidata bằng QID nguồn | Full record institution/source của OpenAlex khai báo QID; dùng QID đó |
+| Local → Wikidata bằng exact ROR | Khi institution chưa có QID, hỏi Wikidata thuộc tính `P6782` (ROR ID) có đúng mã ROR đó; chỉ nhận khi có một ứng viên duy nhất. Mặc định thử tối đa 10 institutions |
+| Local → DBpedia bằng QID | Hỏi DBpedia resource nào khai báo `owl:sameAs` tới đúng Wikidata URI đã xác định; dùng URI DBpedia trả về |
+
+Ví dụ có thật trong [entity_links.csv](res/entity_links.csv):
+
+```turtle
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<https://example.org/aimodels/resource/institution/I1290206253>
+    owl:sameAs <https://openalex.org/I1290206253> ,
+               <http://www.wikidata.org/entity/Q2283> ,
+               <http://dbpedia.org/resource/Microsoft> .
+```
+
+Ba URI ngoài và URI local cùng nhận diện Microsoft. Nhờ liên kết, hệ thống khác có thể đi từ thực thể local sang hồ sơ tương ứng ở các dataset này. Project lưu link; các query local hiện không tự tải mọi thuộc tính của Microsoft từ DBpedia.
+
+| File | Chứa gì / dùng khi nào? |
+|---|---|
+| [linked_output.nt](res/linked_output.nt) | RDF N-Triples chứa `owl:sameAs`; nạp vào graph truy vấn |
+| [entity_links.csv](res/entity_links.csv) | Bằng chứng từng link: URI, phương pháp, ID chung, nguồn, trạng thái, thời điểm |
+| [external_lookups.json](src/data/bronze/external_lookups.json) | Query, endpoint, phản hồi JSON và thời điểm; dùng lại với `--offline` |
+| [linking-report.json](res/linking-report.json) | Số links theo phương pháp và cảnh báo; snapshot có lỗi DBpedia 503 nên chưa phủ hết ứng viên |
+
+Đây là phần liên kết hướng đến 5-star LOD. Việc công bố Web vẫn cần các điều kiện ở bước 3. Với graph model, [link.py](src/model_catalog/link.py) xác nhận định danh một số tổ chức qua website chính thức trong Wikidata rồi đối chiếu DBpedia; hiện xuất 5 links trong [model-links.nt](res/model-links.nt). URI bài review/tài liệu giá được lưu như nguồn thông tin, không tự trở thành `sameAs` của model.
+
+## 5. SPARQL endpoint/terminal — chạy và đọc kết quả
+
+**SPARQL** là ngôn ngữ truy vấn RDF. Query mô tả mẫu quan hệ cần tìm; `SELECT` chọn các cột kết quả. File `.rq` chứa câu query.
+
+| Công cụ / file | Vai trò |
+|---|---|
+| [ask.py](src/ask.py) | Đọc query; chạy trên file RDF local hoặc gửi tới endpoint; in CSV ra terminal |
+| [queries/](queries/) | Query bài, tác giả, tổ chức, phân loại, open access, tham khảo, định danh và links ngoài |
+| [queries/models/](queries/models/) | Query tên/thông số model, bên cung cấp/giá, hỗ trợ gọi công cụ hoặc nhận ảnh, số tham số/giấy phép, kết quả đánh giá và bài nhận xét |
+| Apache Jena / Fuseki | Jena xử lý RDF; Fuseki cung cấp server SPARQL. UI để dán query, TDB2 lưu graph trên đĩa |
+| Protégé | Mở và xem/sửa ontology: Classes, Object properties, Data properties và Individuals; dùng riêng với server query |
+| [fuseki-config.ttl](res/fuseki-config.ttl), [scripts/](scripts/) | Cấu hình dataset `aimodels`, script chạy server và nạp RDF |
+
+### Query local từ snapshot có sẵn
+
+Mở terminal tại root `semantic-web/`. Chuẩn bị môi trường lần đầu:
 
 ```bash
 cd aimodels
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-python src/ask.py queries/count_classes.rq
-python src/ask.py queries/cq01_top_papers.rq
-python src/ask.py queries/cq07_external_links.rq
 ```
 
-Các command sau trong README đều chạy từ `aimodels/`, với `.venv` đã activate.
-Scripts tìm data theo vị trí project, không theo current working directory;
-đường dẫn query CLI vẫn theo directory bạn đang đứng.
-
-Kiểm tra:
+Nếu đã có môi trường thì chỉ cần `cd aimodels` và `source .venv/bin/activate`. Các lệnh tiếp theo chạy từ thư mục này:
 
 ```bash
-python -m unittest discover -s tests -v
-python src/validate.py
-python src/validate.py --reasoning
+# Nghiên cứu: local, không gọi API
+python src/ask.py queries/cq02_authorship_affiliations.rq --dataset research
+
+# Model/API: local, không gọi API
+python src/ask.py queries/models/opus_providers_prices.rq --dataset models
 ```
 
-OWL RL trên graph hàng chục nghìn triples có thể mất vài phút tùy máy;
-không cần bật suy luận cho các CQ thông thường.
+`--dataset research` đọc ontology + research + links + metadata nghiên cứu; `models` đọc bộ file model; `all` kết hợp cả hai. Nếu bỏ flag, mặc định là research. Cài dependencies lần đầu cần mạng; query snapshot local hoạt động offline.
 
-## 7. Chạy lại toàn bộ pipeline
+### Chạy Fuseki và query trên web
 
-Lấy lại dữ liệu thật, cần Internet:
+Cần Java 21+ và Fuseki theo [hướng dẫn cài đặt](docs/FUSEKI.md). Binary được script tìm tại `tools/apache-jena-fuseki-6.2.0/`.
+
+Terminal thứ nhất:
 
 ```bash
-python src/collect_data.py --limit 200 --enrich-limit 25
-python src/clean_data.py
-python src/transform.py
-python src/link_entities.py
-python src/validate.py --reasoning
+cd aimodels
+bash scripts/start_fuseki.sh
 ```
 
-Theo [OpenAlex API](https://help.openalex.org/api/), truy cập cơ bản không
-bắt buộc key; key tăng budget. Có thể cung cấp `OPENALEX_API_KEY` qua
-environment nếu cần. Không ghi key vào source, manifest hoặc commit `.env`.
-Collector dùng page size tối đa 100 và retry lỗi mạng/429/5xx.
-
-Lấy nhiều hơn hoặc đổi search (vẫn giữ filter Computer Science):
+Terminal thứ hai, từ root repo:
 
 ```bash
-python src/collect_data.py --limit 500 --search '"machine learning"' --enrich-limit 50
+cd aimodels
+
+# Nạp ontology + research + links + metadata vào /aimodels
+bash scripts/load_fuseki.sh
+
+# Nạp thêm graph model/API vào cùng dataset nếu muốn query cả hai
+bash scripts/load_models_fuseki.sh http://localhost:3030/aimodels/data
 ```
 
-Sau đó chạy tiếp clean → transform → link → validate. Commands tạo lại các
-artifact của snapshot hiện tại; nên sao chép project/snapshots nếu muốn giữ
-hai lần thu thập để so sánh. Không suy ra tỷ lệ open access/xếp hạng toàn
-cầu từ mẫu top-cited này.
+Mở **http://localhost:3030/** → dataset **aimodels** → tab **Query** → dán SPARQL → bấm ▶. Các script nạp vào **default graph**, tức graph mặc định để các query bên dưới tìm trực tiếp. Nếu upload thủ công, để trống graph name.
 
-Rebuild từ snapshot đi kèm, không gọi API:
+SPARQL endpoint là địa chỉ nhận câu query qua HTTP: **http://localhost:3030/aimodels/sparql**. Ví dụ query bằng terminal tới server:
+
+```bash
+python src/ask.py queries/cq02_authorship_affiliations.rq \
+  --endpoint http://localhost:3030/aimodels/sparql
+```
+
+Với `--endpoint`, dữ liệu được quyết định bởi URL server, không bởi `--dataset`. Loader mặc định của model dùng dataset `aimodels-models`; lệnh trên truyền URL `/aimodels/data` để dùng dataset đã tạo bởi start script. Muốn dataset riêng, xem [MODEL_CATALOG.md](docs/MODEL_CATALOG.md).
+
+File RDF trong repo và dữ liệu Fuseki là hai bản riêng. Tạo lại Gold không tự cập nhật server. Loader dùng POST để thêm dữ liệu; nếu nạp snapshot mới vào dataset cũ, quan sát cũ có thể vẫn còn. Chọn một bản Turtle hoặc RDF/XML của cùng graph khi upload.
+
+### Một query cụ thể và ý nghĩa kết quả
+
+Query dưới lấy tác giả cùng affiliation trong từng bài, tương ứng [cq02_authorship_affiliations.rq](queries/cq02_authorship_affiliations.rq):
+
+```sparql
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?paper ?title ?person ?author ?position ?institution ?institutionName
+WHERE {
+  ?paper a ex:ResearchPaper ;
+         rdfs:label ?title ;
+         ex:hasAuthorship ?role .
+  ?role ex:authorPerson ?person .
+  ?person rdfs:label ?author .
+  OPTIONAL { ?role ex:authorPosition ?position }
+  OPTIONAL {
+    ?role ex:affiliatedInstitution ?institution .
+    ?institution rdfs:label ?institutionName
+  }
+}
+ORDER BY ?paper ?author ?person ?institution
+LIMIT 100
+```
+
+`PREFIX` khai báo viết tắt URI. Biến bắt đầu bằng `?`; `WHERE` tìm các triples khớp mẫu. Query đi theo đường Paper → Authorship → Person/Institution. `OPTIONAL` giữ tác giả trong kết quả ngay cả khi thiếu vị trí/affiliation. `ORDER BY` sắp kết quả; `LIMIT 100` giới hạn số dòng trả về, không giới hạn số bài trong graph.
+
+Một dòng trong [báo cáo snapshot](res/validation-report.json), viết gọn URI để dễ đọc:
+
+| paper | title | person | author | position | institution | institutionName |
+|---|---|---|---|---|---|---|
+| paper/W1524333225 | Kaldi Speech Recognition Toolkit | person/A5084286453 | Daniel Povey | first | institution/I1290206253 | Microsoft (United States) |
+
+Dòng này nghĩa là Daniel Povey được snapshot ghi là tác giả vị trí first của bài Kaldi, với affiliation Microsoft trong bài đó. Nó không xác nhận nơi làm việc hiện tại của người này. URI trong kết quả thật có đầy đủ prefix `https://example.org/aimodels/resource/`.
+
+Một người có nhiều affiliations sẽ có nhiều dòng kết quả. `SELECT` trả bảng thông tin; ví dụ `COUNT(?paper)` mới tính số lượng, và khi join nhiều tác giả/affiliations có thể cần `COUNT(DISTINCT ?paper)` để tránh đếm cùng bài nhiều lần.
+
+### Có thể query những gì khác?
+
+| Câu hỏi | File query |
+|---|---|
+| Bài nào nhiều trích dẫn, xuất bản năm nào? | [cq01_top_papers.rq](queries/cq01_top_papers.rq) |
+| Tổ chức nào có nhiều bài trong mẫu? | [cq03_institution_productivity.rq](queries/cq03_institution_productivity.rq) |
+| Topic thuộc subfield/field/domain nào? | [cq04_topic_hierarchy.rq](queries/cq04_topic_hierarchy.rq) |
+| Nguồn xuất bản/publisher, open access theo năm? | [CQ5](queries/cq05_sources_publishers.rq), [CQ6](queries/cq06_open_access_by_year.rq) |
+| Links ngoài, tài liệu tham khảo, hợp tác, ID nguồn? | [CQ7](queries/cq07_external_links.rq), [CQ8](queries/cq08_references.rq), [CQ9](queries/cq09_collaboration.rq), [CQ10](queries/cq10_identifiers_provenance.rq) |
+| Các model Claude; thông số có nguồn của một model? | [claude_models.rq](queries/models/claude_models.rq), [model_details.rq](queries/models/model_details.rq) |
+| Những bên cung cấp Opus và giá? | [opus_providers_prices.rq](queries/models/opus_providers_prices.rq) |
+| Kết quả đánh giá và bài review của model? | [benchmarks.rq](queries/models/benchmarks.rq), [reviews.rq](queries/models/reviews.rq) |
+
+Giá trả về là giá đã thu thập kèm điều kiện/thời điểm, không tự cập nhật theo giá live. `direct` là giá từ tài liệu hãng; `openrouter_endpoint` là giá provider báo qua OpenRouter. Cần đọc unit, category và conditions khi so sánh.
+
+### Xem ontology bằng Protégé
+
+Mở Protégé → File → Open → chọn [ontology.owl.xml](res/ontology.owl.xml) hoặc [ontology.ttl](res/ontology.ttl). Tab Classes hiển thị 10 lớp; Object properties xem quan hệ; Data properties xem thuộc tính có giá trị; phần domain/range xem loại ở hai đầu. Ontology file chứa định nghĩa; muốn xem instances thì mở/nạp thêm RDF dữ liệu. Ontology model/API dùng [model-ontology.ttl](res/model-ontology.ttl).
+
+## Chạy lại pipeline và đọc thêm
+
+Để dựng lại phần nghiên cứu từ snapshot hiện có, sau khi activate `.venv`:
 
 ```bash
 python src/clean_data.py
@@ -514,86 +439,14 @@ python src/link_entities.py --offline
 python src/validate.py
 ```
 
-Offline dùng `bronze/external_lookups.json`; chỉ trả lại links có bằng chứng
-đã ghi, giữ thời điểm kiểm tra gốc. Nếu bạn thay corpus và lookup cache không
-còn khớp, cần chạy linker online để lấy bằng chứng mới.
+Để thu thập lại, chạy `python src/collect_data.py --limit 200 --enrich-limit 25` trước các lệnh trên, rồi chạy linker không có `--offline` nếu cần đối chiếu online. Collector hỗ trợ biến môi trường `OPENALEX_API_KEY`; yêu cầu truy cập theo chính sách dịch vụ tại thời điểm chạy. Chạy ETL tạo lại các file snapshot/CSV/RDF; sao lưu trước nếu muốn giữ nhiều phiên bản. OWL RL là kiểm tra tùy chọn và có thể tốn vài phút trên graph lớn.
 
-## 8. Liên kết đến DBpedia như thế nào?
+| Tài liệu / thư mục | Đọc khi cần |
+|---|---|
+| [CAPSTONE_WALKTHROUGH.md](docs/CAPSTONE_WALKTHROUGH.md) | Giải thích chi tiết từng file phần nghiên cứu |
+| [MODEL_CATALOG.md](docs/MODEL_CATALOG.md) | Nguồn, từng file xử lý, cách thu thập/chạy/query model/API |
+| [FUSEKI.md](docs/FUSEKI.md) | Cài Java/Fuseki, cấu hình, port và upload |
+| [VALIDATION.md](docs/VALIDATION.md), [MODEL_VALIDATION.md](docs/MODEL_VALIDATION.md) | Kết quả kiểm chứng và giới hạn đã ghi |
+| [src/](src/), [res/](res/), [queries/](queries/), [docs/](docs/) | Code + dữ liệu; ontology/config/links; SPARQL; mô tả |
 
-```text
-Local institution URI
-   ├─ exact OpenAlex ID ───────────────→ OpenAlex institution URI
-   └─ OpenAlex-declared QID / exact ROR → Wikidata QID
-                                         ↑ owl:sameAs (DBpedia trả về)
-                                  DBpedia resource URI
-```
-
-Linker không đoán `dbpedia.org/resource/...` từ tên trường. Nó lấy QID của
-cùng tổ chức bằng ID metadata/ROR, hỏi DBpedia resource nào sameAs QID đó,
-rồi mới xuất local `owl:sameAs` DBpedia resource.
-
-Mỗi link có local URI, external URI, method, shared_identifier,
-evidence_source, accepted status và checked_at trong `res/entity_links.csv`.
-Response Wikidata/DBpedia, query và endpoint ở
-`src/data/bronze/external_lookups.json`. Institution/source chưa có mapping
-không bị ép sameAs. Endpoint lỗi/ambiguity được ghi trong linking report;
-không tạo link giả để đủ số lượng.
-
-So với HUST: cả hai đều có ontology + instance graph + DBpedia links và nạp
-vào Fuseki. HUST dùng Silk matching smartphone; project này dùng linker
-Python dựa trên persistent identifiers. Không cần Silk để đạt yêu cầu
-linking khi đã có exact identifiers. Có query
-[dbpedia_extract.rq](queries/dbpedia_extract.rq) để xem nguồn trực tiếp.
-
-## 9. Chạy SPARQL endpoint Apache Jena Fuseki
-
-Chi tiết cài Java/Fuseki, checksum, upload UI/curl và suy luận:
-**[docs/FUSEKI.md](docs/FUSEKI.md)**.
-
-Khi binary Fuseki nằm trong `tools/apache-jena-fuseki-6.2.0/`, mở hai terminals.
-
-Terminal 1:
-
-```bash
-cd aimodels
-bash scripts/start_fuseki.sh
-```
-
-Terminal 2, từ root `semantic-web/`:
-
-```bash
-cd aimodels
-source .venv/bin/activate
-bash scripts/load_fuseki.sh
-python src/ask.py queries/count_classes.rq --endpoint http://localhost:3030/aimodels/sparql
-python src/ask.py queries/cq07_external_links.rq --endpoint http://localhost:3030/aimodels/sparql
-```
-
-Mở <http://localhost:3030/>, chọn dataset `aimodels`, vào Query và paste một
-file `.rq`. Server dùng TDB2 nên graph giữ được sau Ctrl+C; nạp default graph
-cả ontology, data, links và metadata. Nếu cổng bận, xem hướng dẫn port 3031
-trong FUSEKI.md.
-
-## 10. Demo khi bảo vệ và hướng mở rộng
-
-1. Mở ontology bằng Protégé hoặc đọc docs: giải thích scope, 10 lớp và
-   Authorship là contextual relation.
-2. Mở một work JSON trong bronze, một dòng papers CSV trong silver, rồi tìm
-   cùng W ID trong gold RDF: cho thấy raw → normalized → triples.
-3. Chạy CQ1/CQ4 để tìm bài/chủ đề; CQ2 để thấy affiliation theo bài.
-4. Chạy CQ7; mở evidence CSV và lookup snapshot cho một link DBpedia.
-5. Chạy cùng query trong Fuseki UI; giải thích endpoint và default graph.
-6. Tùy chọn demo inverse authoredPaper trước/sau OWL RL bằng
-   `queries/inference_authored_paper.rq` với `--reasoning`.
-
-Giới hạn đã biết: OpenAlex entity resolution/topics có thể sai; dữ liệu
-authorship của nguồn có thể cắt ở 100 tác giả; enrichment chỉ lấy subset;
-DOI/ORCID/ROR/affiliation không phải bài/người nào cũng có. `cited_by_count`
-là số theo snapshot, còn `dcterms:references` là outgoing references.
-
-Mở rộng hợp lý: thêm source độc lập cho paper metadata; kiểm tra liên kết
-mẫu thủ công; thu thập nhiều search có phân trang/dedup; SHACL cho data
-constraints; giao diện tìm kiếm; công bố namespace có dereference và các
-RDF distributions thật. Nếu chuyển sang catalog AI models thì cần scope,
-CQs và ontology khác, bổ sung model family/task/license/benchmark thay vì
-chỉ đổi tên các lớp nghiên cứu.
+Metadata OpenAlex có thông tin license trong dataset metadata; điều đó không cấp license cho toàn văn bài báo hoặc mọi nguồn của phần model. Dữ liệu còn phụ thuộc độ chính xác ID, affiliations và phân loại của nguồn; topic scores hiện giữ trong CSV, chưa xuất thành RDF observations. Bài tham khảo ngoài mẫu giữ URI OpenAlex và có thể chưa có tên/metadata local.
