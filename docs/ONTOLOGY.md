@@ -27,6 +27,9 @@ lọc model có tools/image input; xem benchmark có attribution.
 | FactObservation | N-ary statement subject/property/value/source/time; giữ được mâu thuẫn |
 | ExternalLink | Mapping identity có bằng chứng, không nối chỉ vì trùng tên |
 
+Xem [sơ đồ toàn bộ ontology](ONTOLOGY_DIAGRAM.md) để xem đủ 12 classes, 17 object
+properties, 41 datatype properties, quan hệ kế thừa và vocabulary chuẩn được tái sử dụng.
+
 Namespace: `https://example.org/aimodels/`; ontology version 2.0 tại
 `res/ontology.ttl`. Dùng RDF/RDFS/OWL, XSD, schema.org, PROV-O,
 Dublin Core và DCAT. Class/property có label/comment/domain/range phù hợp;
@@ -84,11 +87,8 @@ kèm observation đủ nguồn và thời điểm để truy vết và phát hi�
 
 Wikidata candidate organizations được kiểm tra P856 official domain; DBpedia
 sameAs phải nối tới QID đã xác nhận. Lưu JSON responses, query và evidence CSV;
-xuất `linked_output.nt`. Không đoán URI DBpedia hoặc model identity từ tên.
-`model_links.py` bổ sung sameAs cấp model khi ID/tên trong catalog gốc, Wikidata
-QID, tên/phiên bản, P178 developer, P31 type và P856 URL model chính thức đều khớp.
-Kiểm tra lại checksum và claims cả khi offline; alias/batch/free không được tự truyền link.
-Hiện xác minh GPT-4 và GPT-4o với Wikidata; DBpedia trả rỗng cho hai QID.
+xuất `linked_output.nt`. Không đoán URI DBpedia từ tên. Project chỉ xuất sameAs
+cấp tổ chức; không xuất sameAs cấp model.
 `organization_links.py` xác minh 9 tổ chức với OpenAlex Institution bằng exact
 local ID/name, OpenAlex ID/name, company type, homepage domain, ROR và QID khi có.
 JSON gốc và checksum được đọc lại khi offline. Z.AI/Qwen/MiniMax được giữ ngoài

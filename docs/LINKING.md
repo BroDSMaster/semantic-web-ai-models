@@ -1,17 +1,12 @@
-# Liên kết model: cùng thực thể hay chỉ có liên quan?
+# Liên kết tổ chức tới các dataset bên ngoài
 
-Một model có thể xuất hiện ở nhiều nguồn. Ví dụ OpenRouter có mục GPT-4, Wikidata có thực thể GPT-4. Nếu hai định danh nói về cùng model, ta có thể tạo `owl:sameAs`. Ngược lại, repository chứa code/trọng số, bài giới thiệu và kết quả benchmark là những đối tượng có liên quan đến model; không phải mọi URL về GPT-4 đều là GPT-4.
+Project dùng `owl:sameAs` khi URI organization local và URI bên ngoài cùng nhận diện
+một tổ chức. Model, repository, trang tài liệu và kết quả benchmark là các đối tượng
+khác nhau nên không được nối `sameAs` với nhau.
 
 ## Kết quả đã thu thập và kiểm chứng
 
 Ngày 08/10/2026, code lấy JSON công khai từ Wikidata và OpenAlex, đồng thời truy vấn SPARQL DBpedia. Dữ liệu OpenRouter dùng snapshot ngày 05/10/2026.
-
-| ID local từ OpenRouter | URI Wikidata đã xác minh | DBpedia |
-|---|---|---|
-| `openai/gpt-4` | `http://www.wikidata.org/entity/Q116709136` | Truy vấn sameAs trả rỗng; không xuất link |
-| `openai/gpt-4o` | `http://www.wikidata.org/entity/Q125919502` | Truy vấn sameAs trả rỗng; không xuất link |
-
-Hai liên kết này nói về **model được đặt tên**, không xác minh checkpoint đang phục vụ một request API. Chúng không được gán cho GPT-4 Turbo, GPT-4o mini, bản có ngày hoặc chế độ batch/free. Không có bằng chứng trong tập mapping hiện tại cho Opus hay các model khác thì không tạo sameAs cho chúng. Đây là tập mapping đã xem xét, không phải công cụ tự khám phá mọi model trên Web.
 
 OpenAlex bổ sung 9 `sameAs` ở cấp Organization:
 
@@ -29,15 +24,20 @@ OpenAlex bổ sung 9 `sameAs` ở cấp Organization:
 
 Mỗi mapping phải khớp exact local URI/name, OpenAlex ID/display name, loại `company`, homepage domain và ROR. Meta, DeepSeek và Moonshot còn phải khớp Wikidata QID. OpenAlex Work là bài báo nên không bao giờ được dùng làm `sameAs` của AIModel.
 
-## Điều kiện để xuất sameAs
+Ngoài 9 links OpenAlex, `link.py` xuất 5 links tổ chức tới Wikidata/DBpedia sau
+khi xác minh website chính thức. Tổng cộng graph có 14 identity links cấp tổ chức.
 
-1. ID model nằm trong `res/model-identity-mappings.json`, có QID, hãng, tên và URL model chính thức đã được chọn để đối chiếu.
-2. URI local, ID và tên trong Silver khớp dữ liệu JSON OpenRouter gốc. Không tìm gần đúng theo tên.
-3. JSON Wikidata trả đúng QID và tên model/phiên bản. `P178` là hãng phát triển; `P31` là loại thực thể; `P856` là URL chính thức. Cả ba phải khớp cấu hình. Cùng domain nhưng khác trang model không đủ.
-4. Đọc lại các file JSON gốc và kiểm tra SHA-256 trước mỗi lần export offline. SHA-256 là mã kiểm tra nội dung file; nó phát hiện file bị sửa, không tự chứng minh phát biểu của nguồn là đúng.
-5. Chỉ thêm DBpedia khi phản hồi truy vấn chính xác cho QID đã xác minh chứa resource URI có sameAs. Không suy ra URI từ tên trang.
+## Điều kiện để xuất sameAs tổ chức
 
-Các điều kiện là bằng chứng đối chiếu từ nguồn công khai, có thể xem và chạy lại; không phải bảo đảm rằng nguồn bên ngoài không bao giờ sai. Liên kết phản ánh snapshot và phạm vi model nói trên.
+1. Organization local phải tồn tại trong Silver và có mapping được duyệt.
+2. Với Wikidata, `P856` phải chứa website chính thức khớp domain đã duyệt.
+3. Chỉ thêm DBpedia khi resource DBpedia tự công bố `owl:sameAs` tới QID Wikidata đã xác minh.
+4. Với OpenAlex, local URI/name, OpenAlex ID/display name, loại `company`, homepage và ROR phải khớp; QID cũng phải khớp khi mapping yêu cầu.
+5. Đọc lại JSON gốc và kiểm tra SHA-256 khi export offline. Không nối gần đúng chỉ vì tên giống nhau.
+
+Các điều kiện là bằng chứng đối chiếu từ nguồn công khai, có thể xem và chạy lại;
+không phải bảo đảm rằng nguồn bên ngoài không bao giờ sai. Liên kết phản ánh snapshot
+đã lưu trong project.
 
 ## Các quan hệ khác
 
@@ -51,15 +51,14 @@ Các điều kiện là bằng chứng đối chiếu từ nguồn công khai, c
 
 | File code / dữ liệu | Đầu vào → đầu ra |
 |---|---|
-| `src/model_catalog/model_links.py` | Danh sách ứng viên → JSON Wikidata/DBpedia trong Bronze và `model_lookups.json` |
 | `src/model_catalog/organization_links.py` | 9 ứng viên đã duyệt → JSON OpenAlex Institution trong Bronze và `openalex_lookups.json`; phát lại kiểm tra offline |
 | `src/model_catalog/link.py --offline` | Silver + ứng viên + JSON gốc + cache → `res/linked_output.nt`, `external_links.csv`, `res/linking-report.json` |
 | `src/model_catalog/model_cards.py` | URL HF được catalog chỉ rõ → model card JSON; đọc lại bytes đã kiểm tra khi offline |
 | `src/model_catalog/normalize.py` | Catalog + card được xác minh → observations CSV cho `hasRepository` và metadata |
 | `src/model_catalog/transform.py` | Silver → `src/data/gold/models.ttl` và `models.rdf`; RDF ghi quan hệ repository cùng nguồn |
-| `src/model_catalog/validate.py` | Graph + snapshot nguồn → kiểm tra checksum và so sameAs model trong RDF với các mapping xác minh lại |
+| `src/model_catalog/validate.py` | Graph + snapshot nguồn → kiểm tra checksum và so sameAs OpenAlex trong RDF với mapping xác minh lại |
 
-[linking-report.json](../res/linking-report.json) ghi quyết định từng ứng viên, URL, thời điểm, checksum và đường dẫn file nguồn. [external_links.csv](../src/data/silver/external_links.csv) giữ mỗi cặp subject/target; `linked_output.nt` có cả triple sameAs và thực thể `ExternalLink` chứa bằng chứng. Metadata identity nằm ngoài manifest catalog; validator kiểm tra riêng các file được `model_lookups.json` và `openalex_lookups.json` trỏ tới.
+[linking-report.json](../res/linking-report.json) ghi quyết định từng ứng viên, URL, thời điểm, checksum và đường dẫn file nguồn. [external_links.csv](../src/data/silver/external_links.csv) giữ mỗi cặp subject/target; `linked_output.nt` có cả triple sameAs và thực thể `ExternalLink` chứa bằng chứng. Metadata identity nằm ngoài manifest catalog; validator kiểm tra riêng các file được `openalex_lookups.json` trỏ tới.
 
 ## Chạy lại và query
 
@@ -70,13 +69,13 @@ PYTHONPATH=src .venv/bin/python -m model_catalog.normalize
 PYTHONPATH=src .venv/bin/python -m model_catalog.transform
 PYTHONPATH=src .venv/bin/python -m model_catalog.link --offline
 PYTHONPATH=src .venv/bin/python -m model_catalog.validate
-.venv/bin/python src/ask.py queries/model_identity_links.rq
+.venv/bin/python src/ask.py queries/external_links.rq
 .venv/bin/python src/ask.py queries/openalex_organizations.rq
 .venv/bin/python src/ask.py queries/model_repositories.rq
 ```
 
-Chạy tuần tự, chờ mỗi lệnh hoàn tất. Muốn lấy lại bằng chứng OpenAlex mới, chạy `PYTHONPATH=src .venv/bin/python -m model_catalog.organization_links`; với Wikidata/DBpedia model, chạy `PYTHONPATH=src .venv/bin/python -m model_catalog.model_links`. Sau đó chạy `link --offline` và `validate`. Các lệnh này chỉ cập nhật cache identity, không thu thập lại giá/catalog.
+Chạy tuần tự, chờ mỗi lệnh hoàn tất. Muốn lấy lại bằng chứng OpenAlex mới, chạy `PYTHONPATH=src .venv/bin/python -m model_catalog.organization_links`. Sau đó chạy `link --offline` và `validate`. Các lệnh này chỉ cập nhật cache identity tổ chức, không thu thập lại giá/catalog.
 
-Query identity model trả 2 dòng; query OpenAlex trả 9 dòng; query repositories trả 102 dòng. Chúng lần lượt biểu diễn cùng model, cùng tổ chức và repository có liên quan — ba ý nghĩa khác nhau.
+Query external links trả 14 dòng tổ chức; query OpenAlex trả 9 dòng; query repositories trả 102 dòng. `sameAs` tổ chức và `hasRepository` của model là hai quan hệ có ý nghĩa khác nhau.
 
-Với Fuseki đã chạy, tự nạp các file bằng `bash scripts/load_fuseki.sh`, rồi dán query trong `queries/model_identity_links.rq` vào UI của `/aimodels`. Script thêm dữ liệu vào default graph và giữ dữ liệu cũ; nếu đã có triples sai/từ snapshot khác, nên dùng dataset mới để kiểm tra snapshot này riêng. Hướng dẫn khởi động Fuseki ở [PIPELINE.md](PIPELINE.md). Lần triển khai này chỉ xây dựng và kiểm tra offline, không cập nhật server của bạn.
+Với Fuseki đã chạy, tự nạp các file bằng `bash scripts/load_fuseki.sh`, rồi dán query trong `queries/external_links.rq` hoặc `queries/openalex_organizations.rq` vào UI của `/aimodels`. Script thêm dữ liệu vào default graph và giữ dữ liệu cũ; vì dataset cũ vẫn chứa hai model links đã nạp trước đây, hãy tạo dataset `/aimodels` mới hoặc xóa dữ liệu cũ trước khi nạp bản này. Hướng dẫn khởi động Fuseki ở [PIPELINE.md](PIPELINE.md). Lần triển khai này chỉ xây dựng và kiểm tra offline, không cập nhật server của bạn.

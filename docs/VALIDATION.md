@@ -1,36 +1,35 @@
 # Kiểm chứng AI model catalog
 
-Snapshot catalog ngày 2026-10-05 được kiểm chứng local lại ngày 2026-10-08 sau khi thêm liên kết model và tổ chức. JSON Wikidata/DBpedia/OpenAlex mới được truy xuất ngày 2026-10-08. Fuseki không được khởi động hoặc nạp dữ liệu trong lần này.
+Snapshot catalog ngày 2026-10-05 được kiểm chứng local lại ngày 2026-10-08 sau khi thêm liên kết tổ chức. JSON Wikidata/DBpedia/OpenAlex mới được truy xuất ngày 2026-10-08. Fuseki không được khởi động hoặc nạp dữ liệu trong lần này.
 
 ## Kết quả
 
-- 34 unit/regression tests riêng của aimodels đạt; gồm kiểm tra OpenAlex ID/name/type/homepage/ROR/QID, domain không chứa dữ liệu nhận xét chủ quan, sai phiên bản model, checksum bị sửa và sai repository HF.
-- Cả 15 file SPARQL thực thi thành công trên graph đầy đủ.
-- Graph kết hợp có 354.640 triples; CSV/RDF entity counts khớp, không có dangling price/evaluation hoặc ID trùng.
+- 22 unit/regression tests riêng của aimodels đạt; gồm kiểm tra OpenAlex ID/name/type/homepage/ROR/QID, domain không chứa dữ liệu nhận xét chủ quan, checksum bị sửa và sai repository HF.
+- Cả 14 file SPARQL thực thi thành công trên graph đầy đủ.
+- Graph kết hợp có 354.622 triples; CSV/RDF entity counts khớp, không có dangling price/evaluation hoặc ID trùng.
 - 573 source snapshots vượt kiểm tra SHA-256 của response bytes lưu tại bronze.
-- 4 snapshots Wikidata/DBpedia và 9 snapshots OpenAlex được kiểm tra riêng. RDF khớp kết quả đối chiếu lại: 2 sameAs model, 14 sameAs tổ chức và 102 quan hệ tới 92 repository HF.
+- 9 snapshots OpenAlex được phát lại kiểm tra riêng. RDF có 14 sameAs tổ chức và 102 quan hệ tới 92 repository HF; không có sameAs cấp model.
 - OWL RL kiểm tra trên fixture đại diện của ontology; không chạy closure toàn catalog.
 - CLI ask.py đã chạy thành công với query Opus và lưu 336 dòng kết quả.
 
 | Query | Số dòng | Thời gian query (giây) |
 |---|---:|---:|
-| `benchmarks.rq` | 471 | 0.336 |
-| `cheap_tool_models.rq` | 50 | 1.051 |
-| `claude_models.rq` | 37 | 0.027 |
-| `conflicting_observations.rq` | 0 | 0.253 |
-| `coverage.rq` | 58 | 0.045 |
-| `direct_vs_router.rq` | 1257 | 4.182 |
-| `external_links.rq` | 16 | 0.012 |
-| `model_identity_links.rq` | 2 | Xem report mới |
-| `model_repositories.rq` | 102 | Xem report mới |
-| `model_details.rq` | 116 | 0.072 |
-| `official_sources.rq` | 399 | 1.643 |
-| `open_weight_specs.rq` | 391 | 2.789 |
-| `openalex_organizations.rq` | 9 | 0.062 |
-| `opus_providers_prices.rq` | 336 | 6.731 |
-| `vision_models.rq` | 295 | 0.055 |
+| `benchmarks.rq` | 471 | 0.366 |
+| `cheap_tool_models.rq` | 50 | 0.758 |
+| `claude_models.rq` | 37 | 0.019 |
+| `conflicting_observations.rq` | 0 | 0.177 |
+| `coverage.rq` | 58 | 0.033 |
+| `direct_vs_router.rq` | 1257 | 2.977 |
+| `external_links.rq` | 14 | 0.008 |
+| `model_repositories.rq` | 102 | 0.145 |
+| `model_details.rq` | 116 | 0.050 |
+| `official_sources.rq` | 399 | 1.132 |
+| `open_weight_specs.rq` | 391 | 1.966 |
+| `openalex_organizations.rq` | 9 | 0.037 |
+| `opus_providers_prices.rq` | 336 | 4.582 |
+| `vision_models.rq` | 295 | 0.039 |
 
-Các thời gian số trong bảng được giữ từ lần kiểm tra ngày 07/10; số dòng đã đối chiếu ngày 08/10. Thời gian lần chạy mới nằm trong `validation-report.json`, không bao gồm đọc/parse RDF từ đĩa. Query conflicts trả 0 là kết quả hợp lệ: không thấy model context/output/cutoff có nhiều giá trị trong tập quan sát đang xét. Không chứng minh mọi nguồn luôn đồng thuận.
+Các thời gian trong bảng lấy từ lần kiểm tra ngày 08/10 và không bao gồm đọc/parse RDF từ đĩa. Query conflicts trả 0 là kết quả hợp lệ: không thấy model context/output/cutoff có nhiều giá trị trong tập quan sát đang xét. Không chứng minh mọi nguồn luôn đồng thuận.
 
 ## Bằng chứng và chạy lại
 

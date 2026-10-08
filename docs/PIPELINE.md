@@ -167,7 +167,7 @@ Sau khi RDF thay đổi, Fuseki vẫn dùng bản đã nạp trước đó tới
 | `normalize.py` | Tách model/family/org/offering, đổi đơn vị giá bằng Decimal, source observations | Bronze + facts → silver CSV + coverage |
 | `benchmarks.py` | Parse bảng Aider và mapping ID đã chỉ định; giữ cấu hình riêng | HTML/mapping → evaluations hoặc unmatched rows |
 | `transform.py` | Typed RDF và provenance từng statement, bản XML tương đương | Silver → models.ttl/models.rdf + ontology RDF/XML + metadata |
-| `link.py` / `model_links.py` / `organization_links.py` | Đối chiếu Wikidata/DBpedia; model theo ID/phiên bản; tổ chức OpenAlex theo ID/name/type/homepage/ROR/QID; kiểm tra lại JSON gốc | Online/cache → linked_output.nt + external_links.csv + linking-report.json |
+| `link.py` / `organization_links.py` | Đối chiếu tổ chức Wikidata/DBpedia/OpenAlex theo ID/name/type/homepage/ROR/QID; kiểm tra lại JSON gốc | Online/cache → linked_output.nt + external_links.csv + linking-report.json |
 | `validate.py` | Checksums, IDs, dangling relations, CSV/RDF counts, CQs, OWL RL fixture | Snapshots/CSV/RDF → validation-report.json |
 | `ask.py` | Query graph model local hoặc endpoint; không cần --dataset | `.rq` + graph → CSV trên terminal |
 

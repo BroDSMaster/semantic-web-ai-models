@@ -56,7 +56,7 @@ def collect_links():
     return lookups
 
 
-def export_links(lookups, model_lookups=None, openalex_lookups=None):
+def export_links(lookups, openalex_lookups=None):
     graph, evidence = Graph(), []
     tables = read_tables()
     known = {row["id"] for row in tables["organizations"]}
@@ -86,11 +86,9 @@ def export_links(lookups, model_lookups=None, openalex_lookups=None):
             graph.add((ident, EX.description, Literal(reason)))
             evidence.append({"id": str(ident), "subject": str(subject), "target": target,
                              "source_url": source, "reason": reason, "retrieved_at": lookup["retrieved_at"]})
-    from .model_links import verified_model_links
-    model_links, model_decisions = verified_model_links(tables, model_lookups or [])
     from .organization_links import verified_openalex_links
     openalex_links, openalex_decisions = verified_openalex_links(tables, openalex_lookups or [])
-    for row in model_links + openalex_links:
+    for row in openalex_links:
         subject, target = URIRef(row["subject"]), URIRef(row["target"])
         graph.add((subject, OWL.sameAs, target))
         ident = URIRef(uri("external-link", digest([row["subject"], row["target"], row["source_url"]])))
@@ -109,8 +107,8 @@ def export_links(lookups, model_lookups=None, openalex_lookups=None):
         coverage["tables"]["external_links"] = len(evidence)
         write_json(RES / "coverage.json", coverage)
     warning_fields = {"local_id", "qid", "source_url", "retrieved_at", "warning", "dbpedia_warning"}
-    write_json(RES / "linking-report.json", {"links": len(evidence), "model_identity_links": len(model_links),
-        "openalex_organization_links": len(openalex_links), "model_decisions": model_decisions,
+    write_json(RES / "linking-report.json", {"links": len(evidence),
+        "openalex_organization_links": len(openalex_links),
         "openalex_decisions": openalex_decisions, "warnings": [
         {key: value for key, value in row.items() if key in warning_fields}
         for row in lookups if row.get("warning") or row.get("dbpedia_warning")]})
@@ -121,13 +119,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
-    from .model_links import collect_model_links
     from .organization_links import collect_openalex_links
-    model_cache = BRONZE / "model_lookups.json"
-    models = (read_json(model_cache) if model_cache.exists() else []) if args.offline else collect_model_links()
     openalex_cache = BRONZE / "openalex_lookups.json"
     openalex = (read_json(openalex_cache) if openalex_cache.exists() else []) if args.offline else collect_openalex_links()
-    export_links(read_json(BRONZE / "external_lookups.json") if args.offline else collect_links(), models, openalex)
+    export_links(read_json(BRONZE / "external_lookups.json") if args.offline else collect_links(), openalex)
 
 
 if __name__ == "__main__":

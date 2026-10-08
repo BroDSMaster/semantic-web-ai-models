@@ -23,22 +23,6 @@ def validate():
         if row["model_id"] not in model_ids or row["document_id"] not in docs:
             errors.append("Dangling evaluation " + row["id"])
     manifest = read_json(BRONZE / "manifest.json")
-    from .model_links import checked_payload, verified_model_links
-    model_cache = BRONZE / "model_lookups.json"
-    if model_cache.exists():
-        lookups = read_json(model_cache)
-        expected_links, decisions = verified_model_links(tables, lookups)
-        for lookup in lookups:
-            for field in ("wikidata_source", "dbpedia_source"):
-                if lookup.get(field):
-                    try:
-                        checked_payload(lookup[field])
-                    except (OSError, ValueError, KeyError, TypeError) as exc:
-                        errors.append("Model link evidence invalid: " + str(exc))
-        expected_pairs = {(r["subject"], r["target"]) for r in expected_links}
-        actual_pairs = {(str(s), str(t)) for s, t in graph.subject_objects(OWL.sameAs) if str(s) in model_ids}
-        if expected_pairs != actual_pairs:
-            errors.append("Model identity RDF does not match independently replayed evidence")
     from .organization_links import checked_payload as checked_openalex_payload, verified_openalex_links
     openalex_cache = BRONZE / "openalex_lookups.json"
     openalex_pairs = set()
@@ -98,9 +82,6 @@ def validate():
         errors.append("Unexpected OWL RL class inference")
     report = {"errors": errors, "warnings": warnings, "triples": len(graph), "counts": counts,
               "query_rows": query_results, "query_seconds": query_times, "source_snapshots": len(manifest["documents"]),
-              "model_link_snapshots": sum(bool(r.get(field)) for r in (read_json(model_cache) if model_cache.exists() else [])
-                                          for field in ("wikidata_source", "dbpedia_source")),
-              "model_identity_links": len(actual_pairs) if model_cache.exists() else 0,
               "openalex_snapshots": sum(bool(r.get("source")) for r in openalex_lookups),
               "openalex_organization_links": len(openalex_pairs),
               "repository_relations": len(list(graph.triples((None, EX.hasRepository, None)))),

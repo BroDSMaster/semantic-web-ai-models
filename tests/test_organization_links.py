@@ -83,8 +83,9 @@ class OpenAlexOrganizationLinkTests(unittest.TestCase):
     def test_link_export_writes_same_as_and_evidence_for_verified_openalex_identity(self):
         self.assertIsNotNone(organization_links, "OpenAlex organization linking is not implemented")
         from model_catalog import link
-        self.assertGreaterEqual(len(inspect.signature(link.export_links).parameters), 3,
-                                "link export does not accept verified OpenAlex records")
+        self.assertEqual(list(inspect.signature(link.export_links).parameters),
+                         ["lookups", "openalex_lookups"],
+                         "link export must only accept organization identity sources")
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             bronze, res = root / "bronze", root / "res"
@@ -102,7 +103,7 @@ class OpenAlexOrganizationLinkTests(unittest.TestCase):
             with patch.object(link, "RES", res), patch.object(link, "read_tables", return_value=tables), \
                     patch.object(link, "write_tables"), patch.object(organization_links, "ROOT", root), \
                     patch.object(organization_links, "BRONZE", bronze), patch.object(organization_links, "RES", res):
-                link.export_links([], [], [record])
+                link.export_links([], [record])
             graph = Graph().parse(res / "linked_output.nt", format="nt")
             subject = URIRef(self.organization["id"])
             target = URIRef("https://openalex.org/I4210161460")
