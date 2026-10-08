@@ -4,9 +4,18 @@
 
 Project giúp tra cứu model AI, khả năng, thông số, bên cung cấp API, giá và kết quả đánh giá. Ví dụ: “Claude Opus 4.6 có API ở đâu, giá input/output bao nhiêu và thông tin đó lấy từ nguồn nào?”
 
+Nếu cần hiểu toàn bộ repo theo từng file Python, đầu vào, đầu ra và bốn file nạp Fuseki,
+xem [Luồng toàn bộ project](docs/REPOSITORY_FLOW.md).
+
 Thông tin đến từ nhiều nơi: OpenRouter, tài liệu hãng, Hugging Face và bảng đánh giá có cấu trúc. Project lưu nguồn, chuẩn hóa dữ liệu và nối chúng thành một **knowledge graph**, tức mạng thực thể có quan hệ. **Semantic Web** dùng các định danh và thuộc tính có ý nghĩa rõ ràng để máy tính hiểu mạng này. Người dùng truy vấn bằng **SPARQL**, ngôn ngữ truy vấn RDF.
 
 **RDF** ghi từng phát biểu dưới dạng subject — predicate — object, ví dụ “dịch vụ Azure — cung cấp — Opus 4.6”. **Ontology** định nghĩa các loại thực thể và quan hệ được phép dùng. Project này chỉ xử lý model/API; mọi code và dữ liệu cần chạy đều nằm trong `aimodels/`.
+
+Website công khai được chuẩn bị tại
+`https://brodsmaster.github.io/semantic-web-ai-models/`. GitHub Actions sẽ build và
+deploy giao diện sau mỗi lần push vào nhánh `main`. Website cho phép tìm model, xem
+offering/giá, kiểm tra liên kết tổ chức, đọc ontology và tải RDF; Fuseki vẫn là
+SPARQL endpoint chạy ở máy local.
 
 ### Luồng overview
 
@@ -93,11 +102,39 @@ Snapshot thu thập ngày 05/10/2026 có:
 | Thông tin bổ sung | 92 bộ metadata model từ đơn vị phát hành trên Hugging Face |
 | Đánh giá | 471 kết quả benchmark có model, phép đo, điểm, cấu hình và nguồn |
 | Liên kết ngoài | 9 `sameAs` tổ chức tới OpenAlex + 5 links tổ chức tới Wikidata/DBpedia; tổng 14 identity links cấp tổ chức; 102 quan hệ model → repository Hugging Face |
-| Graph kết hợp | 354.622 triples; 14 file query; query Opus trả 336 dòng giá. Các liên kết OpenAlex được xác minh ngày 08/10/2026 |
+| Graph kết hợp | 354.630 triples; 14 file query; query Opus trả 336 dòng giá. Các liên kết OpenAlex được xác minh ngày 08/10/2026 |
 
 Một listing là một mục trong danh mục. Tên gọi khác, bản miễn phí hoặc bản chạy theo lô có thể cùng dùng một model; số listing không phải số bộ trọng số độc lập. Điểm đánh giá chỉ có cho một phần model.
 
 Xem [coverage.json](res/coverage.json), [validation-report.json](res/validation-report.json) và [VALIDATION.md](docs/VALIDATION.md). Giá/query đọc snapshot đã lưu; chúng không tự lấy giá live.
+
+### Build và xem website trước khi push
+
+```bash
+cd /home/puda14/Desktop/Project/semantic-web/aimodels
+PYTHONPATH=src .venv/bin/python scripts/build_site.py
+cd site
+python -m http.server 8000
+```
+
+Mở `http://localhost:8000`. Thư mục `site/` được sinh tự động từ Silver CSV và
+Gold RDF nên không commit. Workflow [pages.yml](.github/workflows/pages.yml) sẽ
+build lại thư mục này trên GitHub. Khi push lên `main`, xem tiến trình tại tab
+**Actions**; deploy xong thì mở URL Pages ở trên.
+
+URI public của ontology và thực thể dùng namespace:
+
+```text
+https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#
+```
+
+Ví dụ URI của một model là URL của file Turtle cộng fragment `#resource/model/...`.
+Trình duyệt tải được tài liệu RDF chứa định nghĩa của URI đó. Đây là phần giúp dữ
+liệu có HTTP URI công khai khi Pages đã deploy.
+
+License được tách rõ: [LICENSE](LICENSE) dùng MIT cho code; [DATA_LICENSE.md](DATA_LICENSE.md)
+dùng CC BY 4.0 cho ontology, mapping và dữ liệu do project tạo trong phạm vi quyền
+của tác giả. Dữ liệu lấy từ bên thứ ba vẫn theo điều khoản của từng nguồn.
 
 ## 1. Define an ontology — định nghĩa miền model/API
 
@@ -223,13 +260,13 @@ Normalizer tạo một model, một organization Azure, một offering Azure glo
 
 ```text
 anthropic/claude-opus-4.6
-→ https://example.org/aimodels/resource/model/openrouter%3Aanthropic%2Fclaude-opus-4.6
+→ https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/model/openrouter%3Aanthropic%2Fclaude-opus-4.6
 ```
 
-**Prefix** viết tắt URI. `ex:AIModel` là `https://example.org/aimodels/AIModel`; `a` là `rdf:type`, nghĩa là “thuộc lớp”. Ví dụ minh họa một bản giá trong Turtle:
+**Prefix** viết tắt URI. `ex:AIModel` là `https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel`; `a` là `rdf:type`, nghĩa là “thuộc lớp”. Ví dụ minh họa một bản giá trong Turtle:
 
 ```turtle
-@prefix ex: <https://example.org/aimodels/> .
+@prefix ex: <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:examplePrice a ex:PriceSpecification ;
@@ -243,7 +280,9 @@ ex:examplePrice a ex:PriceSpecification ;
 
 Project tái sử dụng vocabulary RDF/RDFS/OWL, XSD, Schema.org, PROV-O cho nguồn thông tin, Dublin Core và DCAT cho tài liệu/dataset. **Vocabulary** là các tên lớp/thuộc tính có định nghĩa chung. **Provenance** là thông tin dữ liệu đến từ đâu: mỗi FactObservation giữ subject, property, value, SourceDocument và thời điểm.
 
-4-star LOD sử dụng URI và chuẩn RDF trên dữ liệu được công bố. Project có các thành phần kỹ thuật ở local; namespace `example.org` là minh họa. Để công bố đạt 4-star trên Web cần URI trả dữ liệu dự án khi truy cập, dữ liệu tải công khai và license phù hợp.
+4-star LOD sử dụng URI HTTP và chuẩn RDF trên dữ liệu được công bố. Project dùng
+namespace GitHub Pages, có Turtle distribution và license. Các URI trở thành truy
+cập công khai sau khi workflow Pages được deploy thành công.
 
 ## 4. Link toward 5-star data — liên kết tới nguồn khác
 
@@ -345,7 +384,7 @@ Cấu hình [fuseki-config.ttl](res/fuseki-config.ttl) dùng `run/tdb2-models`; 
 ### Query cụ thể: giá của một model
 
 ```sparql
-PREFIX ex: <https://example.org/aimodels/>
+PREFIX ex: <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX schema: <https://schema.org/>

@@ -1,8 +1,9 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
-<https://example.org/aimodels/dataset/models> a dcat:Dataset ;
-    dcterms:description "Source-specific licenses and terms apply to model/provider data. example.org namespace is a local capstone placeholder." ;
+<https://brodsmaster.github.io/semantic-web-ai-models/dataset/> a dcat:Dataset ;
+    dcterms:description "A Linked Open Data catalog of AI models, API offerings, prices, capabilities and evaluations." ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     dcterms:source <https://ai.google.dev/gemini-api/docs/models>,
         <https://ai.google.dev/gemini-api/docs/pricing>,
         <https://aider.chat/docs/leaderboards/>,
@@ -576,5 +577,13 @@
         <https://platform.claude.com/docs/en/models/overview>,
         <https://platform.minimax.io/docs/guides/pricing-paygo>,
         <https://www.alibabacloud.com/help/en/model-studio/models> ;
-    dcterms:title "AI model catalog, offerings, sourced prices and evaluations" .
+    dcterms:title "AI model catalog, offerings, sourced prices and evaluations" ;
+    dcat:distribution <https://brodsmaster.github.io/semantic-web-ai-models/dataset/distribution/turtle> ;
+    dcat:landingPage <https://brodsmaster.github.io/semantic-web-ai-models/> .
+
+<https://brodsmaster.github.io/semantic-web-ai-models/dataset/distribution/turtle> a dcat:Distribution ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:title "Combined AI Models knowledge graph in Turtle" ;
+    dcat:downloadURL <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl> ;
+    dcat:mediaType "text/turtle" .
 

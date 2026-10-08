@@ -30,7 +30,7 @@ lọc model có tools/image input; xem benchmark có attribution.
 Xem [sơ đồ toàn bộ ontology](ONTOLOGY_DIAGRAM.md) để xem đủ 12 classes, 17 object
 properties, 41 datatype properties, quan hệ kế thừa và vocabulary chuẩn được tái sử dụng.
 
-Namespace: `https://example.org/aimodels/`; ontology version 2.0 tại
+Namespace: `https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#`; ontology version 2.0 tại
 `res/ontology.ttl`. Dùng RDF/RDFS/OWL, XSD, schema.org, PROV-O,
 Dublin Core và DCAT. Class/property có label/comment/domain/range phù hợp;
 trường dữ liệu được khai báo ở ontology thay vì hardcode không có ngữ nghĩa.
@@ -96,7 +96,7 @@ mapping cho tới khi xác định đúng thực thể tổ chức.
 Xem [LINKING.md](LINKING.md) để xem bằng chứng và quan hệ riêng với repository/benchmark.
 Nguồn API/docs là provenance; không xuất sameAs giữa model và trang tài liệu.
 Để công bố 5★ đầy đủ cần URI dereferenceable và deployment phù hợp;
-namespace example.org hiện phục vụ capstone local.
+namespace GitHub Pages phục vụ file Turtle công khai sau khi workflow deploy.
 
 ## 5. SPARQL interface
 

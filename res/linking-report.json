@@ -113,7 +113,7 @@
   ],
   "warnings": [
     {
-      "local_id": "https://example.org/aimodels/resource/organization/developer%3Agoogle",
+      "local_id": "https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/organization/developer%3Agoogle",
       "qid": "Q95",
       "source_url": "https://www.wikidata.org/wiki/Special:EntityData/Q95.json",
       "retrieved_at": "2026-10-05T04:40:32.983018+00:00",

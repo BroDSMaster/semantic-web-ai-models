@@ -1,6 +1,6 @@
 [
   {
-    "local_id": "https://example.org/aimodels/resource/organization/developer%3Aanthropic",
+    "local_id": "https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/organization/developer%3Aanthropic",
     "qid": "Q116758847",
     "source_url": "https://www.wikidata.org/wiki/Special:EntityData/Q116758847.json",
     "retrieved_at": "2026-10-05T04:40:29.368292+00:00",
@@ -3555,7 +3555,7 @@
     "dbpedia_sha256": "2070d1a7d27e3e862cd58f079e00c0789ea14775b9005a2552adf70c45782195"
   },
   {
-    "local_id": "https://example.org/aimodels/resource/organization/developer%3Agoogle",
+    "local_id": "https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/organization/developer%3Agoogle",
     "qid": "Q95",
     "source_url": "https://www.wikidata.org/wiki/Special:EntityData/Q95.json",
     "retrieved_at": "2026-10-05T04:40:32.983018+00:00",
@@ -30390,7 +30390,7 @@
     "warning": "Candidate official website not confirmed; no identity link emitted"
   },
   {
-    "local_id": "https://example.org/aimodels/resource/organization/developer%3Ameta-llama",
+    "local_id": "https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/organization/developer%3Ameta-llama",
     "qid": "Q380",
     "source_url": "https://www.wikidata.org/wiki/Special:EntityData/Q380.json",
     "retrieved_at": "2026-10-05T04:40:35.644802+00:00",
@@ -52575,7 +52575,7 @@
     "dbpedia_sha256": "a715a65305472d5de85f10cb7e370c1ba11db4baccafd2121ddec5299387a3b9"
   },
   {
-    "local_id": "https://example.org/aimodels/resource/organization/developer%3Aqwen",
+    "local_id": "https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/organization/developer%3Aqwen",
     "qid": "Q1359568",
     "source_url": "https://www.wikidata.org/wiki/Special:EntityData/Q1359568.json",
     "retrieved_at": "2026-10-05T04:40:41.814068+00:00",

@@ -14,7 +14,9 @@ BRONZE = ROOT / "src/data/bronze"
 SILVER = ROOT / "src/data/silver"
 GOLD = ROOT / "src/data/gold"
 RES = ROOT / "res"
-BASE = "https://example.org/aimodels/"
+PUBLIC_SITE = "https://brodsmaster.github.io/semantic-web-ai-models/"
+# Fragment URIs dereference to the published Turtle document on GitHub Pages.
+BASE = PUBLIC_SITE + "data/aimodels.ttl#"
 
 
 def now():
@@ -70,11 +72,14 @@ def write_tables(tables, directory=SILVER):
     for name, rows in tables.items():
         fields = sorted({key for row in rows for key in row}) or ["id"]
         with (directory / f"{name}.csv").open("w", encoding="utf-8", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
 
 
 def read_tables(directory=SILVER):
-    return {path.stem: list(csv.DictReader(path.open(encoding="utf-8", newline="")))
-            for path in sorted(Path(directory).glob("*.csv"))}
+    tables = {}
+    for path in sorted(Path(directory).glob("*.csv")):
+        with path.open(encoding="utf-8", newline="") as handle:
+            tables[path.stem] = list(csv.DictReader(handle))
+    return tables

@@ -62,7 +62,7 @@ và chạy từ thư mục aimodels để TDB2 ở `run/tdb2-models`, runtime �
 Dán vào tab Query sau khi nạp dữ liệu:
 
 ```sparql
-PREFIX ex: <https://example.org/aimodels/>
+PREFIX ex: <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX schema: <https://schema.org/>
@@ -109,7 +109,7 @@ Nếu chưa nạp catalog vào Fuseki, truy vấn `AIModel` vẫn có thể ra 0
 đã có dữ liệu. Kiểm tra bằng:
 
 ```sparql
-PREFIX ex: <https://example.org/aimodels/>
+PREFIX ex: <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#>
 SELECT (COUNT(?model) AS ?models) WHERE { ?model a ex:AIModel }
 ```
 
@@ -195,6 +195,6 @@ Sau khi RDF thay đổi, Fuseki vẫn dùng bản đã nạp trước đó tới
   đơn vị token. Giá gốc và hệ số vẫn được giữ để kiểm tra; hệ số âm trong
   snapshot là phụ phí theo cùng công thức. `discount` null được coi là 0.
 - Link một document không tự đạt identity link 5★. Chỉ xuất sameAs khi đã
-  xác minh; example.org vẫn cần namespace/publication thực để thành LOD public.
+  xác minh; workflow Pages xuất bản namespace, RDF distribution và license công khai.
 - Mỗi nguồn có điều khoản riêng; metadata mới không mang license CC0 của
   OpenAlex. Tài liệu giá có thể thay đổi, parser schema fail sẽ báo rõ.

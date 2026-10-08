@@ -3,7 +3,7 @@ import json
 from rdflib import Graph, Literal, Namespace, URIRef
 from rdflib.namespace import RDF, RDFS, XSD, DCTERMS, OWL
 
-from .common import BASE, GOLD, RES, read_tables, write_json
+from .common import BASE, PUBLIC_SITE, GOLD, RES, read_tables, write_json
 
 EX = Namespace(BASE)
 SCHEMA = Namespace("https://schema.org/")
@@ -118,10 +118,19 @@ def main():
     meta = Graph()
     meta.bind("dcat", DCAT)
     meta.bind("dcterms", DCTERMS)
-    dataset = URIRef(BASE + "dataset/models")
+    dataset = URIRef(PUBLIC_SITE + "dataset/")
+    distribution = URIRef(PUBLIC_SITE + "dataset/distribution/turtle")
     meta.add((dataset, RDF.type, DCAT.Dataset))
     meta.add((dataset, DCTERMS.title, Literal("AI model catalog, offerings, sourced prices and evaluations")))
-    meta.add((dataset, DCTERMS.description, Literal("Source-specific licenses and terms apply to model/provider data. example.org namespace is a local capstone placeholder.")))
+    meta.add((dataset, DCTERMS.description, Literal("A Linked Open Data catalog of AI models, API offerings, prices, capabilities and evaluations.")))
+    meta.add((dataset, DCTERMS.license, URIRef("https://creativecommons.org/licenses/by/4.0/")))
+    meta.add((dataset, DCAT.landingPage, URIRef(PUBLIC_SITE)))
+    meta.add((dataset, DCAT.distribution, distribution))
+    meta.add((distribution, RDF.type, DCAT.Distribution))
+    meta.add((distribution, DCTERMS.title, Literal("Combined AI Models knowledge graph in Turtle")))
+    meta.add((distribution, DCTERMS.license, URIRef("https://creativecommons.org/licenses/by/4.0/")))
+    meta.add((distribution, DCAT.downloadURL, URIRef(PUBLIC_SITE + "data/aimodels.ttl")))
+    meta.add((distribution, DCAT.mediaType, Literal("text/turtle")))
     for doc in tables["documents"]:
         meta.add((dataset, DCTERMS.source, URIRef(doc["url"])))
     meta.serialize(RES / "dataset-metadata.ttl", format="turtle")

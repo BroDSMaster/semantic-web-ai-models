@@ -1,6 +1,6 @@
 id,name
-https://example.org/aimodels/resource/modality/audio,audio
-https://example.org/aimodels/resource/modality/file,file
-https://example.org/aimodels/resource/modality/image,image
-https://example.org/aimodels/resource/modality/text,text
-https://example.org/aimodels/resource/modality/video,video
+https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/modality/audio,audio
+https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/modality/file,file
+https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/modality/image,image
+https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/modality/text,text
+https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/modality/video,video
