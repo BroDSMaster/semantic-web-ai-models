@@ -1,0 +1,585 @@
+{
+  "notes": "Reviewed local aliases only. QID, label/alias, instance-of and exact official domain/path are checked against checksum-bound source bytes. Company and platform service identities are distinct. No fuzzy name matching.",
+  "entities": [
+    {
+      "qid": "Q21708200",
+      "names": [
+        "OpenAI"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q6881511"
+      ],
+      "websites": [
+        "https://openai.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:openai",
+          "name": "OpenAI"
+        },
+        {
+          "key": "host:OpenAI",
+          "name": "OpenAI"
+        }
+      ]
+    },
+    {
+      "qid": "Q116758847",
+      "names": [
+        "Anthropic"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q18388277",
+        "Q4830453",
+        "Q783794"
+      ],
+      "websites": [
+        "https://anthropic.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:anthropic",
+          "name": "Anthropic"
+        },
+        {
+          "key": "host:Anthropic",
+          "name": "Anthropic"
+        }
+      ]
+    },
+    {
+      "qid": "Q95",
+      "names": [
+        "Google"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q18388277",
+        "Q4830453",
+        "Q891723"
+      ],
+      "websites": [
+        "https://about.google/",
+        "https://google.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:google",
+          "name": "Google"
+        },
+        {
+          "key": "host:Google",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "qid": "Q380",
+      "names": [
+        "Meta Platforms"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q18388277",
+        "Q4830453",
+        "Q891723"
+      ],
+      "websites": [
+        "https://meta.com/",
+        "https://facebook.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:meta-llama",
+          "name": "Meta"
+        },
+        {
+          "key": "developer:meta",
+          "name": "meta"
+        },
+        {
+          "key": "host:Meta",
+          "name": "Meta"
+        }
+      ]
+    },
+    {
+      "qid": "Q1359568",
+      "names": [
+        "Alibaba Group"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q43229",
+        "Q4830453",
+        "Q6881511",
+        "Q891723"
+      ],
+      "websites": [
+        "https://alibaba.com/",
+        "https://alibabagroup.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:qwen",
+          "name": "Alibaba"
+        },
+        {
+          "key": "host:Alibaba",
+          "name": "Alibaba"
+        }
+      ]
+    },
+    {
+      "qid": "Q119718658",
+      "names": [
+        "Mistral AI"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q1058914",
+        "Q43229"
+      ],
+      "websites": [
+        "https://mistral.ai/"
+      ],
+      "locals": [
+        {
+          "key": "developer:mistralai",
+          "name": "Mistral AI"
+        },
+        {
+          "key": "host:Mistral",
+          "name": "Mistral"
+        }
+      ]
+    },
+    {
+      "qid": "Q131577453",
+      "names": [
+        "DeepSeek"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q18388277",
+        "Q4830453"
+      ],
+      "websites": [
+        "https://deepseek.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:deepseek",
+          "name": "DeepSeek"
+        },
+        {
+          "key": "host:DeepSeek",
+          "name": "DeepSeek"
+        }
+      ]
+    },
+    {
+      "qid": "Q130270266",
+      "names": [
+        "Moonshot AI"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q783794"
+      ],
+      "websites": [
+        "https://moonshot.ai/"
+      ],
+      "locals": [
+        {
+          "key": "developer:moonshotai",
+          "name": "Moonshot AI"
+        },
+        {
+          "key": "host:Moonshot AI",
+          "name": "Moonshot AI"
+        }
+      ]
+    },
+    {
+      "qid": "Q2283",
+      "names": [
+        "Microsoft"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q1058914",
+        "Q18388277",
+        "Q4830453",
+        "Q891723"
+      ],
+      "websites": [
+        "https://microsoft.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:microsoft",
+          "name": "microsoft"
+        }
+      ]
+    },
+    {
+      "qid": "Q3884",
+      "names": [
+        "Amazon"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q4830453",
+        "Q6881511",
+        "Q891723"
+      ],
+      "websites": [
+        "https://amazon.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:amazon",
+          "name": "amazon"
+        }
+      ]
+    },
+    {
+      "qid": "Q182477",
+      "names": [
+        "Nvidia"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q4830453",
+        "Q891723"
+      ],
+      "websites": [
+        "https://nvidia.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:nvidia",
+          "name": "nvidia"
+        },
+        {
+          "key": "host:Nvidia",
+          "name": "Nvidia"
+        }
+      ]
+    },
+    {
+      "qid": "Q1636958",
+      "names": [
+        "Xiaomi"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q167037",
+        "Q4830453"
+      ],
+      "websites": [
+        "https://mi.com/",
+        "https://xiaomi.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:xiaomi",
+          "name": "xiaomi"
+        },
+        {
+          "key": "host:Xiaomi",
+          "name": "Xiaomi"
+        }
+      ]
+    },
+    {
+      "qid": "Q4778915",
+      "names": [
+        "Cloudflare"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q18388277",
+        "Q891723"
+      ],
+      "websites": [
+        "https://cloudflare.com/"
+      ],
+      "locals": [
+        {
+          "key": "host:Cloudflare",
+          "name": "Cloudflare"
+        }
+      ]
+    },
+    {
+      "qid": "Q110363143",
+      "names": [
+        "Cohere"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q43229",
+        "Q783794"
+      ],
+      "websites": [
+        "https://cohere.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:cohere",
+          "name": "Cohere"
+        },
+        {
+          "key": "host:Cohere",
+          "name": "Cohere"
+        }
+      ]
+    },
+    {
+      "qid": "Q860580",
+      "names": [
+        "Tencent"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q4830453",
+        "Q778575"
+      ],
+      "websites": [
+        "https://tencent.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:tencent",
+          "name": "tencent"
+        },
+        {
+          "key": "host:Tencent",
+          "name": "Tencent"
+        }
+      ]
+    },
+    {
+      "qid": "Q126050137",
+      "names": [
+        "Groq"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q6881511"
+      ],
+      "websites": [
+        "https://groq.com/"
+      ],
+      "locals": [
+        {
+          "key": "host:Groq",
+          "name": "Groq"
+        }
+      ]
+    },
+    {
+      "qid": "Q17052116",
+      "names": [
+        "DigitalOcean"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q4830453",
+        "Q891723"
+      ],
+      "websites": [
+        "https://digitalocean.com/"
+      ],
+      "locals": [
+        {
+          "key": "host:DigitalOcean",
+          "name": "DigitalOcean"
+        }
+      ]
+    },
+    {
+      "qid": "Q14772",
+      "names": [
+        "Baidu"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q43229",
+        "Q4830453",
+        "Q6881511",
+        "Q891723"
+      ],
+      "websites": [
+        "https://baidu.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:baidu",
+          "name": "baidu"
+        },
+        {
+          "key": "host:Baidu",
+          "name": "Baidu"
+        }
+      ]
+    },
+    {
+      "qid": "Q55606242",
+      "names": [
+        "ByteDance"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q1058914",
+        "Q4830453"
+      ],
+      "websites": [
+        "https://bytedance.com/"
+      ],
+      "locals": [
+        {
+          "key": "developer:bytedance",
+          "name": "bytedance"
+        }
+      ]
+    },
+    {
+      "qid": "Q66604886",
+      "names": [
+        "Cerebras"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q4830453",
+        "Q783794"
+      ],
+      "websites": [
+        "https://cerebras.ai/"
+      ],
+      "locals": [
+        {
+          "key": "host:Cerebras",
+          "name": "Cerebras"
+        }
+      ]
+    },
+    {
+      "qid": "Q121875386",
+      "names": [
+        "CoreWeave"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q4830453",
+        "Q6881511"
+      ],
+      "websites": [
+        "https://coreweave.com/"
+      ],
+      "locals": [
+        {
+          "key": "host:CoreWeave",
+          "name": "CoreWeave"
+        }
+      ]
+    },
+    {
+      "qid": "Q124333951",
+      "names": [
+        "Perplexity AI"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q43229",
+        "Q4830453"
+      ],
+      "websites": [
+        "https://perplexity.ai/"
+      ],
+      "locals": [
+        {
+          "key": "developer:perplexity",
+          "name": "perplexity"
+        },
+        {
+          "key": "host:Perplexity",
+          "name": "Perplexity"
+        }
+      ]
+    },
+    {
+      "qid": "Q725967",
+      "names": [
+        "Azure"
+      ],
+      "entity_kind": "service",
+      "instance_of": [
+        "Q483639",
+        "Q1346018",
+        "Q117350903",
+        "Q241317"
+      ],
+      "websites": [
+        "https://azure.microsoft.com/"
+      ],
+      "locals": [
+        {
+          "key": "host:Azure",
+          "name": "Azure"
+        }
+      ]
+    },
+    {
+      "qid": "Q124052638",
+      "names": [
+        "Amazon Bedrock"
+      ],
+      "entity_kind": "service",
+      "instance_of": [
+        "Q1254596"
+      ],
+      "websites": [
+        "https://aws.amazon.com/bedrock/"
+      ],
+      "locals": [
+        {
+          "key": "host:Amazon Bedrock",
+          "name": "Amazon Bedrock"
+        }
+      ]
+    },
+    {
+      "qid": "Q130263208",
+      "names": [
+        "MiniMax Group"
+      ],
+      "entity_kind": "organization",
+      "instance_of": [
+        "Q167037",
+        "Q6881511"
+      ],
+      "websites": [
+        "https://minimax.io/"
+      ],
+      "locals": [
+        {
+          "key": "developer:minimax",
+          "name": "MiniMax"
+        },
+        {
+          "key": "host:MiniMax",
+          "name": "MiniMax"
+        },
+        {
+          "key": "host:Minimax",
+          "name": "Minimax"
+        }
+      ]
+    }
+  ]
+}

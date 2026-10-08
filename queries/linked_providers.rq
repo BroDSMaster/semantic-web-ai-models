@@ -1,0 +1,15 @@
+PREFIX ex: <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+# Both organization hosts and platform services such as Azure are included.
+SELECT DISTINCT ?provider ?providerType ?externalIdentity ?reason ?source ?checkedAt
+WHERE {
+  ?offering ex:hostedBy ?host .
+  ?host rdfs:label ?provider ; a ?providerType ; owl:sameAs ?externalIdentity .
+  ?evidence a ex:ExternalLink ; ex:linkSubject ?host ; ex:linkTarget ?externalIdentity ;
+            ex:description ?reason ; prov:wasDerivedFrom ?source .
+  OPTIONAL { ?evidence ex:observedAt ?checkedAt }
+}
+ORDER BY ?provider ?externalIdentity

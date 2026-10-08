@@ -18,6 +18,13 @@ PUBLIC_SITE = "https://brodsmaster.github.io/semantic-web-ai-models/"
 # Fragment URIs dereference to the published Turtle document on GitHub Pages.
 BASE = PUBLIC_SITE + "data/aimodels.ttl#"
 
+# Source provider names denoting services, rather than incorporated organizations.
+PLATFORM_PROVIDERS = {'Azure', 'Amazon Bedrock', 'Google AI Studio', 'Claude Platform on AWS'}
+
+
+def provider_kind(ident):
+    return 'service' if ident in {uri('organization', 'host:' + name) for name in PLATFORM_PROVIDERS} else 'organization'
+
 
 def now():
     return datetime.now(timezone.utc).isoformat()

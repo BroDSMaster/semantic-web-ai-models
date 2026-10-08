@@ -38,7 +38,7 @@ class PagesSiteTests(unittest.TestCase):
             catalog = json.loads((output / "data/catalog.json").read_text())
             self.assertEqual(catalog["site"], PUBLIC_SITE)
             self.assertEqual(catalog["stats"]["models"], 481)
-            self.assertEqual(catalog["stats"]["external_links"], 14)
+            self.assertEqual(catalog["stats"]["external_links"], 77)
             self.assertTrue(catalog["models"])
             self.assertTrue(catalog["organizations"])
 

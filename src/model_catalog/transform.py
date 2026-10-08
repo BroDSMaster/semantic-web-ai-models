@@ -3,7 +3,7 @@ import json
 from rdflib import Graph, Literal, Namespace, URIRef
 from rdflib.namespace import RDF, RDFS, XSD, DCTERMS, OWL
 
-from .common import BASE, PUBLIC_SITE, GOLD, RES, read_tables, write_json
+from .common import BASE, PUBLIC_SITE, GOLD, RES, read_tables, write_json, provider_kind
 
 EX = Namespace(BASE)
 SCHEMA = Namespace("https://schema.org/")
@@ -34,7 +34,7 @@ def build_graph(tables):
             graph.add((subject, prop, URIRef(ident)))
 
     for row in tables["organizations"]:
-        entity(row, EX.Organization)
+        entity(row, SCHEMA.Service if provider_kind(row['id']) == 'service' else EX.Organization)
     for row in tables["families"]:
         entity(row, EX.ModelFamily)
     for table, cls in [("capabilities", EX.Capability), ("modalities", EX.Modality)]:

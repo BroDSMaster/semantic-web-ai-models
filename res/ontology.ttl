@@ -27,7 +27,7 @@ ex:ExternalLink a owl:Class ; rdfs:label "External identity evidence" ; rdfs:com
 ex:belongsToFamily a owl:ObjectProperty ; rdfs:domain ex:AIModel ; rdfs:range ex:ModelFamily ; rdfs:label "belongs to family" ; rdfs:comment "Model to its documented family." .
 ex:developedBy a owl:ObjectProperty ; rdfs:domain ex:AIModel ; rdfs:range ex:Organization ; rdfs:label "developed by" ; rdfs:comment "Model to its developer, distinct from hosting service." .
 ex:offersModel a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range ex:AIModel ; rdfs:label "offers model" ; rdfs:comment "Offering to model accessed through it." .
-ex:hostedBy a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range ex:Organization ; rdfs:label "hosted by" ; rdfs:comment "Offering to provider named in the source, which may itself be a platform." .
+ex:hostedBy a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range [ a owl:Class ; owl:unionOf (ex:Organization schema:Service) ] ; rdfs:label "hosted by" ; rdfs:comment "Offering to provider named in the source: an organization or a platform service such as Azure; does not infer a platform is a company." .
 ex:hasPrice a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range ex:PriceSpecification ; rdfs:label "has price" ; rdfs:comment "Offering to a sourced price observation." .
 ex:supportsCapability a owl:ObjectProperty ; rdfs:range ex:Capability ; rdfs:label "supports capability" ; rdfs:comment "Model/offering to a source-reported API feature. Absence is unknown." .
 ex:inputModality a owl:ObjectProperty ; rdfs:range ex:Modality ; rdfs:label "input modality" ; rdfs:comment "Entity to its reported accepted input medium." .

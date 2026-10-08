@@ -1,7 +1,7 @@
 # Liên kết tổ chức tới các dataset bên ngoài
 
 Project dùng `owl:sameAs` khi URI organization local và URI bên ngoài cùng nhận diện
-một tổ chức. Model, repository, trang tài liệu và kết quả benchmark là các đối tượng
+một tổ chức. Provider là nền tảng như Azure/Bedrock được gán `schema:Service` và chỉ nối tới cùng dịch vụ bên ngoài, không nối tới công ty sở hữu. Model, repository, trang tài liệu và kết quả benchmark là các đối tượng
 khác nhau nên không được nối `sameAs` với nhau.
 
 ## Kết quả đã thu thập và kiểm chứng
@@ -24,13 +24,23 @@ OpenAlex bổ sung 9 `sameAs` ở cấp Organization:
 
 Mỗi mapping phải khớp exact local URI/name, OpenAlex ID/display name, loại `company`, homepage domain và ROR. Meta, DeepSeek và Moonshot còn phải khớp Wikidata QID. OpenAlex Work là bài báo nên không bao giờ được dùng làm `sameAs` của AIModel.
 
-Ngoài 9 links OpenAlex, `link.py` xuất 5 links tổ chức tới Wikidata/DBpedia sau
-khi xác minh website chính thức. Tổng cộng graph có 14 identity links cấp tổ chức.
+Ngoài 9 links OpenAlex, có **42 Wikidata links và 26 DBpedia links**, tổng cộng
+**77 sameAs cho 43 URI local**. Hai URI developer và provider có thể nhận diện
+cùng công ty; 43 URI local không có nghĩa 43 công ty khác nhau.
+
+Mapping Wikidata chứa 25 thực thể đã duyệt. Ví dụ: Mistral AI, DeepSeek, Moonshot AI,
+MiniMax, Alibaba (developer Qwen), Nvidia, Tencent, Baidu, Cloudflare, Groq,
+DigitalOcean, Cerebras, CoreWeave, Perplexity, Microsoft, Amazon và ByteDance.
+Azure nối tới `http://www.wikidata.org/entity/Q725967` và
+`http://dbpedia.org/resource/Microsoft_Azure`, không nối tới Microsoft.
+
+Giữ các tên chưa đủ bằng chứng ở trạng thái chưa liên kết; không suy ra công ty
+chỉ bằng prefix model hoặc tên provider gần giống.
 
 ## Điều kiện để xuất sameAs tổ chức
 
 1. Organization local phải tồn tại trong Silver và có mapping được duyệt.
-2. Với Wikidata, `P856` phải chứa website chính thức khớp domain đã duyệt.
+2. Với Wikidata, QID, label/alias, `P31` (loại thực thể) và `P856` (website chính thức) phải khớp mapping đã duyệt. Domain phải khớp chính xác; với sản phẩm trên domain chung, đường dẫn phải khớp sản phẩm (ví dụ `/bedrock/`).
 3. Chỉ thêm DBpedia khi resource DBpedia tự công bố `owl:sameAs` tới QID Wikidata đã xác minh.
 4. Với OpenAlex, local URI/name, OpenAlex ID/display name, loại `company`, homepage và ROR phải khớp; QID cũng phải khớp khi mapping yêu cầu.
 5. Đọc lại JSON gốc và kiểm tra SHA-256 khi export offline. Không nối gần đúng chỉ vì tên giống nhau.
@@ -51,14 +61,16 @@ không phải bảo đảm rằng nguồn bên ngoài không bao giờ sai. Liê
 
 | File code / dữ liệu | Đầu vào → đầu ra |
 |---|---|
+| `res/wikidata-organization-mappings.json` | 25 QID, tên/alias, loại, website và 42 URI/tên local đã review; không tự tạo từ tên gần giống |
+| `src/model_catalog/wikidata_links.py` | Mapping + Silver → raw JSON Wikidata/DBpedia tại Bronze + `external_lookups.json`; replay kiểm tra checksum/tên/loại/website → cặp sameAs được chấp nhận |
 | `src/model_catalog/organization_links.py` | 9 ứng viên đã duyệt → JSON OpenAlex Institution trong Bronze và `openalex_lookups.json`; phát lại kiểm tra offline |
 | `src/model_catalog/link.py --offline` | Silver + ứng viên + JSON gốc + cache → `res/linked_output.nt`, `external_links.csv`, `res/linking-report.json` |
 | `src/model_catalog/model_cards.py` | URL HF được catalog chỉ rõ → model card JSON; đọc lại bytes đã kiểm tra khi offline |
 | `src/model_catalog/normalize.py` | Catalog + card được xác minh → observations CSV cho `hasRepository` và metadata |
 | `src/model_catalog/transform.py` | Silver → `src/data/gold/models.ttl` và `models.rdf`; RDF ghi quan hệ repository cùng nguồn |
-| `src/model_catalog/validate.py` | Graph + snapshot nguồn → kiểm tra checksum và so sameAs OpenAlex trong RDF với mapping xác minh lại |
+| `src/model_catalog/validate.py` | Graph + snapshot nguồn → kiểm tra checksum và so sameAs Wikidata/DBpedia/OpenAlex trong RDF với mapping xác minh lại, kiểm tra provider service không bị gán Organization |
 
-[linking-report.json](../res/linking-report.json) ghi quyết định từng ứng viên, URL, thời điểm, checksum và đường dẫn file nguồn. [external_links.csv](../src/data/silver/external_links.csv) giữ mỗi cặp subject/target; `linked_output.nt` có cả triple sameAs và thực thể `ExternalLink` chứa bằng chứng. Metadata identity nằm ngoài manifest catalog; validator kiểm tra riêng các file được `openalex_lookups.json` trỏ tới.
+[linking-report.json](../res/linking-report.json) ghi số link và quyết định từng ứng viên. URL, thời điểm, checksum và đường dẫn file nguồn nằm trong CSV/cache và RDF evidence. [external_links.csv](../src/data/silver/external_links.csv) giữ mỗi cặp subject/target; `linked_output.nt` có cả triple sameAs và thực thể `ExternalLink` chứa bằng chứng. Metadata identity nằm ngoài manifest catalog; validator kiểm tra riêng các file được `openalex_lookups.json` và `external_lookups.json` trỏ tới.
 
 ## Chạy lại và query
 
@@ -69,6 +81,7 @@ PYTHONPATH=src .venv/bin/python -m model_catalog.normalize
 PYTHONPATH=src .venv/bin/python -m model_catalog.transform
 PYTHONPATH=src .venv/bin/python -m model_catalog.link --offline
 PYTHONPATH=src .venv/bin/python -m model_catalog.validate
+.venv/bin/python src/ask.py queries/linked_providers.rq
 .venv/bin/python src/ask.py queries/external_links.rq
 .venv/bin/python src/ask.py queries/openalex_organizations.rq
 .venv/bin/python src/ask.py queries/model_repositories.rq
@@ -76,6 +89,23 @@ PYTHONPATH=src .venv/bin/python -m model_catalog.validate
 
 Chạy tuần tự, chờ mỗi lệnh hoàn tất. Muốn lấy lại bằng chứng OpenAlex mới, chạy `PYTHONPATH=src .venv/bin/python -m model_catalog.organization_links`. Sau đó chạy `link --offline` và `validate`. Các lệnh này chỉ cập nhật cache identity tổ chức, không thu thập lại giá/catalog.
 
-Query external links trả 14 dòng tổ chức; query OpenAlex trả 9 dòng; query repositories trả 102 dòng. `sameAs` tổ chức và `hasRepository` của model là hai quan hệ có ý nghĩa khác nhau.
+Query external links trả 77 dòng tổ chức/dịch vụ; query OpenAlex trả 9 dòng; query repositories trả 102 dòng. `sameAs` tổ chức và `hasRepository` của model là hai quan hệ có ý nghĩa khác nhau.
 
-Với Fuseki đã chạy, tự nạp các file bằng `bash scripts/load_fuseki.sh`, rồi dán query trong `queries/external_links.rq` hoặc `queries/openalex_organizations.rq` vào UI của `/aimodels`. Script thêm dữ liệu vào default graph và giữ dữ liệu cũ; vì dataset cũ vẫn chứa hai model links đã nạp trước đây, hãy tạo dataset `/aimodels` mới hoặc xóa dữ liệu cũ trước khi nạp bản này. Hướng dẫn khởi động Fuseki ở [PIPELINE.md](PIPELINE.md). Lần triển khai này chỉ xây dựng và kiểm tra offline, không cập nhật server của bạn.
+Với Fuseki đã chạy, tự nạp các file bằng `bash scripts/load_fuseki.sh`, rồi dán query trong `queries/external_links.rq` hoặc `queries/openalex_organizations.rq` vào UI của `/aimodels`. Script thêm dữ liệu vào default graph và giữ dữ liệu cũ; vì dataset cũ có thể còn model links và kiểu Organization cũ của Azure, hãy tạo dataset `/aimodels` mới hoặc xóa dữ liệu cũ trước khi nạp bản này. Hướng dẫn khởi động Fuseki ở [PIPELINE.md](PIPELINE.md). Lần triển khai này chỉ xây dựng và kiểm tra offline, không cập nhật server của bạn.
+
+Muốn lấy lại bằng chứng Wikidata/DBpedia và OpenAlex qua mạng, chạy
+`PYTHONPATH=src .venv/bin/python -m model_catalog.link` (không có `--offline`),
+sau đó `validate`. Lệnh này cập nhật identity, không thu thập lại model/giá.
+
+Query provider đã liên kết, bao gồm nền tảng dịch vụ:
+
+```sparql
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT ?name ?type ?externalIdentity WHERE {
+  ?provider rdfs:label ?name; a ?type; owl:sameAs ?externalIdentity.
+  FILTER(?name = "Azure")
+}
+```
+
+Không dùng bộ lọc `a ex:Organization` để tìm Azure, vì Azure là `schema:Service`.

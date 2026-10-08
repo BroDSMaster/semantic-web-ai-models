@@ -5,12 +5,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 >
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#literalValue">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation"/>
-    <rdfs:label>literal value</rdfs:label>
-    <rdfs:comment>Observation to its literal-valued statement object.</rdfs:comment>
-  </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#belongsToFamily">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
     <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
@@ -18,197 +12,11 @@
     <rdfs:label>belongs to family</rdfs:label>
     <rdfs:comment>Model to its documented family.</rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#sha256">
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#sourceId">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>SHA-256</rdfs:label>
-    <rdfs:comment>Content checksum of preserved source bytes.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#conditions">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>conditions</rdfs:label>
-    <rdfs:comment>Published pricing qualifiers; not inferred from observation date.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#observedAt">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-    <rdfs:label>observed at</rdfs:label>
-    <rdfs:comment>Time snapshot was obtained, not an assertion of effective or publication date.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Modality">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>Modality</rdfs:label>
-    <rdfs:comment>An input/output medium such as text, image, audio, video or file.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#expirationDate">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>expiration date</rdfs:label>
-    <rdfs:comment>Source-reported catalog expiration, not inferred from creation time.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceAmount">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-    <rdfs:label>price amount</rdfs:label>
-    <rdfs:comment>Amount in the specified currency/unit. Zero is valid; missing price is not zero.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#knowledgeCutoff">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>knowledge cutoff</rdfs:label>
-    <rdfs:comment>Source-reported cutoff retained in its published precision.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#scoreUnit">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>score unit</rdfs:label>
-    <rdfs:comment>percent, index_points or documented scale.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceUnit">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>price unit</rdfs:label>
-    <rdfs:comment>million_tokens, request, image, search, or unknown; only known token prices are multiplied.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#catalogCreated">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-    <rdfs:label>catalog creation timestamp</rdfs:label>
-    <rdfs:comment>Catalog/API timestamp; explicitly not model release date.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#currency">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>currency</rdfs:label>
-    <rdfs:comment>ISO currency code such as USD.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="https://schema.org/Organization"/>
-    <rdfs:label>Organization</rdfs:label>
-    <rdfs:comment>An organization with developer or hosting roles expressed by relations.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelFamily">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>Model family</rdfs:label>
-    <rdfs:comment>A named collection of related models, such as Claude. A family is not a superclass of its member models.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#contextLength">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <rdfs:label>context length</rdfs:label>
-    <rdfs:comment>Source-reported context token limit for this entity.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#outputModality">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Modality"/>
-    <rdfs:label>output modality</rdfs:label>
-    <rdfs:comment>Entity to its reported generated output medium.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#offersModel">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelOffering"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
-    <rdfs:label>offers model</rdfs:label>
-    <rdfs:comment>Offering to model accessed through it.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#license">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>model card license</rdfs:label>
-    <rdfs:comment>License identifier reported by publisher model-card metadata, not the catalog dataset license or API price.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#maxOutputTokens">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <rdfs:label>maximum output tokens</rdfs:label>
-    <rdfs:comment>Source-reported maximum completion tokens.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#onBenchmark">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Benchmark"/>
-    <rdfs:label>on benchmark</rdfs:label>
-    <rdfs:comment>Result to metric/protocol evaluated.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#huggingFaceId">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>Hugging Face repository identifier</rdfs:label>
-    <rdfs:comment>Repository ID as reported by catalog; repository is a document/software artifact, not automatically the model entity.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#uptimeLastDay">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-    <rdfs:label>uptime last day</rdfs:label>
-    <rdfs:comment>Source-reported rolling endpoint uptime percent; tied to snapshot time.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#throughputLast30Minutes">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-    <rdfs:label>throughput last 30 minutes</rdfs:label>
-    <rdfs:comment>Raw source-reported rolling throughput; not a model quality benchmark.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#latencyLast30Minutes">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-    <rdfs:label>latency last 30 minutes</rdfs:label>
-    <rdfs:comment>Raw source-reported rolling latency; no undocumented unit conversion.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#pipelineTag">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>pipeline task</rdfs:label>
-    <rdfs:comment>Repository task metadata, such as text-generation; not an independently validated capability.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#score">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-    <rdfs:label>score</rdfs:label>
-    <rdfs:comment>Reported metric value; compare only compatible scales/configurations.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#hasRepository">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
-    <rdfs:range rdf:resource="https://schema.org/SoftwareSourceCode"/>
-    <rdfs:label>has repository</rdfs:label>
-    <rdfs:comment>Repository explicitly named by the catalog, whose exact publisher repository ID was confirmed by Hugging Face. Does not assert that the API deployment uses identical weights, checkpoint or revision. Never implies owl:sameAs.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#aboutEntity">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation"/>
-    <rdfs:label>about entity</rdfs:label>
-    <rdfs:comment>Observation to its statement subject.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#inputModality">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Modality"/>
-    <rdfs:label>input modality</rdfs:label>
-    <rdfs:comment>Entity to its reported accepted input medium.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#evaluatedModel">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
-    <rdfs:label>evaluated model</rdfs:label>
-    <rdfs:comment>Result to the explicitly mapped model ID.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceTier">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>price tier</rdfs:label>
-    <rdfs:comment>Base price or a source-defined override; overrides carry boundary metadata.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#snapshotFile">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>snapshot file</rdfs:label>
-    <rdfs:comment>Relative path to collected evidence.</rdfs:comment>
+    <rdfs:label>source identifier</rdfs:label>
+    <rdfs:comment>Source-specific ID retained exactly; not assumed globally equivalent.</rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resourceValue">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
@@ -216,10 +24,9 @@
     <rdfs:label>resource value</rdfs:label>
     <rdfs:comment>Observation to its resource-valued statement object.</rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation">
+  <rdf:Description rdf:nodeID="n0c9676441d484882a12941bbd7038356b1">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>Fact observation</rdfs:label>
-    <rdfs:comment>A statement about a subject, property and value with source provenance; may conflict with another source.</rdfs:comment>
+    <owl:unionOf rdf:nodeID="n0c9676441d484882a12941bbd7038356b2"/>
   </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#endpointTag">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
@@ -228,37 +35,41 @@
     <rdfs:label>endpoint tag</rdfs:label>
     <rdfs:comment>Source tag distinguishing provider endpoints or regions; retained without interpreting geography.</rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#discount">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-    <rdfs:label>discount fraction</rdfs:label>
-    <rdfs:comment>Source fraction; priceAmount includes rawAmount multiplied by (1 - discount). Negative source values represent a surcharge; values above 1 are invalid.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#quantization">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>quantization</rdfs:label>
-    <rdfs:comment>Source-reported endpoint quantization, with unknown retained explicitly.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#sourceId">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>source identifier</rdfs:label>
-    <rdfs:comment>Source-specific ID retained exactly; not assumed globally equivalent.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#sourceKind">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>source kind</rdfs:label>
-    <rdfs:comment>official, catalog, benchmark or identity evidence.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#hostedBy">
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#hasRepository">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelOffering"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization"/>
-    <rdfs:label>hosted by</rdfs:label>
-    <rdfs:comment>Offering to provider named in the source, which may itself be a platform.</rdfs:comment>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
+    <rdfs:range rdf:resource="https://schema.org/SoftwareSourceCode"/>
+    <rdfs:label>has repository</rdfs:label>
+    <rdfs:comment>Repository explicitly named by the catalog, whose exact publisher repository ID was confirmed by Hugging Face. Does not assert that the API deployment uses identical weights, checkpoint or revision. Never implies owl:sameAs.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#scoreUnit">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>score unit</rdfs:label>
+    <rdfs:comment>percent, index_points or documented scale.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#contextLength">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label>context length</rdfs:label>
+    <rdfs:comment>Source-reported context token limit for this entity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#serviceMode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>service mode</rdfs:label>
+    <rdfs:comment>standard, batch, free or another documented pricing mode.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelOffering">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Service"/>
+    <rdfs:label>Model offering</rdfs:label>
+    <rdfs:comment>Access to a model through a service/endpoint; limits and prices are offering-specific.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelFamily">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Model family</rdfs:label>
+    <rdfs:comment>A named collection of related models, such as Claude. A family is not a superclass of its member models.</rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#minPromptTokens">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
@@ -267,131 +78,17 @@
     <rdfs:label>minimum prompt tokens</rdfs:label>
     <rdfs:comment>Boundary supplied by source for a price override, not a model context limit.</rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceCategory">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>price category</rdfs:label>
-    <rdfs:comment>Input/prompt, output/completion, cache read/write or another billable category.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#rawAmount">
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#quantization">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>raw amount</rdfs:label>
-    <rdfs:comment>Unmodified source amount before unit conversion.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#libraryName">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>library name</rdfs:label>
-    <rdfs:comment>Library reported by repository metadata.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkSubject">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ExternalLink"/>
-    <rdfs:label>link subject</rdfs:label>
-    <rdfs:comment>Evidence record to the local identity being mapped.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>AI model</rdfs:label>
-    <rdfs:comment>A source-identified AI model/version. IDs and aliases are not merged without identity evidence.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#offeringKind">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>offering kind</rdfs:label>
-    <rdfs:comment>direct, openrouter_catalog, or openrouter_endpoint.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#canonicalSlug">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>canonical catalog slug</rdfs:label>
-    <rdfs:comment>Source slug; provenance retained, not owl:sameAs.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#benchmarkVersion">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>benchmark version</rdfs:label>
-    <rdfs:comment>Protocol version when supplied.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#developedBy">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization"/>
-    <rdfs:label>developed by</rdfs:label>
-    <rdfs:comment>Model to its developer, distinct from hosting service.</rdfs:comment>
+    <rdfs:label>quantization</rdfs:label>
+    <rdfs:comment>Source-reported endpoint quantization, with unknown retained explicitly.</rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#attribution">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label>attribution</rdfs:label>
     <rdfs:comment>Named origin and intermediary of the collected result.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#rawUnit">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>raw unit</rdfs:label>
-    <rdfs:comment>Unit used in source for lossless audit.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ExternalLink">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>External identity evidence</rdfs:label>
-    <rdfs:comment>An external identity mapping with evidence; document URLs are not entity identity.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelOffering">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="https://schema.org/Service"/>
-    <rdfs:label>Model offering</rdfs:label>
-    <rdfs:comment>Access to a model through a service/endpoint; limits and prices are offering-specific.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#observedProperty">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation"/>
-    <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:label>observed property</rdfs:label>
-    <rdfs:comment>Observation to its statement predicate.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Benchmark">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>Benchmark</rdfs:label>
-    <rdfs:comment>An evaluation metric/protocol identified with its evaluator and version where supplied.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#supportsCapability">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Capability"/>
-    <rdfs:label>supports capability</rdfs:label>
-    <rdfs:comment>Model/offering to a source-reported API feature. Absence is unknown.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#evaluator">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>evaluator</rdfs:label>
-    <rdfs:comment>Who produced the benchmark, distinct from the source through which data was retrieved.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#modelOntology">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
-    <owl:versionInfo>2.0</owl:versionInfo>
-    <dcterms:title>AI models, API offerings and sourced evaluations</dcterms:title>
-    <dcterms:description>A catalog extension independent of the OpenAlex research ontology. Unknown values remain unknown; source observations are retained.</dcterms:description>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#relatedDocumentation">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#SourceDocument"/>
-    <rdfs:label>related documentation</rdfs:label>
-    <rdfs:comment>Relevant developer documentation; relevance alone does not prove each field on a model.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#evaluationConfig">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>evaluation configuration</rdfs:label>
-    <rdfs:comment>Conditions including effort and harness; unknown configuration remains explicit.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#serviceMode">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label>service mode</rdfs:label>
-    <rdfs:comment>standard, batch, free or another documented pricing mode.</rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#hasPrice">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
@@ -400,33 +97,18 @@
     <rdfs:label>has price</rdfs:label>
     <rdfs:comment>Offering to a sourced price observation.</rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#parameterCount">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <rdfs:label>checkpoint parameter count</rdfs:label>
-    <rdfs:comment>Total safetensors parameter count reported in publisher repository metadata; not an assertion about active MoE parameters.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkTarget">
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#hostedBy">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ExternalLink"/>
-    <rdfs:label>link target</rdfs:label>
-    <rdfs:comment>Evidence record to the verified external identity.</rdfs:comment>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelOffering"/>
+    <rdfs:range rdf:nodeID="n0c9676441d484882a12941bbd7038356b1"/>
+    <rdfs:label>hosted by</rdfs:label>
+    <rdfs:comment>Offering to provider named in the source: an organization or a platform service such as Azure; does not infer a platform is a company.</rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>Evaluation</rdfs:label>
-    <rdfs:comment>One model's reported result on a benchmark with a recorded scale, configuration and source.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Capability">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:label>Capability</rdfs:label>
-    <rdfs:comment>A named, documented API-supported feature or parameter; not a quality ranking.</rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#SourceDocument">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
-    <rdfs:label>Source document</rdfs:label>
-    <rdfs:comment>A URL/content snapshot identified by its checksum and observation time.</rdfs:comment>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#outputModality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Modality"/>
+    <rdfs:label>output modality</rdfs:label>
+    <rdfs:comment>Entity to its reported generated output medium.</rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#description">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
@@ -434,10 +116,340 @@
     <rdfs:label>description</rdfs:label>
     <rdfs:comment>Attributed description/claim, not an independently verified quality score.</rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>AI model</rdfs:label>
+    <rdfs:comment>A source-identified AI model/version. IDs and aliases are not merged without identity evidence.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceAmount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>price amount</rdfs:label>
+    <rdfs:comment>Amount in the specified currency/unit. Zero is valid; missing price is not zero.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#offersModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ModelOffering"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
+    <rdfs:label>offers model</rdfs:label>
+    <rdfs:comment>Offering to model accessed through it.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#observedProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>observed property</rdfs:label>
+    <rdfs:comment>Observation to its statement predicate.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#huggingFaceId">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>Hugging Face repository identifier</rdfs:label>
+    <rdfs:comment>Repository ID as reported by catalog; repository is a document/software artifact, not automatically the model entity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#offeringKind">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>offering kind</rdfs:label>
+    <rdfs:comment>direct, openrouter_catalog, or openrouter_endpoint.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#observedAt">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label>observed at</rdfs:label>
+    <rdfs:comment>Time snapshot was obtained, not an assertion of effective or publication date.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Capability">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Capability</rdfs:label>
+    <rdfs:comment>A named, documented API-supported feature or parameter; not a quality ranking.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#parameterCount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label>checkpoint parameter count</rdfs:label>
+    <rdfs:comment>Total safetensors parameter count reported in publisher repository metadata; not an assertion about active MoE parameters.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#evaluationConfig">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>evaluation configuration</rdfs:label>
+    <rdfs:comment>Conditions including effort and harness; unknown configuration remains explicit.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#aboutEntity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation"/>
+    <rdfs:label>about entity</rdfs:label>
+    <rdfs:comment>Observation to its statement subject.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkTarget">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ExternalLink"/>
+    <rdfs:label>link target</rdfs:label>
+    <rdfs:comment>Evidence record to the verified external identity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#expirationDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>expiration date</rdfs:label>
+    <rdfs:comment>Source-reported catalog expiration, not inferred from creation time.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Organization"/>
+    <rdfs:label>Organization</rdfs:label>
+    <rdfs:comment>An organization with developer or hosting roles expressed by relations.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Modality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Modality</rdfs:label>
+    <rdfs:comment>An input/output medium such as text, image, audio, video or file.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Benchmark">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Benchmark</rdfs:label>
+    <rdfs:comment>An evaluation metric/protocol identified with its evaluator and version where supplied.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>price category</rdfs:label>
+    <rdfs:comment>Input/prompt, output/completion, cache read/write or another billable category.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#score">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>score</rdfs:label>
+    <rdfs:comment>Reported metric value; compare only compatible scales/configurations.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#sha256">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>SHA-256</rdfs:label>
+    <rdfs:comment>Content checksum of preserved source bytes.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceUnit">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>price unit</rdfs:label>
+    <rdfs:comment>million_tokens, request, image, search, or unknown; only known token prices are multiplied.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#modelOntology">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <owl:versionInfo>2.0</owl:versionInfo>
+    <dcterms:title>AI models, API offerings and sourced evaluations</dcterms:title>
+    <dcterms:description>A catalog extension independent of the OpenAlex research ontology. Unknown values remain unknown; source observations are retained.</dcterms:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#conditions">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>conditions</rdfs:label>
+    <rdfs:comment>Published pricing qualifiers; not inferred from observation date.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#supportsCapability">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Capability"/>
+    <rdfs:label>supports capability</rdfs:label>
+    <rdfs:comment>Model/offering to a source-reported API feature. Absence is unknown.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#libraryName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>library name</rdfs:label>
+    <rdfs:comment>Library reported by repository metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceTier">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>price tier</rdfs:label>
+    <rdfs:comment>Base price or a source-defined override; overrides carry boundary metadata.</rdfs:comment>
+  </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
     <rdfs:subClassOf rdf:resource="https://schema.org/PriceSpecification"/>
     <rdfs:label>Price specification</rdfs:label>
     <rdfs:comment>A sourced observation of a price category, unit, currency and conditions for one offering.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#throughputLast30Minutes">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>throughput last 30 minutes</rdfs:label>
+    <rdfs:comment>Raw source-reported rolling throughput; not a model quality benchmark.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#inputModality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Modality"/>
+    <rdfs:label>input modality</rdfs:label>
+    <rdfs:comment>Entity to its reported accepted input medium.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#latencyLast30Minutes">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>latency last 30 minutes</rdfs:label>
+    <rdfs:comment>Raw source-reported rolling latency; no undocumented unit conversion.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#knowledgeCutoff">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>knowledge cutoff</rdfs:label>
+    <rdfs:comment>Source-reported cutoff retained in its published precision.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#maxOutputTokens">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label>maximum output tokens</rdfs:label>
+    <rdfs:comment>Source-reported maximum completion tokens.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#SourceDocument">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+    <rdfs:label>Source document</rdfs:label>
+    <rdfs:comment>A URL/content snapshot identified by its checksum and observation time.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Fact observation</rdfs:label>
+    <rdfs:comment>A statement about a subject, property and value with source provenance; may conflict with another source.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkSubject">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ExternalLink"/>
+    <rdfs:label>link subject</rdfs:label>
+    <rdfs:comment>Evidence record to the local identity being mapped.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#rawAmount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>raw amount</rdfs:label>
+    <rdfs:comment>Unmodified source amount before unit conversion.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#developedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization"/>
+    <rdfs:label>developed by</rdfs:label>
+    <rdfs:comment>Model to its developer, distinct from hosting service.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#canonicalSlug">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>canonical catalog slug</rdfs:label>
+    <rdfs:comment>Source slug; provenance retained, not owl:sameAs.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#uptimeLastDay">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>uptime last day</rdfs:label>
+    <rdfs:comment>Source-reported rolling endpoint uptime percent; tied to snapshot time.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#catalogCreated">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label>catalog creation timestamp</rdfs:label>
+    <rdfs:comment>Catalog/API timestamp; explicitly not model release date.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#license">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>model card license</rdfs:label>
+    <rdfs:comment>License identifier reported by publisher model-card metadata, not the catalog dataset license or API price.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#snapshotFile">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>snapshot file</rdfs:label>
+    <rdfs:comment>Relative path to collected evidence.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#discount">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label>discount fraction</rdfs:label>
+    <rdfs:comment>Source fraction; priceAmount includes rawAmount multiplied by (1 - discount). Negative source values represent a surcharge; values above 1 are invalid.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#relatedDocumentation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#SourceDocument"/>
+    <rdfs:label>related documentation</rdfs:label>
+    <rdfs:comment>Relevant developer documentation; relevance alone does not prove each field on a model.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#evaluator">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>evaluator</rdfs:label>
+    <rdfs:comment>Who produced the benchmark, distinct from the source through which data was retrieved.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#currency">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>currency</rdfs:label>
+    <rdfs:comment>ISO currency code such as USD.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#evaluatedModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#AIModel"/>
+    <rdfs:label>evaluated model</rdfs:label>
+    <rdfs:comment>Result to the explicitly mapped model ID.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#pipelineTag">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>pipeline task</rdfs:label>
+    <rdfs:comment>Repository task metadata, such as text-generation; not an independently validated capability.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#literalValue">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#FactObservation"/>
+    <rdfs:label>literal value</rdfs:label>
+    <rdfs:comment>Observation to its literal-valued statement object.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#onBenchmark">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation"/>
+    <rdfs:range rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Benchmark"/>
+    <rdfs:label>on benchmark</rdfs:label>
+    <rdfs:comment>Result to metric/protocol evaluated.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Evaluation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Evaluation</rdfs:label>
+    <rdfs:comment>One model's reported result on a benchmark with a recorded scale, configuration and source.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n0c9676441d484882a12941bbd7038356b2">
+    <rdf:first rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization"/>
+    <rdf:rest rdf:nodeID="n0c9676441d484882a12941bbd7038356b3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ExternalLink">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>External identity evidence</rdfs:label>
+    <rdfs:comment>An external identity mapping with evidence; document URLs are not entity identity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#rawUnit">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>raw unit</rdfs:label>
+    <rdfs:comment>Unit used in source for lossless audit.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#sourceKind">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>source kind</rdfs:label>
+    <rdfs:comment>official, catalog, benchmark or identity evidence.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n0c9676441d484882a12941bbd7038356b3">
+    <rdf:first rdf:resource="https://schema.org/Service"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#benchmarkVersion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label>benchmark version</rdfs:label>
+    <rdfs:comment>Protocol version when supplied.</rdfs:comment>
   </rdf:Description>
 </rdf:RDF>

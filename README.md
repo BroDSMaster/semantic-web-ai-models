@@ -80,13 +80,15 @@ flowchart LR
   OF -- "offersModel" --> M
   OF -- "hostedBy" --> PROVIDER["API provider"]
 
-  ORG -- "owl:sameAs<br/>website/QID được xác minh" --> WDO["Wikidata organization"]
-  ORG -- "owl:sameAs<br/>dựa trên QID đã xác minh" --> DBP["DBpedia organization"]
+  ORG -- "owl:sameAs<br/>website/QID được xác minh" --> WDO["Wikidata organization / service"]
+  ORG -- "owl:sameAs<br/>dựa trên QID đã xác minh" --> DBP["DBpedia organization / service"]
+  PROVIDER -- "owl:sameAs khi xác minh đúng thực thể" --> WDO
+  PROVIDER -- "owl:sameAs khi DBpedia xác nhận QID" --> DBP
   DBP -. "DBpedia công bố sameAs" .-> WDO
   ORG -- "owl:sameAs<br/>name + homepage + ROR + QID" --> OA["OpenAlex Institution"]
 ```
 
-Đọc sơ đồ thứ hai từ giữa ra ngoài: `AIModel`, `ModelOffering` và `Organization` là các thực thể local của project. OpenRouter, tài liệu hãng, Hugging Face, Aider và Artificial Analysis cung cấp **thông tin về** các thực thể đó. Wikidata, DBpedia và OpenAlex chỉ được dùng để tạo `owl:sameAs` cho tổ chức, sau khi code xác minh hai URI thật sự nhận diện cùng một tổ chức.
+Đọc sơ đồ thứ hai từ giữa ra ngoài: `AIModel`, `ModelOffering` và `Organization` là các thực thể local của project. OpenRouter, tài liệu hãng, Hugging Face, Aider và Artificial Analysis cung cấp **thông tin về** các thực thể đó. Wikidata, DBpedia và OpenAlex dùng để tạo `owl:sameAs` cho thực thể đã kiểm chứng. OpenAlex nối tổ chức; Wikidata/DBpedia nối tổ chức hoặc dịch vụ provider như Azure.
 
 Hugging Face nối bằng `hasRepository` vì repository chứa model card hoặc trọng số liên quan nhưng repository không phải bản thân model. Aider và Artificial Analysis tạo `Evaluation` vì điểm benchmark là một kết quả đánh giá. Tài liệu hãng tạo provenance bằng `prov:wasDerivedFrom` vì trang tài liệu là bằng chứng cho một thuộc tính hoặc mức giá. Artificial Analysis hiện không được tải trực tiếp; project chỉ giữ các điểm có attribution Artificial Analysis nằm trong phản hồi OpenRouter.
 
@@ -101,8 +103,8 @@ Snapshot thu thập ngày 05/10/2026 có:
 | Giá | 8.174 bản ghi; gồm loại token, đơn vị, điều kiện, chiết khấu và các mức giá theo ngữ cảnh |
 | Thông tin bổ sung | 92 bộ metadata model từ đơn vị phát hành trên Hugging Face |
 | Đánh giá | 471 kết quả benchmark có model, phép đo, điểm, cấu hình và nguồn |
-| Liên kết ngoài | 9 `sameAs` tổ chức tới OpenAlex + 5 links tổ chức tới Wikidata/DBpedia; tổng 14 identity links cấp tổ chức; 102 quan hệ model → repository Hugging Face |
-| Graph kết hợp | 354.630 triples; 14 file query; query Opus trả 336 dòng giá. Các liên kết OpenAlex được xác minh ngày 08/10/2026 |
+| Liên kết ngoài | 77 identity links: 42 Wikidata + 26 DBpedia + 9 OpenAlex; 43 URI local của tổ chức/dịch vụ có liên kết (developer/provider có thể cùng công ty); 102 quan hệ model → repository Hugging Face |
+| Graph kết hợp | 355.218 triples; 15 file query; query Opus trả 336 dòng giá. Các liên kết OpenAlex được xác minh ngày 08/10/2026 |
 
 Một listing là một mục trong danh mục. Tên gọi khác, bản miễn phí hoặc bản chạy theo lô có thể cùng dùng một model; số listing không phải số bộ trọng số độc lập. Điểm đánh giá chỉ có cho một phần model.
 
@@ -160,7 +162,7 @@ Thiết kế theo [ONTOLOGY_ENGINEERING_SKILL.md](../ONTOLOGY_ENGINEERING_SKILL.
 |---|---|
 | `AIModel` | Một model/phiên bản theo ID nguồn, như `anthropic/claude-opus-4.6` |
 | `ModelFamily` | Họ model, như Claude, Gemini, Qwen |
-| `Organization` | Tổ chức có vai trò phát triển hoặc cung cấp dịch vụ, như Anthropic/Azure |
+| `Organization` | Tổ chức có vai trò phát triển hoặc cung cấp dịch vụ, như Anthropic/OpenAI |
 | `ModelOffering` | Một dịch vụ/cấu hình truy cập model, như Azure global qua OpenRouter |
 | `Capability` | Khả năng/tham số API được công bố, như hỗ trợ tools |
 | `Modality` | Loại đầu vào/đầu ra: text, image, audio… |
@@ -213,7 +215,7 @@ Xem [sơ đồ toàn bộ ontology](docs/ONTOLOGY_DIAGRAM.md) để xem đủ 12
 | Hugging Face | API JSON metadata do đơn vị phát hành đăng: giấy phép, tổng số tham số khi có, thư viện phần mềm và loại tác vụ |
 | Artificial Analysis | Đơn vị đánh giá model; project lấy một số điểm của đơn vị này từ các trường trong JSON OpenRouter |
 | Aider | Bảng HTML kết quả giải bài lập trình; bảng đối chiếu tên Aider với ID model giúp gắn đúng kết quả |
-| Wikidata / DBpedia | JSON/SPARQL để xác nhận danh tính tổ chức và model ở bước 4 |
+| Wikidata / DBpedia | JSON/SPARQL để xác nhận danh tính tổ chức và dịch vụ ở bước 4 |
 | OpenAlex | API JSON Institution: ID, tên, loại tổ chức, homepage, ROR và Wikidata khi có; dùng để xác minh tổ chức tương đương |
 
 Nguồn được khai báo tại [sources.json](res/sources.json); bảng đối chiếu tên đánh giá là [identity-mappings.json](res/identity-mappings.json).
@@ -254,7 +256,7 @@ Ví dụ rút gọn dữ liệu một endpoint Opus trong snapshot:
 }
 ```
 
-Normalizer tạo một model, một organization Azure, một offering Azure global và hai bản ghi giá input/output. Giá nguồn tính theo USD/token: `0.000005 × 1.000.000 = 5 USD/triệu token`. Giá chưa biết không được thay bằng 0; giá hiệu dụng áp dụng hệ số nguồn theo `rawAmount × (1 − discount)` và giữ điều kiện giá.
+Normalizer tạo một model, một provider Azure (RDF: `schema:Service`), một offering Azure global và hai bản ghi giá input/output. Giá nguồn tính theo USD/token: `0.000005 × 1.000.000 = 5 USD/triệu token`. Giá chưa biết không được thay bằng 0; giá hiệu dụng áp dụng hệ số nguồn theo `rawAmount × (1 − discount)` và giữ điều kiện giá.
 
 **URI** là định danh; ID model được mã hóa thành HTTP URI ổn định, ví dụ:
 
@@ -290,14 +292,16 @@ cập công khai sau khi workflow Pages được deploy thành công.
 
 **owl:sameAs** khẳng định hai URI nhận diện cùng một thực thể. Link tới trang giới thiệu/giá là nguồn thông tin; nó không tự chứng minh model và trang đó là cùng thực thể.
 
-[link.py](src/model_catalog/link.py) kiểm tra tổ chức:
+[link.py](src/model_catalog/link.py) dùng [wikidata_links.py](src/model_catalog/wikidata_links.py) và [wikidata-organization-mappings.json](res/wikidata-organization-mappings.json):
 
-1. Đọc các ứng viên tổ chức đã chỉ định QID.
-2. Kiểm tra thuộc tính Wikidata `P856` (website chính thức) có khớp domain của tổ chức.
-3. Hỏi DBpedia resource nào có `owl:sameAs` tới QID đã xác nhận.
-4. Xuất link và bằng chứng; bỏ ứng viên không xác nhận được.
+1. Đọc 25 thực thể Wikidata đã duyệt, đối chiếu với 42 URI developer/provider local.
+2. Kiểm tra chính xác URI/tên local, QID, label/alias, loại thực thể `P31` và website chính thức `P856`. Với nền tảng dùng chung domain hãng, phải khớp đường dẫn sản phẩm.
+3. Hỏi DBpedia resource nào tự công bố `owl:sameAs` tới QID đã xác nhận.
+4. Giữ JSON gốc, URL, thời điểm và SHA-256; kiểm tra lại bytes khi export offline. Bỏ ứng viên không khớp.
 
-Với **OpenAlex**, [organization_links.py](src/model_catalog/organization_links.py) đọc mapping đã duyệt trong [openalex-organization-mappings.json](res/openalex-organization-mappings.json), lưu JSON API gốc và kiểm tra lại SHA-256 khi offline. Link chỉ được xuất khi URI/tên local, OpenAlex ID/tên, loại `company`, homepage domain và ROR đều khớp; Meta, DeepSeek và Moonshot còn phải khớp QID. Kết quả có 9 links cho OpenAI, Anthropic, Google, Meta, Mistral AI, DeepSeek, xAI, Moonshot AI và Cohere. Cộng với 5 links tổ chức tới Wikidata/DBpedia, graph hiện có **14 identity links**, tất cả ở cấp tổ chức. Z.AI/Zhipu AI, Qwen/Alibaba và MiniMax chưa được thêm vì chưa quyết định được thực thể tổ chức chính xác.
+Azure là dịch vụ `schema:Service`, nối tới Wikidata `Q725967` và DBpedia `Microsoft_Azure`; không nối Azure với công ty Microsoft. Amazon Bedrock cũng là dịch vụ. `hostedBy` chấp nhận `Organization` hoặc `schema:Service`.
+
+Với **OpenAlex**, [organization_links.py](src/model_catalog/organization_links.py) đọc mapping đã duyệt trong [openalex-organization-mappings.json](res/openalex-organization-mappings.json), lưu JSON API gốc và kiểm tra lại SHA-256 khi offline. Link chỉ được xuất khi URI/tên local, OpenAlex ID/tên, loại `company`, homepage domain và ROR đều khớp; Meta, DeepSeek và Moonshot còn phải khớp QID. Kết quả có 9 links cho OpenAI, Anthropic, Google, Meta, Mistral AI, DeepSeek, xAI, Moonshot AI và Cohere. Cộng với 42 Wikidata và 26 DBpedia links, graph có **77 identity links** cho tổ chức/dịch vụ. Đã bổ sung Alibaba (developer Qwen), MiniMax, Mistral, DeepSeek, Moonshot, Nvidia, Tencent, Baidu, Cloudflare, Groq và nhiều bên khác. Z.AI/Zhipu và các tên chưa đủ bằng chứng vẫn để chưa liên kết.
 
 Project không tạo `owl:sameAs` cấp model. Model vẫn nối với tổ chức bằng `developedBy`, với repository bằng `hasRepository`, và với kết quả benchmark qua `evaluatedModel`.
 
@@ -323,7 +327,7 @@ Xem [LINKING.md](docs/LINKING.md) để hiểu từng điều kiện, bằng ch�
 
 Đây là liên kết hướng đến 5-star; việc công bố Web vẫn cần các điều kiện bước 3. Query local không tự tải toàn bộ thuộc tính bên ngoài khi gặp sameAs.
 
-Query [external_links.rq](queries/external_links.rq) trả toàn bộ 14 liên kết tổ chức; [openalex_organizations.rq](queries/openalex_organizations.rq) trả 9 tổ chức, URI OpenAlex và bằng chứng; [model_repositories.rq](queries/model_repositories.rq) trả repository cùng hai nguồn đối chiếu. Nạp lại RDF vào Fuseki để thấy dữ liệu mới.
+Query [external_links.rq](queries/external_links.rq) trả toàn bộ 77 liên kết tổ chức/dịch vụ; [openalex_organizations.rq](queries/openalex_organizations.rq) trả 9 tổ chức, URI OpenAlex và bằng chứng; [model_repositories.rq](queries/model_repositories.rq) trả repository cùng hai nguồn đối chiếu. [linked_providers.rq](queries/linked_providers.rq) hiển thị provider, loại thực thể và bằng chứng, bao gồm Azure. Nạp RDF vào dataset Fuseki sạch để thấy dữ liệu mới và tránh giữ kiểu Organization cũ của Azure.
 
 ## 5. SPARQL endpoint/terminal — chạy và đọc kết quả
 

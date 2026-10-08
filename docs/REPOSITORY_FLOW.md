@@ -13,7 +13,7 @@ Tài liệu này trả lời ba câu hỏi:
 | 1. Define an ontology | **Đạt** | `res/ontology.ttl`: 12 classes, 17 object properties, 41 datatype properties; có domain/range, subclass, label/comment và tái sử dụng vocabulary chuẩn |
 | 2. Collect relevant data | **Đạt** | 573 source snapshots trong Bronze từ OpenRouter, trang hãng, Hugging Face và Aider; cache identity từ Wikidata, DBpedia và OpenAlex |
 | 3. Transform into 4-star data | **Đã có đủ artifact; public sau khi Pages deploy** | CSV Silver → RDF Turtle/RDF/XML, HTTP URI GitHub Pages, typed literals, vocabulary chuẩn, provenance và license |
-| 4. Establish links for 5-star | **Đã có liên kết; public sau khi Pages deploy** | 14 `owl:sameAs` cấp Organization: 9 OpenAlex và 5 Wikidata/DBpedia; graph kết hợp được workflow xuất bản thành Turtle |
+| 4. Establish links for 5-star | **Đã có liên kết; public sau khi Pages deploy** | 77 `owl:sameAs` cho tổ chức/dịch vụ: 9 OpenAlex, 42 Wikidata, 26 DBpedia; graph kết hợp được workflow xuất bản thành Turtle |
 | 5. SPARQL endpoint/terminal | **Đạt** | `src/ask.py` query offline hoặc gọi endpoint; Fuseki cung cấp UI và `/aimodels/sparql` sau khi người dùng khởi động/nạp graph |
 
 Với phạm vi một capstone chạy local, project có đủ năm phần để trình bày và demo. Trong
@@ -346,14 +346,15 @@ Bronze external_lookups.json            (Wikidata/DBpedia)
 Bronze openalex_lookups.json            (OpenAlex)
 Bronze OpenAlex raw evidence
 res/openalex-organization-mappings.json
-candidate Wikidata trong link.py
+res/wikidata-organization-mappings.json + wikidata_links.py
+Bronze raw JSON + SHA-256 verification
 ```
 
 Output:
 
 ```text
 res/linked_output.nt
-  → 14 organization owl:sameAs triples
+  → 77 organization/service owl:sameAs triples
   → ExternalLink evidence entities
 
 src/data/silver/external_links.csv
@@ -363,10 +364,10 @@ res/linking-report.json
   → số links, accepted/rejected decisions và warnings
 
 res/coverage.json
-  → cập nhật external_links = 14
+  → cập nhật external_links = 77
 ```
 
-Hiện có 9 links OpenAlex và 5 links Wikidata/DBpedia. Đây là outbound links thật tới
+Hiện có 9 links OpenAlex, 42 links Wikidata và 26 links DBpedia. Đây là outbound links thật tới
 các dataset khác. Để gọi là 5-star public hoàn chỉnh, graph local này còn phải được
 public theo các điều kiện ở bước 3.
 
@@ -392,7 +393,7 @@ Sau đó module kiểm tra:
 - ID trùng hoặc quan hệ dangling;
 - số entity trong CSV và RDF;
 - OpenAlex evidence và `sameAs` được phát lại từ raw JSON;
-- toàn bộ 14 file query SPARQL;
+- toàn bộ 15 file query SPARQL;
 - OWL RL trên fixture đại diện.
 
 Output: [`res/validation-report.json`](../res/validation-report.json).
@@ -400,10 +401,10 @@ Output: [`res/validation-report.json`](../res/validation-report.json).
 Trạng thái đã kiểm tra gần nhất:
 
 ```text
-22 tests passed
-14 SPARQL queries executed
-354,622 combined triples
-14 organization identity links
+31 tests passed
+15 SPARQL queries executed
+355.218 combined triples
+77 organization/service identity links
 0 model identity links
 0 validator errors
 0 validator warnings
@@ -441,7 +442,7 @@ Không cần Fuseki cho chế độ này.
 |---:|---|---|
 | 1 | `res/ontology.ttl` | Classes/properties/axioms |
 | 2 | `src/data/gold/models.ttl` | Model, offering, price, evaluation, provenance |
-| 3 | `res/linked_output.nt` | 14 organization sameAs và evidence |
+| 3 | `res/linked_output.nt` | 77 organization/service sameAs và evidence |
 | 4 | `res/dataset-metadata.ttl` | Metadata và danh sách nguồn dataset |
 
 Không nạp `models.rdf`, `ontology.rdf` vì chúng trùng graph với bản Turtle. Không nạp
@@ -586,3 +587,5 @@ https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#
 Phần trước dấu `#` tải được file RDF công khai. Phần sau dấu `#` định danh class,
 property hoặc resource cụ thể trong graph. GitHub Pages chỉ host file tĩnh; endpoint
 SPARQL `/aimodels/sparql` tiếp tục do Fuseki local cung cấp.
+
+Azure và Amazon Bedrock được phân loại `schema:Service`; `hostedBy` cho phép tổ chức hoặc dịch vụ. Xem [LINKING.md](LINKING.md) để đọc điều kiện xác minh và cách nạp lại dataset sạch.

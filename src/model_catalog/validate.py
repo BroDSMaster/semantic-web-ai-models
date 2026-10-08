@@ -5,8 +5,8 @@ from pathlib import Path
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, OWL
 
-from .common import BRONZE, GOLD, RES, ROOT, digest, read_json, read_tables, write_json
-from .transform import EX, PROV, build_graph, load_model_graph
+from .common import BRONZE, GOLD, RES, ROOT, digest, read_json, read_tables, write_json, provider_kind
+from .transform import EX, PROV, SCHEMA, build_graph, load_model_graph
 
 
 def validate():
@@ -23,6 +23,30 @@ def validate():
         if row["model_id"] not in model_ids or row["document_id"] not in docs:
             errors.append("Dangling evaluation " + row["id"])
     manifest = read_json(BRONZE / "manifest.json")
+    from .wikidata_links import checked_payload, verified_links, dbpedia_url
+    identity_records = read_json(BRONZE / 'external_lookups.json')
+    expected_identity, identity_decisions = verified_links(tables, identity_records)
+    for record in identity_records:
+        for key, url in [('source', 'https://www.wikidata.org/wiki/Special:EntityData/' + record['qid'] + '.json'),
+                         ('dbpedia_source', dbpedia_url(record['qid']))]:
+            if record.get(key):
+                try:
+                    checked_payload(record[key], url)
+                except (OSError, ValueError, KeyError, TypeError) as exc:
+                    errors.append('Wikidata/DBpedia identity evidence invalid: ' + str(exc))
+    expected_pairs = {(r['subject'], r['target']) for r in expected_identity}
+    actual_pairs = {(str(s), str(t)) for s, t in graph.subject_objects(OWL.sameAs)
+                    if str(t).startswith(('http://www.wikidata.org/', 'http://dbpedia.org/'))}
+    if expected_pairs != actual_pairs:
+        errors.append('Wikidata/DBpedia RDF links differ from independently replayed evidence')
+    for row in tables['organizations']:
+        if provider_kind(row['id']) == 'service':
+            platform = URIRef(row['id'])
+            if (platform, RDF.type, SCHEMA.Service) not in graph or (platform, RDF.type, EX.Organization) in graph:
+                errors.append('Platform incorrectly typed as organization: ' + row['name'])
+    for model in model_ids:
+        if any(graph.triples((URIRef(model), OWL.sameAs, None))):
+            errors.append('Unexpected model-level sameAs: ' + model)
     from .organization_links import checked_payload as checked_openalex_payload, verified_openalex_links
     openalex_cache = BRONZE / "openalex_lookups.json"
     openalex_pairs = set()
@@ -84,6 +108,8 @@ def validate():
               "query_rows": query_results, "query_seconds": query_times, "source_snapshots": len(manifest["documents"]),
               "openalex_snapshots": sum(bool(r.get("source")) for r in openalex_lookups),
               "openalex_organization_links": len(openalex_pairs),
+              "wikidata_dbpedia_links": len(actual_pairs),
+              "linked_local_entities": len({str(s) for s, _ in graph.subject_objects(OWL.sameAs)}),
               "repository_relations": len(list(graph.triples((None, EX.hasRepository, None)))),
               "owl_rl": "representative fixture; full catalog closure not run", "fuseki": "not started or uploaded by agent"}
     write_json(RES / "validation-report.json", report)

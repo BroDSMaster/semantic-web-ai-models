@@ -27,7 +27,7 @@ flowchart LR
   DEV[Organization: developer] -->|developedBy| MODEL[AIModel]
   MODEL -->|belongsToFamily| FAMILY[ModelFamily]
   OFFER[ModelOffering] -->|offersModel| MODEL
-  OFFER -->|hostedBy| HOST[Organization: API provider]
+  OFFER -->|hostedBy| HOST[Organization hoặc schema:Service: API provider]
   OFFER -->|hasPrice| PRICE[PriceSpecification]
   OFFER -->|supportsCapability| CAP[Capability]
   MODEL -->|input/output modality| MOD[Modality]
@@ -209,7 +209,7 @@ PYTHONPATH=src python -m model_catalog.validate
 và không phải dữ liệu model. Ontology là “bộ từ vựng và luật” để tất cả dữ liệu về sau
 dùng cùng một nghĩa.
 
-Ontology hiện có 12 lớp local:
+Ontology hiện có 12 lớp local. Lớp chuẩn `schema:Service` được dùng thêm cho các nền tảng API như Azure/Bedrock; trong sơ đồ viết ngắn là `Service`. `hostedBy` có thể trỏ tới tổ chức hoặc dịch vụ:
 
 | Class | Ý nghĩa |
 |---|---|
@@ -253,6 +253,7 @@ classDiagram
   }
 
   class ModelFamily
+  class Service
 
   class Organization {
     string label
@@ -333,6 +334,7 @@ classDiagram
 
   ModelOffering --> AIModel : offersModel
   ModelOffering --> Organization : hostedBy
+  ModelOffering --> Service : hostedBy
   ModelOffering --> PriceSpecification : hasPrice
   ModelOffering --> Capability : supportsCapability
 
@@ -348,9 +350,11 @@ classDiagram
   AIModel --> SourceDocument : relatedDocumentation
 
   ExternalLink --> Organization : linkSubject
+  ExternalLink --> Service : linkSubject
   ExternalLink --> ExternalIdentity : linkTarget
   ExternalLink --> SourceDocument : wasDerivedFrom
   Organization --> ExternalIdentity : sameAs
+  Service --> ExternalIdentity : sameAs
 ```
 
 #### Sơ đồ rút gọn: chỉ class và quan hệ
@@ -365,6 +369,7 @@ classDiagram
 
   class AIModel
   class ModelFamily
+  class Service
   class Organization
   class ModelOffering
   class Capability
@@ -386,6 +391,7 @@ classDiagram
 
   ModelOffering --> AIModel : offersModel
   ModelOffering --> Organization : hostedBy
+  ModelOffering --> Service : hostedBy
   ModelOffering --> PriceSpecification : hasPrice
   ModelOffering --> Capability : supportsCapability
 
@@ -401,9 +407,11 @@ classDiagram
   AIModel --> SourceDocument : relatedDocumentation
 
   ExternalLink --> Organization : linkSubject
+  ExternalLink --> Service : linkSubject
   ExternalLink --> ExternalIdentity : linkTarget
   ExternalLink --> SourceDocument : wasDerivedFrom
   Organization --> ExternalIdentity : sameAs
+  Service --> ExternalIdentity : sameAs
 ```
 
 Trong sơ đồ rút gọn, `wasDerivedFrom` là `prov:wasDerivedFrom` và `sameAs` là
@@ -786,10 +794,10 @@ Giá `0` là miễn phí và khác với giá bị thiếu. Giá request/image/s
 | `evaluations.csv` | 471 | Một điểm của một model trên benchmark |
 | `documents.csv` | 573 | Một source document đã snapshot |
 | `unmatched.csv` | 63 | Record không nối đủ chắc chắn |
-| `external_links.csv` | 14 | Link identity; file này được `link.py` ghi sau normalize |
+| `external_links.csv` | 77 | Link identity; file này được `link.py` ghi sau normalize |
 
 `normalize.py` khởi tạo `external_links.csv` rỗng. Vì vậy mỗi khi chạy lại normalize,
-phải chạy lại `link.py` để khôi phục 14 link đã xác minh.
+phải chạy lại `link.py` để khôi phục 77 link đã xác minh.
 
 ### 8.2 `src/model_catalog/benchmarks.py`
 
@@ -881,7 +889,7 @@ không thêm thông tin mới.
 
 ## 10. Bước 4 — tạo liên kết ngoài hướng tới 5-star
 
-Project hiện tạo `owl:sameAs` ở cấp **Organization**, không tạo `sameAs` ở cấp model.
+Project hiện tạo `owl:sameAs` cho **Organization** và dịch vụ provider **schema:Service**, không tạo `sameAs` ở cấp model.
 
 ```mermaid
 flowchart LR
@@ -935,16 +943,22 @@ File này hợp nhất Wikidata, DBpedia và OpenAlex thành RDF link.
 
 #### Wikidata
 
-Code có bốn QID ứng viên được review: Anthropic, Google, Meta và Alibaba. Với từng QID,
-nó gọi:
+`wikidata_links.py` đọc `res/wikidata-organization-mappings.json`: 25 thực thể
+Wikidata đã duyệt, ứng với 42 URI developer/provider local. Với từng QID, nó gọi:
 
 ```http
 GET https://www.wikidata.org/wiki/Special:EntityData/{QID}.json
 ```
 
-Link chỉ được xuất khi `P856` trong Wikidata chứa đúng domain website chính thức đã
-duyệt. Google hiện không qua điều kiện website trong snapshot nên không có Wikidata
-link từ nhánh này.
+Code lưu response bytes tại `bronze/documents/wikidata-{QID}-{sha256}.json` và
+URL/checksum/thời điểm/đường dẫn tại `bronze/external_lookups.json`.
+Khi export, code kiểm tra checksum rồi đối chiếu URI/tên local, QID, label/alias,
+`P31` (loại thực thể) và `P856` (website chính thức). Website sản phẩm trên domain
+chung phải khớp cả đường dẫn. Google hiện có link vì mapping đã duyệt website thực tế.
+
+Azure (`Q725967`) và Amazon Bedrock là dịch vụ, được gán `schema:Service`, không
+phải công ty Microsoft/Amazon. `hostedBy` có range hợp của `Organization` và
+`schema:Service`. URI local cũ được giữ để quan hệ offering không bị đứt.
 
 #### DBpedia
 
@@ -955,12 +969,12 @@ DBpedia công bố `owl:sameAs` tới QID đó. Code không tự ghép URI DBped
 
 | File | Nội dung |
 |---|---|
-| `bronze/external_lookups.json` | Cache JSON Wikidata và DBpedia dùng cho offline replay |
+| `bronze/external_lookups.json` | URL/checksum/đường dẫn JSON Wikidata và DBpedia gốc dùng cho offline replay |
 | `res/linked_output.nt` | Triple `owl:sameAs` và resource `ExternalLink` chứa evidence |
 | `silver/external_links.csv` | Một dòng cho mỗi subject/target đã xác minh |
 | `res/linking-report.json` | Số link, quyết định OpenAlex và warning |
 
-Hiện có tổng 14 identity links: 9 OpenAlex và 5 Wikidata/DBpedia. “5-star” ở đây có
+Hiện có tổng 77 identity links: 9 OpenAlex, 42 Wikidata và 26 DBpedia. Có 43 URI local được liên kết; developer và provider của cùng hãng có thể là hai URI local. “5-star” ở đây có
 nghĩa dữ liệu RDF dùng HTTP URI và có liên kết tới URI của dataset khác. Số lượng link
 không quyết định số sao; độ đúng và khả năng truy cập của URI mới quan trọng.
 
@@ -1017,13 +1031,13 @@ Kết quả hiện tại:
 | Kiểm tra | Kết quả |
 |---|---:|
 | Error | 0 |
-| Graph kết hợp | 354.630 triples |
+| Graph kết hợp | 355.218 triples |
 | Model | 481 |
 | Offering | 1.909 |
 | Price | 8.174 |
 | Observation | 31.553 |
 | Evaluation | 471 |
-| External identity link | 14 |
+| External identity link | 77 |
 | Repository relation | 102 |
 
 `src/model_catalog/__init__.py` chỉ đánh dấu `model_catalog` là Python package; file
@@ -1136,6 +1150,7 @@ lại các file vào server.
 | `coverage.rq` | Số model theo developer |
 | `direct_vs_router.rq` | So các dòng giá direct với OpenRouter catalog |
 | `external_links.rq` | Tất cả identity link và bằng chứng |
+| `linked_providers.rq` | Provider tổ chức/dịch vụ đã có sameAs, loại thực thể và bằng chứng |
 | `model_details.rq` | Fact có provenance cho `openai/gpt-5.6-sol` |
 | `model_repositories.rq` | Model và repository Hugging Face đã xác minh |
 | `official_sources.rq` | Fact đến từ trang hãng hoặc model card publisher |
@@ -1209,6 +1224,7 @@ hành, có một category giá cụ thể, theo điều kiện và source URL đ
 | `src/model_catalog/benchmarks.py` | Bên trong normalize | Aider HTML + mapping + models | Benchmark/evaluation/unmatched rows trong bộ nhớ |
 | `src/model_catalog/normalize.py` | Sau collect/cards/official | Bronze + official facts + mappings | Silver CSV + coverage report |
 | `src/model_catalog/organization_links.py` | Khi tạo/cập nhật link | OpenAlex mappings + API + organizations | OpenAlex raw snapshots/cache; verified link rows |
+| `src/model_catalog/wikidata_links.py` | Khi link | Silver + `res/wikidata-organization-mappings.json` → snapshots JSON và các cặp identity đã kiểm chứng | Đối chiếu tên/loại/website/checksum, không đoán theo tên gần giống |
 | `src/model_catalog/link.py` | Sau normalize | Silver orgs + Wikidata/DBpedia/OpenAlex | link RDF, external link CSV, linking report, identity caches |
 | `src/model_catalog/transform.py` | Sau normalize | Silver CSV + ontology | Gold RDF, ontology RDF/XML, dataset metadata, report |
 | `src/model_catalog/validate.py` | Cuối pipeline | Bronze + Silver + RDF + queries | Validation report; exit 1 nếu lỗi |

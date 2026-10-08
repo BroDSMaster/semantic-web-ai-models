@@ -1,6 +1,6 @@
 {
   "triples": 353642,
-  "ontology_triples": 293,
+  "ontology_triples": 299,
   "models": 481,
   "prices": 8174,
   "tables": {
@@ -8,7 +8,7 @@
     "capabilities": 26,
     "documents": 573,
     "evaluations": 471,
-    "external_links": 0,
+    "external_links": 14,
     "families": 60,
     "modalities": 5,
     "models": 481,

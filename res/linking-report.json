@@ -1,6 +1,305 @@
 {
-  "links": 14,
+  "links": 77,
   "openalex_organization_links": 9,
+  "wikidata_decisions": [
+    {
+      "local_key": "developer:openai",
+      "qid": "Q21708200",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:OpenAI",
+      "qid": "Q21708200",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:anthropic",
+      "qid": "Q116758847",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Anthropic",
+      "qid": "Q116758847",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:google",
+      "qid": "Q95",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Google",
+      "qid": "Q95",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:meta-llama",
+      "qid": "Q380",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:meta",
+      "qid": "Q380",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Meta",
+      "qid": "Q380",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:qwen",
+      "qid": "Q1359568",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Alibaba",
+      "qid": "Q1359568",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:mistralai",
+      "qid": "Q119718658",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Mistral",
+      "qid": "Q119718658",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:deepseek",
+      "qid": "Q131577453",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:DeepSeek",
+      "qid": "Q131577453",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:moonshotai",
+      "qid": "Q130270266",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Moonshot AI",
+      "qid": "Q130270266",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:microsoft",
+      "qid": "Q2283",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:amazon",
+      "qid": "Q3884",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:nvidia",
+      "qid": "Q182477",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Nvidia",
+      "qid": "Q182477",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:xiaomi",
+      "qid": "Q1636958",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Xiaomi",
+      "qid": "Q1636958",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Cloudflare",
+      "qid": "Q4778915",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:cohere",
+      "qid": "Q110363143",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Cohere",
+      "qid": "Q110363143",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:tencent",
+      "qid": "Q860580",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Tencent",
+      "qid": "Q860580",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Groq",
+      "qid": "Q126050137",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:DigitalOcean",
+      "qid": "Q17052116",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:baidu",
+      "qid": "Q14772",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Baidu",
+      "qid": "Q14772",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:bytedance",
+      "qid": "Q55606242",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Cerebras",
+      "qid": "Q66604886",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:CoreWeave",
+      "qid": "Q121875386",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:perplexity",
+      "qid": "Q124333951",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Perplexity",
+      "qid": "Q124333951",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Azure",
+      "qid": "Q725967",
+      "entity_kind": "service",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Amazon Bedrock",
+      "qid": "Q124052638",
+      "entity_kind": "service",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "developer:minimax",
+      "qid": "Q130263208",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:MiniMax",
+      "qid": "Q130263208",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    },
+    {
+      "local_key": "host:Minimax",
+      "qid": "Q130263208",
+      "entity_kind": "organization",
+      "status": "accepted",
+      "reasons": []
+    }
+  ],
+  "linked_local_entities": 43,
+  "wikidata_links": 42,
+  "dbpedia_links": 26,
   "openalex_decisions": [
     {
       "local_key": "developer:openai",
@@ -111,13 +410,5 @@
       }
     }
   ],
-  "warnings": [
-    {
-      "local_id": "https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#resource/organization/developer%3Agoogle",
-      "qid": "Q95",
-      "source_url": "https://www.wikidata.org/wiki/Special:EntityData/Q95.json",
-      "retrieved_at": "2026-10-05T04:40:32.983018+00:00",
-      "warning": "Candidate official website not confirmed; no identity link emitted"
-    }
-  ]
+  "warnings": []
 }

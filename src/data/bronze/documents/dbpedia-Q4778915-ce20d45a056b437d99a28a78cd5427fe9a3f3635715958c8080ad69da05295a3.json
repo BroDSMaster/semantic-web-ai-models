@@ -1,0 +1,5 @@
+
+{ "head": { "link": [], "vars": ["entity"] },
+  "results": { "distinct": false, "ordered": true, "bindings": [
+    { "entity": { "type": "uri", "value": "http://dbpedia.org/resource/Cloudflare" }},
+    { "entity": { "type": "uri", "value": "http://dbpedia.org/resource/Wave_Broadband" }} ] } }
