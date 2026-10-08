@@ -12,8 +12,5 @@
   {"id":"qwen-models","name":"Alibaba Cloud Model Studio models","developer":"qwen","kind":"official","url":"https://www.alibabacloud.com/help/en/model-studio/models"},
   {"id":"xai-models","name":"xAI models and pricing","developer":"x-ai","kind":"official","url":"https://docs.x.ai/developers/models"},
   {"id":"meta-model-cards","name":"Meta Llama publisher model cards","developer":"meta-llama","kind":"official","url":"https://huggingface.co/meta-llama"},
-  {"id":"aider-leaderboard","name":"Aider polyglot coding leaderboard","kind":"benchmark","url":"https://aider.chat/docs/leaderboards/"},
-  {"id":"review-minimax-m2","name":"Simon Willison: MiniMax M2","kind":"review","url":"https://simonwillison.net/2025/Oct/29/minimax-m2/"},
-  {"id":"review-sonnet-46","name":"Simon Willison: Sonnet 4.6","kind":"review","url":"https://simonwillison.net/2026/Feb/17/claude-sonnet-46/"},
-  {"id":"review-opus-48","name":"Simon Willison: Opus 4.8","kind":"review","url":"https://simonwillison.net/2026/May/28/claude-opus-4-8/"}
+  {"id":"aider-leaderboard","name":"Aider polyglot coding leaderboard","kind":"benchmark","url":"https://aider.chat/docs/leaderboards/"}
 ]

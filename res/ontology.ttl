@@ -20,7 +20,6 @@ ex:Modality a owl:Class ; rdfs:label "Modality" ; rdfs:comment "An input/output 
 ex:PriceSpecification a owl:Class ; rdfs:subClassOf schema:PriceSpecification ; rdfs:label "Price specification" ; rdfs:comment "A sourced observation of a price category, unit, currency and conditions for one offering." .
 ex:Benchmark a owl:Class ; rdfs:label "Benchmark" ; rdfs:comment "An evaluation metric/protocol identified with its evaluator and version where supplied." .
 ex:Evaluation a owl:Class ; rdfs:label "Evaluation" ; rdfs:comment "One model's reported result on a benchmark with a recorded scale, configuration and source." .
-ex:Review a owl:Class ; rdfs:subClassOf schema:Review ; rdfs:label "Review" ; rdfs:comment "An attributed review/commentary document about a model; no inferred star rating." .
 ex:SourceDocument a owl:Class ; rdfs:subClassOf prov:Entity ; rdfs:label "Source document" ; rdfs:comment "A URL/content snapshot identified by its checksum and observation time." .
 ex:FactObservation a owl:Class ; rdfs:label "Fact observation" ; rdfs:comment "A statement about a subject, property and value with source provenance; may conflict with another source." .
 ex:ExternalLink a owl:Class ; rdfs:label "External identity evidence" ; rdfs:comment "An external identity mapping with evidence; document URLs are not entity identity." .
@@ -34,6 +33,7 @@ ex:supportsCapability a owl:ObjectProperty ; rdfs:range ex:Capability ; rdfs:lab
 ex:inputModality a owl:ObjectProperty ; rdfs:range ex:Modality ; rdfs:label "input modality" ; rdfs:comment "Entity to its reported accepted input medium." .
 ex:outputModality a owl:ObjectProperty ; rdfs:range ex:Modality ; rdfs:label "output modality" ; rdfs:comment "Entity to its reported generated output medium." .
 ex:relatedDocumentation a owl:ObjectProperty ; rdfs:range ex:SourceDocument ; rdfs:label "related documentation" ; rdfs:comment "Relevant developer documentation; relevance alone does not prove each field on a model." .
+ex:hasRepository a owl:ObjectProperty ; rdfs:domain ex:AIModel ; rdfs:range schema:SoftwareSourceCode ; rdfs:label "has repository" ; rdfs:comment "Repository explicitly named by the catalog, whose exact publisher repository ID was confirmed by Hugging Face. Does not assert that the API deployment uses identical weights, checkpoint or revision. Never implies owl:sameAs." .
 ex:aboutEntity a owl:ObjectProperty ; rdfs:domain ex:FactObservation ; rdfs:label "about entity" ; rdfs:comment "Observation to its statement subject." .
 ex:observedProperty a owl:ObjectProperty ; rdfs:domain ex:FactObservation ; rdfs:range rdf:Property ; rdfs:label "observed property" ; rdfs:comment "Observation to its statement predicate." .
 ex:resourceValue a owl:ObjectProperty ; rdfs:domain ex:FactObservation ; rdfs:label "resource value" ; rdfs:comment "Observation to its resource-valued statement object." .
@@ -71,7 +71,7 @@ ex:conditions a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "condi
 ex:rawAmount a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "raw amount" ; rdfs:comment "Unmodified source amount before unit conversion." .
 ex:rawUnit a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "raw unit" ; rdfs:comment "Unit used in source for lossless audit." .
 ex:observedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:label "observed at" ; rdfs:comment "Time snapshot was obtained, not an assertion of effective or publication date." .
-ex:sourceKind a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "source kind" ; rdfs:comment "official, catalog, benchmark, review or identity evidence." .
+ex:sourceKind a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "source kind" ; rdfs:comment "official, catalog, benchmark or identity evidence." .
 ex:sha256 a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "SHA-256" ; rdfs:comment "Content checksum of preserved source bytes." .
 ex:snapshotFile a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "snapshot file" ; rdfs:comment "Relative path to collected evidence." .
 ex:score a owl:DatatypeProperty ; rdfs:domain ex:Evaluation ; rdfs:range xsd:decimal ; rdfs:label "score" ; rdfs:comment "Reported metric value; compare only compatible scales/configurations." .

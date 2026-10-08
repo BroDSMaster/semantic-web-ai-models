@@ -1,5 +1,173 @@
 {
-  "links": 5,
+  "links": 16,
+  "model_identity_links": 2,
+  "openalex_organization_links": 9,
+  "model_decisions": [
+    {
+      "source_id": "openai/gpt-4",
+      "qid": "Q116709136",
+      "status": "accepted",
+      "reasons": [],
+      "wikidata_evidence": {
+        "url": "https://www.wikidata.org/wiki/Special:EntityData/Q116709136.json",
+        "sha256": "74a260c6964cd738b7eee1a176a86c987d4c6e22b6f934b4dc4f7723b5f0c78a",
+        "snapshot_file": "src/data/bronze/documents/wikidata-Q116709136-74a260c6964cd738b7eee1a176a86c987d4c6e22b6f934b4dc4f7723b5f0c78a.json",
+        "retrieved_at": "2026-10-08T04:03:07.983660+00:00"
+      },
+      "catalog_evidence": [
+        {
+          "url": "https://openrouter.ai/api/v1/models",
+          "sha256": "eecc8a97937d60e3fd79cc6f0d5bacaf0987fdfceb1ba9fed8ae1e21350cd556",
+          "snapshot_file": "src/data/bronze/documents/openrouter-page-eecc8a97937d60e3fd79cc6f0d5bacaf0987fdfceb1ba9fed8ae1e21350cd556.json",
+          "retrieved_at": "2026-10-05T04:43:16.246731+00:00"
+        }
+      ],
+      "dbpedia_targets": [],
+      "dbpedia_evidence": {
+        "url": "https://dbpedia.org/sparql?query=SELECT+%3Fentity+WHERE+%7B+%3Fentity+%3Chttp%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23sameAs%3E+%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2FQ116709136%3E+%7D+LIMIT+20&format=application%2Fsparql-results%2Bjson",
+        "sha256": "2070d1a7d27e3e862cd58f079e00c0789ea14775b9005a2552adf70c45782195",
+        "snapshot_file": "src/data/bronze/documents/dbpedia-Q116709136-2070d1a7d27e3e862cd58f079e00c0789ea14775b9005a2552adf70c45782195.json",
+        "retrieved_at": "2026-10-08T04:03:09.249263+00:00"
+      }
+    },
+    {
+      "source_id": "openai/gpt-4o",
+      "qid": "Q125919502",
+      "status": "accepted",
+      "reasons": [],
+      "wikidata_evidence": {
+        "url": "https://www.wikidata.org/wiki/Special:EntityData/Q125919502.json",
+        "sha256": "d345fdc9cd01112a5682dcfc6ca9e16242fdc8592cd110facc73e6446cccecfa",
+        "snapshot_file": "src/data/bronze/documents/wikidata-Q125919502-d345fdc9cd01112a5682dcfc6ca9e16242fdc8592cd110facc73e6446cccecfa.json",
+        "retrieved_at": "2026-10-08T04:03:10.203153+00:00"
+      },
+      "catalog_evidence": [
+        {
+          "url": "https://openrouter.ai/api/v1/models",
+          "sha256": "eecc8a97937d60e3fd79cc6f0d5bacaf0987fdfceb1ba9fed8ae1e21350cd556",
+          "snapshot_file": "src/data/bronze/documents/openrouter-page-eecc8a97937d60e3fd79cc6f0d5bacaf0987fdfceb1ba9fed8ae1e21350cd556.json",
+          "retrieved_at": "2026-10-05T04:43:16.246731+00:00"
+        }
+      ],
+      "dbpedia_targets": [],
+      "dbpedia_evidence": {
+        "url": "https://dbpedia.org/sparql?query=SELECT+%3Fentity+WHERE+%7B+%3Fentity+%3Chttp%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23sameAs%3E+%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2FQ125919502%3E+%7D+LIMIT+20&format=application%2Fsparql-results%2Bjson",
+        "sha256": "2070d1a7d27e3e862cd58f079e00c0789ea14775b9005a2552adf70c45782195",
+        "snapshot_file": "src/data/bronze/documents/dbpedia-Q125919502-2070d1a7d27e3e862cd58f079e00c0789ea14775b9005a2552adf70c45782195.json",
+        "retrieved_at": "2026-10-08T04:03:11.393198+00:00"
+      }
+    }
+  ],
+  "openalex_decisions": [
+    {
+      "local_key": "developer:openai",
+      "openalex_id": "I4210161460",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4210161460",
+        "sha256": "558c70ef16a5d5a523f8217098f6dff2ad22983e44b9654fb5a781d78a319477",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4210161460-558c70ef16a5d5a523f8217098f6dff2ad22983e44b9654fb5a781d78a319477.json",
+        "retrieved_at": "2026-10-08T07:51:25.895006+00:00"
+      }
+    },
+    {
+      "local_key": "developer:anthropic",
+      "openalex_id": "I4387930290",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4387930290",
+        "sha256": "7a52d81029c2fd672bb0786d7fa5da0b953281283c17b53ffdc49ffd17060427",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4387930290-7a52d81029c2fd672bb0786d7fa5da0b953281283c17b53ffdc49ffd17060427.json",
+        "retrieved_at": "2026-10-08T07:51:26.589514+00:00"
+      }
+    },
+    {
+      "local_key": "developer:google",
+      "openalex_id": "I1291425158",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I1291425158",
+        "sha256": "7b8e0d2d36cfb69a9608aa902f769fc32a22c9f6c6d880d7bb8e9b1c6ea113a9",
+        "snapshot_file": "src/data/bronze/documents/openalex-I1291425158-7b8e0d2d36cfb69a9608aa902f769fc32a22c9f6c6d880d7bb8e9b1c6ea113a9.json",
+        "retrieved_at": "2026-10-08T07:51:27.715068+00:00"
+      }
+    },
+    {
+      "local_key": "developer:meta-llama",
+      "openalex_id": "I4210114444",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4210114444",
+        "sha256": "d566f79f7bb70cec92ff6eb7e97418e345ec9046d8c812eee102e573ac87e1fe",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4210114444-d566f79f7bb70cec92ff6eb7e97418e345ec9046d8c812eee102e573ac87e1fe.json",
+        "retrieved_at": "2026-10-08T07:51:28.829634+00:00"
+      }
+    },
+    {
+      "local_key": "developer:mistralai",
+      "openalex_id": "I4390039361",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4390039361",
+        "sha256": "2103734455292db3e3638b55eaa38614fa235abdc3f9d4bfb17c10c70a040034",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4390039361-2103734455292db3e3638b55eaa38614fa235abdc3f9d4bfb17c10c70a040034.json",
+        "retrieved_at": "2026-10-08T07:51:29.458760+00:00"
+      }
+    },
+    {
+      "local_key": "developer:deepseek",
+      "openalex_id": "I4405257960",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4405257960",
+        "sha256": "e0faa16e5eecbc65ee87e420fe8f41c797eeb76472046b01b8dd114209e1bf8c",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4405257960-e0faa16e5eecbc65ee87e420fe8f41c797eeb76472046b01b8dd114209e1bf8c.json",
+        "retrieved_at": "2026-10-08T07:51:30.116870+00:00"
+      }
+    },
+    {
+      "local_key": "developer:x-ai",
+      "openalex_id": "I4401726768",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4401726768",
+        "sha256": "c7e511cadec17a9b8e8a644eb2f48ba2403c42e4767d99b037b7e2d1a44918bf",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4401726768-c7e511cadec17a9b8e8a644eb2f48ba2403c42e4767d99b037b7e2d1a44918bf.json",
+        "retrieved_at": "2026-10-08T07:51:31.210719+00:00"
+      }
+    },
+    {
+      "local_key": "developer:moonshotai",
+      "openalex_id": "I4405260227",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4405260227",
+        "sha256": "37ec0515103ddd43277684185cf8b4a9bdf766b6bca251c24549f160b3f6716e",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4405260227-37ec0515103ddd43277684185cf8b4a9bdf766b6bca251c24549f160b3f6716e.json",
+        "retrieved_at": "2026-10-08T07:51:32.426267+00:00"
+      }
+    },
+    {
+      "local_key": "developer:cohere",
+      "openalex_id": "I4401726847",
+      "status": "accepted",
+      "reasons": [],
+      "evidence": {
+        "url": "https://api.openalex.org/institutions/I4401726847",
+        "sha256": "30a32902a89e879ab5d406ba83962492410cc57450ec462c79bc9b4f7213d431",
+        "snapshot_file": "src/data/bronze/documents/openalex-I4401726847-30a32902a89e879ab5d406ba83962492410cc57450ec462c79bc9b4f7213d431.json",
+        "retrieved_at": "2026-10-08T07:51:33.143158+00:00"
+      }
+    }
+  ],
   "warnings": [
     {
       "local_id": "https://example.org/aimodels/resource/organization/developer%3Agoogle",

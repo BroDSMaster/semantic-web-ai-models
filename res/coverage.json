@@ -7,12 +7,11 @@
     "prices": 8174,
     "capabilities": 26,
     "modalities": 5,
-    "observations": 31451,
+    "observations": 31553,
     "evaluations": 471,
     "benchmarks": 4,
-    "reviews": 4,
-    "documents": 576,
-    "external_links": 5,
+    "documents": 573,
+    "external_links": 16,
     "unmatched": 63
   },
   "models_by_developer": {

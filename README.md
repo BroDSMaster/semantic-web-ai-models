@@ -4,7 +4,7 @@
 
 Project giúp tra cứu model AI, khả năng, thông số, bên cung cấp API, giá và kết quả đánh giá. Ví dụ: “Claude Opus 4.6 có API ở đâu, giá input/output bao nhiêu và thông tin đó lấy từ nguồn nào?”
 
-Thông tin đến từ nhiều nơi: OpenRouter, tài liệu hãng, Hugging Face, bảng đánh giá và bài nhận xét. Project lưu nguồn, chuẩn hóa dữ liệu và nối chúng thành một **knowledge graph**, tức mạng thực thể có quan hệ. **Semantic Web** dùng các định danh và thuộc tính có ý nghĩa rõ ràng để máy tính hiểu mạng này. Người dùng truy vấn bằng **SPARQL**, ngôn ngữ truy vấn RDF.
+Thông tin đến từ nhiều nơi: OpenRouter, tài liệu hãng, Hugging Face và bảng đánh giá có cấu trúc. Project lưu nguồn, chuẩn hóa dữ liệu và nối chúng thành một **knowledge graph**, tức mạng thực thể có quan hệ. **Semantic Web** dùng các định danh và thuộc tính có ý nghĩa rõ ràng để máy tính hiểu mạng này. Người dùng truy vấn bằng **SPARQL**, ngôn ngữ truy vấn RDF.
 
 **RDF** ghi từng phát biểu dưới dạng subject — predicate — object, ví dụ “dịch vụ Azure — cung cấp — Opus 4.6”. **Ontology** định nghĩa các loại thực thể và quan hệ được phép dùng. Project này chỉ xử lý model/API; mọi code và dữ liệu cần chạy đều nằm trong `aimodels/`.
 
@@ -13,12 +13,12 @@ Thông tin đến từ nhiều nơi: OpenRouter, tài liệu hãng, Hugging Face
 ```mermaid
 flowchart LR
   API["OpenRouter / Hugging Face: API JSON"] --> B["Bronze: phản hồi nguồn + URL + thời điểm"]
-  WEB["Tài liệu hãng / bảng đánh giá / review: HTML"] --> B
+  WEB["Tài liệu hãng / bảng đánh giá: HTML"] --> B
   B --> E["Trích thông tin từ tài liệu và bảng"]
   B --> N["Chuẩn hóa và nối theo ID"]
   E --> N --> S["Silver: CSV model / dịch vụ / giá / nguồn"]
   S --> T["transform.py"] --> G["Gold: models.ttl / models.rdf"]
-  O["ontology.ttl: 13 lớp"] --> T
+  O["ontology.ttl: 12 lớp"] --> T
   S --> L["link.py"]
   WD["Wikidata / DBpedia"] --> L --> LINKS["linked_output.nt: links có bằng chứng"]
   G --> Q["Graph: ontology + data + links + metadata"]
@@ -39,11 +39,11 @@ Snapshot thu thập ngày 05/10/2026 có:
 | Dịch vụ API | 1.909 offerings: 466 danh mục OpenRouter, 1.390 cấu hình provider qua router, 53 giá/dịch vụ từ tài liệu trực tiếp |
 | Giá | 8.174 bản ghi; gồm loại token, đơn vị, điều kiện, chiết khấu và các mức giá theo ngữ cảnh |
 | Thông tin bổ sung | 92 bộ metadata model từ đơn vị phát hành trên Hugging Face |
-| Đánh giá / nhận xét | 471 kết quả đánh giá; 4 liên hệ model–bài review từ 3 bài |
-| Liên kết ngoài | 5 identity links của tổ chức với Wikidata/DBpedia |
-| Graph kết hợp | 353.882 triples; 17 regression tests riêng và 13 file query; query Opus trả 336 dòng giá |
+| Đánh giá | 471 kết quả benchmark có model, phép đo, điểm, cấu hình và nguồn |
+| Liên kết ngoài | 9 `sameAs` tổ chức tới OpenAlex + 5 links tổ chức tới Wikidata/DBpedia + 2 `sameAs` model; tổng 16 identity links; 102 quan hệ model → repository Hugging Face |
+| Graph kết hợp | 354.640 triples; 15 file query; query Opus trả 336 dòng giá. Các liên kết OpenAlex được xác minh ngày 08/10/2026 |
 
-Một listing là một mục trong danh mục. Tên gọi khác, bản miễn phí hoặc bản chạy theo lô có thể cùng dùng một model; số listing không phải số bộ trọng số độc lập. Review và điểm đánh giá chỉ có cho một phần model.
+Một listing là một mục trong danh mục. Tên gọi khác, bản miễn phí hoặc bản chạy theo lô có thể cùng dùng một model; số listing không phải số bộ trọng số độc lập. Điểm đánh giá chỉ có cho một phần model.
 
 Xem [coverage.json](res/coverage.json), [validation-report.json](res/validation-report.json) và [VALIDATION.md](docs/VALIDATION.md). Giá/query đọc snapshot đã lưu; chúng không tự lấy giá live.
 
@@ -55,17 +55,17 @@ Thiết kế theo [ONTOLOGY_ENGINEERING_SKILL.md](../ONTOLOGY_ENGINEERING_SKILL.
 
 | Bước | Quyết định trong project |
 |---|---|
-| Phạm vi | Model và phiên bản, hãng phát triển, dịch vụ cung cấp API, giá, khả năng, thông số, kết quả đánh giá, review và bằng chứng nguồn |
-| Kịch bản | Người dùng chọn model; so nhà cung cấp và giá; kiểm tra thông số/khả năng; xem điểm đánh giá và bài nhận xét |
+| Phạm vi | Model và phiên bản, hãng phát triển, dịch vụ cung cấp API, giá, khả năng, thông số, kết quả đánh giá và bằng chứng nguồn |
+| Kịch bản | Người dùng chọn model; so nhà cung cấp và giá; kiểm tra thông số/khả năng; xem kết quả benchmark có nguồn |
 | Câu hỏi kiểm tra | Có những model Claude nào? Ai cung cấp Opus? Model nhận ảnh không? Dịch vụ hỗ trợ gọi công cụ không? Giá theo đơn vị gì và nguồn nào? |
 | Glossary | Model là sản phẩm/phiên bản; family là họ model; offering là dịch vụ/cấu hình cung cấp model; benchmark là phép đánh giá; evaluation là một kết quả cụ thể |
-| Lớp | 13 loại thực thể dưới đây |
+| Lớp | 12 loại thực thể dưới đây |
 | Properties/axioms | Quan hệ có hướng, kiểu giá trị, lớp chuẩn tái sử dụng và quy tắc suy luận |
 | Kiểm tra | Fixtures có đáp án biết trước, đối chiếu CSV/RDF, checksum nguồn, query graph thật và OWL RL trên mẫu đại diện |
 
 **Class** là một loại thực thể; **instance** là một thực thể cụ thể. Ví dụ AIModel là class, Opus 4.6 là instance. Một **competency question** là câu hỏi dùng để kiểm tra ontology có đủ dữ liệu/quan hệ để trả lời bài toán.
 
-### 13 lớp cụ thể
+### 12 lớp cụ thể
 
 | Class | Đại diện cho / ví dụ |
 |---|---|
@@ -78,7 +78,6 @@ Thiết kế theo [ONTOLOGY_ENGINEERING_SKILL.md](../ONTOLOGY_ENGINEERING_SKILL.
 | `PriceSpecification` | Một mức giá với loại phí, đơn vị, điều kiện và nguồn |
 | `Benchmark` | Phép/thước đo đánh giá, với đơn vị đánh giá và thang điểm |
 | `Evaluation` | Kết quả của một model trên một phép đánh giá |
-| `Review` | Bài nhận xét có tác giả, ngày, URL và tóm tắt |
 | `SourceDocument` | Bản nguồn từ một URL, với nội dung đã lưu, thời điểm và checksum |
 | `FactObservation` | Một thông tin được ghi nhận: thực thể, thuộc tính, giá trị, nguồn, thời điểm |
 | `ExternalLink` | Liên kết danh tính với nguồn ngoài và bằng chứng xác nhận |
@@ -99,7 +98,7 @@ Thiết kế theo [ONTOLOGY_ENGINEERING_SKILL.md](../ONTOLOGY_ENGINEERING_SKILL.
 
 Context length là số token có thể đưa vào ngữ cảnh; token là đơn vị chia nhỏ văn bản model xử lý. Hỗ trợ tools nghĩa là API hỗ trợ yêu cầu gọi công cụ; nó chưa chứng minh model làm tốt mọi tác vụ.
 
-**Axiom** là quy tắc logic. Ontology tái sử dụng `schema:Organization`, `schema:Service`, `schema:PriceSpecification`, `schema:Review` và `prov:Entity` làm lớp cha phù hợp. **Domain/range** mô tả loại ở hai đầu thuộc tính và có thể suy ra type; kiểm tra dữ liệu thiếu được thực hiện trong validator.
+**Axiom** là quy tắc logic. Ontology tái sử dụng `schema:Organization`, `schema:Service`, `schema:PriceSpecification` và `prov:Entity` làm lớp cha phù hợp. **Domain/range** mô tả loại ở hai đầu thuộc tính và có thể suy ra type; kiểm tra dữ liệu thiếu được thực hiện trong validator.
 
 Claude là một family nối tới Opus bằng quan hệ; family không là lớp cha của từng phiên bản. Tài liệu nguồn được mô hình riêng để một thuộc tính có nhiều quan sát khác nhau mà vẫn giữ nguồn/thời điểm.
 
@@ -123,8 +122,8 @@ File chính: [ontology.ttl](res/ontology.ttl); bản cùng ontology ở RDF/XML 
 | Hugging Face | API JSON metadata do đơn vị phát hành đăng: giấy phép, tổng số tham số khi có, thư viện phần mềm và loại tác vụ |
 | Artificial Analysis | Đơn vị đánh giá model; project lấy một số điểm của đơn vị này từ các trường trong JSON OpenRouter |
 | Aider | Bảng HTML kết quả giải bài lập trình; bảng đối chiếu tên Aider với ID model giúp gắn đúng kết quả |
-| Bài review đã chọn của Simon Willison | HTML bài nhận xét; lưu tác giả, ngày, URL và tóm tắt ngắn có ghi nguồn |
-| Wikidata / DBpedia | Phản hồi JSON để xác nhận danh tính tổ chức ở bước 4 |
+| Wikidata / DBpedia | JSON/SPARQL để xác nhận danh tính tổ chức và model ở bước 4 |
+| OpenAlex | API JSON Institution: ID, tên, loại tổ chức, homepage, ROR và Wikidata khi có; dùng để xác minh tổ chức tương đương |
 
 Nguồn được khai báo tại [sources.json](res/sources.json); bảng đối chiếu tên đánh giá là [identity-mappings.json](res/identity-mappings.json).
 
@@ -134,7 +133,6 @@ Nguồn được khai báo tại [sources.json](res/sources.json); bảng đối
 | [model_cards.py](src/model_catalog/model_cards.py) | ID Hugging Face trong catalog → lấy metadata từ namespace đơn vị phát hành → JSON source snapshots |
 | [official_sources.py](src/model_catalog/official_sources.py) | HTML Bronze → đọc bảng/đoạn theo schema đã nhận dạng → [official-model-facts.json](res/official-model-facts.json) |
 | [benchmarks.py](src/model_catalog/benchmarks.py) | HTML Aider + bảng đối chiếu → kết quả đánh giá hoặc record chưa nối được |
-| [reviews.json](res/reviews.json) | Các bài nhận xét đã chọn và ID model được chỉ định → dữ liệu cho normalizer |
 
 Bronze giữ bytes phản hồi và [manifest.json](src/data/bronze/manifest.json): URL, thời điểm, tên file và SHA-256. **Checksum** là mã tính từ nội dung; validator tính lại mã để phát hiện file bị thay đổi. Snapshot thiếu/sai ID được ghi cảnh báo thay vì nối theo tên gần giống.
 
@@ -143,7 +141,7 @@ Bronze giữ bytes phản hồi và [manifest.json](src/data/bronze/manifest.jso
 | Tầng / file | Biến đổi |
 |---|---|
 | [Bronze](src/data/bronze/) | JSON/HTML nguyên nguồn; manifest và các snapshots dùng dựng lại offline |
-| [normalize.py](src/model_catalog/normalize.py) | Tách model, family, organization, offering, price, capability, observation, evaluation/review và source; đổi đơn vị giá và nối theo ID xác định |
+| [normalize.py](src/model_catalog/normalize.py) | Tách model, family, organization, offering, price, capability, observation, evaluation và source; đổi đơn vị giá và nối theo ID xác định |
 | [Silver](src/data/silver/) | CSV riêng cho từng thực thể/quan hệ. Một model có nhiều offering; một offering có nhiều loại giá |
 | [transform.py](src/model_catalog/transform.py) | CSV → URI và RDF có datatype/provenance |
 | [Gold](src/data/gold/) | `models.ttl` và `models.rdf`: cùng graph ở Turtle và RDF/XML |
@@ -195,27 +193,47 @@ Project tái sử dụng vocabulary RDF/RDFS/OWL, XSD, Schema.org, PROV-O cho ng
 
 ## 4. Link toward 5-star data — liên kết tới nguồn khác
 
-**QID** là ID thực thể Wikidata, dạng Q + số. **ROR** là ID của Research Organization Registry cho tổ chức nghiên cứu; nó được dùng trong project nghiên cứu, không phải phương pháp đối chiếu của module model này.
+**QID** là ID thực thể Wikidata, dạng Q + số. **ROR** là định danh toàn cầu của một tổ chức trong Research Organization Registry. Module model dùng ROR cùng tên, loại tổ chức và homepage để kiểm tra OpenAlex Institution.
 
 **owl:sameAs** khẳng định hai URI nhận diện cùng một thực thể. Link tới trang giới thiệu/giá là nguồn thông tin; nó không tự chứng minh model và trang đó là cùng thực thể.
 
-[link.py](src/model_catalog/link.py) thực hiện:
+[link.py](src/model_catalog/link.py) kiểm tra tổ chức:
 
 1. Đọc các ứng viên tổ chức đã chỉ định QID.
 2. Kiểm tra thuộc tính Wikidata `P856` (website chính thức) có khớp domain của tổ chức.
 3. Hỏi DBpedia resource nào có `owl:sameAs` tới QID đã xác nhận.
 4. Xuất link và bằng chứng; bỏ ứng viên không xác nhận được.
 
-Snapshot hiện có Anthropic → Wikidata; Meta → Wikidata/DBpedia; Alibaba → Wikidata/DBpedia, tổng 5 links. Chưa có mạng identity links đầy đủ ở cấp từng model.
+Với **model**, [model_links.py](src/model_catalog/model_links.py) chỉ xét các ID đã được chọn và xem xét trong [model-identity-mappings.json](res/model-identity-mappings.json). Code đọc lại JSON OpenRouter gốc và JSON Wikidata, kiểm tra SHA-256, rồi đối chiếu ID, tên model/phiên bản, hãng phát triển (`P178`), loại thực thể (`P31`) và URL chính thức của đúng model (`P856`). Sai một điều kiện thì không xuất `sameAs`. Không truyền liên kết của model gốc sang bản có ngày, `:batch`, `:free`, mini hay turbo.
+
+Kết quả xác minh ngày 08/10/2026: **GPT-4 → Wikidata Q116709136**, **GPT-4o → Wikidata Q125919502**. DBpedia không trả resource có `sameAs` tới hai QID này, nên chưa tạo liên kết model với DBpedia. Hai model links cộng 5 links tổ chức Wikidata/DBpedia và 9 links OpenAlex tạo thành 16 identity links. Các model chưa có mapping được xác minh vẫn không có `sameAs`; chúng không bị đoán là cùng thực thể chỉ vì tên giống nhau.
+
+Với **OpenAlex**, [organization_links.py](src/model_catalog/organization_links.py) đọc mapping đã duyệt trong [openalex-organization-mappings.json](res/openalex-organization-mappings.json), lưu JSON API gốc và kiểm tra lại SHA-256 khi offline. Link chỉ được xuất khi URI/tên local, OpenAlex ID/tên, loại `company`, homepage domain và ROR đều khớp; Meta, DeepSeek và Moonshot còn phải khớp QID. Kết quả có 9 links cho OpenAI, Anthropic, Google, Meta, Mistral AI, DeepSeek, xAI, Moonshot AI và Cohere. Tổng graph hiện có **16 identity links**. Z.AI/Zhipu AI, Qwen/Alibaba và MiniMax chưa được thêm vì chưa quyết định được thực thể tổ chức chính xác.
+
+Các nguồn còn lại dùng quan hệ theo đúng đối tượng:
+
+| Nguồn / đối tượng | Quan hệ trong graph | Ý nghĩa |
+|---|---|---|
+| Hugging Face repository | `model ex:hasRepository repository` | OpenRouter chỉ rõ repo; API Hugging Face xác nhận đúng ID trong namespace nhà phát hành. Có 102 quan hệ từ các listing tới 92 repo; không khẳng định API dùng đúng trọng số/revision đó |
+| Tài liệu hãng, model card | `ex:relatedDocumentation`, `prov:wasDerivedFrom` | Trang liên quan / nguồn cho thông tin; trang tài liệu không phải model |
+| Kết quả Aider / Artificial Analysis được OpenRouter cung cấp | `evaluation ex:evaluatedModel model` | Kết quả đánh giá về model; một kết quả đánh giá không phải chính model |
+| Wikidata / DBpedia model đã xác minh | `owl:sameAs` | Hai URI nhận diện cùng model ở phạm vi đã kiểm chứng |
+| OpenAlex Institution đã xác minh | `organization owl:sameAs institution` | URI local và OpenAlex cùng nhận diện một công ty; không dùng OpenAlex Work làm sameAs của model |
+
+Xem [LINKING.md](docs/LINKING.md) để hiểu từng điều kiện, bằng chứng và cách chạy lại.
 
 | File | Vai trò |
 |---|---|
 | [linked_output.nt](res/linked_output.nt) | RDF identity links và record bằng chứng; nạp vào graph |
 | [external_links.csv](src/data/silver/external_links.csv) | URI subject/target, lý do, nguồn và thời điểm |
 | [external_lookups.json](src/data/bronze/external_lookups.json) | Phản hồi tra cứu nguồn, dùng lại khi offline |
+| [model_lookups.json](src/data/bronze/model_lookups.json) | URL, thời điểm, SHA-256 và đường dẫn JSON gốc cho từng ứng viên model |
+| [openalex_lookups.json](src/data/bronze/openalex_lookups.json) | 9 lookup tổ chức OpenAlex và đường dẫn snapshot JSON gốc |
 | [linking-report.json](res/linking-report.json) | Số links và ứng viên bị bỏ/cảnh báo |
 
 Đây là liên kết hướng đến 5-star; việc công bố Web vẫn cần các điều kiện bước 3. Query local không tự tải toàn bộ thuộc tính bên ngoài khi gặp sameAs.
+
+Query [model_identity_links.rq](queries/model_identity_links.rq) trả model tương đương; [openalex_organizations.rq](queries/openalex_organizations.rq) trả 9 tổ chức, URI OpenAlex và bằng chứng; [model_repositories.rq](queries/model_repositories.rq) trả repository cùng hai nguồn đối chiếu. Nạp lại RDF vào Fuseki để thấy dữ liệu mới.
 
 ## 5. SPARQL endpoint/terminal — chạy và đọc kết quả
 
@@ -318,8 +336,10 @@ Một số dòng của snapshot, rút gọn cột nguồn/điều kiện:
 | Provider/giá Opus; giá trực tiếp so với router? | [opus_providers_prices.rq](queries/opus_providers_prices.rq), [direct_vs_router.rq](queries/direct_vs_router.rq) |
 | Model nhận ảnh; API hỗ trợ tools với ngân sách? | [vision_models.rq](queries/vision_models.rq), [cheap_tool_models.rq](queries/cheap_tool_models.rq) |
 | Parameters/giấy phép; thông tin nguồn chính thức? | [open_weight_specs.rq](queries/open_weight_specs.rq), [official_sources.rq](queries/official_sources.rq) |
-| Kết quả đánh giá và review? | [benchmarks.rq](queries/benchmarks.rq), [reviews.rq](queries/reviews.rq) |
+| Kết quả đánh giá có cấu hình và nguồn? | [benchmarks.rq](queries/benchmarks.rq) |
 | Coverage, khác biệt giữa quan sát, links ngoài? | [coverage.rq](queries/coverage.rq), [conflicting_observations.rq](queries/conflicting_observations.rq), [external_links.rq](queries/external_links.rq) |
+| Tổ chức nào đã nối OpenAlex và dựa trên bằng chứng gì? | [openalex_organizations.rq](queries/openalex_organizations.rq) |
+| Toàn bộ dữ kiện liên quan đến một model? | [model_everything.rq](queries/examples/model_everything.rq) — query khám phá lớn dành cho Fuseki |
 
 **Protégé** dùng xem/sửa ontology. File → Open → [ontology.ttl](res/ontology.ttl) hoặc [ontology.rdf](res/ontology.rdf); xem Classes, Object properties, Data properties, domain/range. Ontology là định nghĩa; instances nằm trong `models.ttl`. Fuseki phục vụ query trên graph đã nạp.
 

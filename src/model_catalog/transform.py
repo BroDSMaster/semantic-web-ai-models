@@ -95,13 +95,6 @@ def build_graph(tables):
         value(s, EX.evaluationConfig, row["config"])
         value(s, EX.attribution, row["attribution"])
         value(s, DCTERMS.date, row.get("evaluated_at"))
-    for row in tables["reviews"]:
-        s = entity(row, EX.Review)
-        link(s, SCHEMA.itemReviewed, row["model_id"])
-        link(s, SCHEMA.url, row["source_url"])
-        value(s, DCTERMS.creator, row["author"])
-        value(s, DCTERMS.issued, row.get("date"), XSD.date)
-        value(s, DCTERMS.abstract, row.get("summary"))
     return graph
 
 

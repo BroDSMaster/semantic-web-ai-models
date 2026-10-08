@@ -1,22 +1,21 @@
 {
-  "triples": 352981,
-  "ontology_triples": 292,
+  "triples": 353642,
+  "ontology_triples": 293,
   "models": 481,
   "prices": 8174,
   "tables": {
     "benchmarks": 4,
     "capabilities": 26,
-    "documents": 576,
+    "documents": 573,
     "evaluations": 471,
-    "external_links": 5,
+    "external_links": 0,
     "families": 60,
     "modalities": 5,
     "models": 481,
-    "observations": 31451,
+    "observations": 31553,
     "offerings": 1909,
     "organizations": 140,
     "prices": 8174,
-    "reviews": 4,
     "unmatched": 63
   }
 }

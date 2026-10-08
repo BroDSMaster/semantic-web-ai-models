@@ -5,7 +5,7 @@
 
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Thu thập catalog đa hãng, provider/giá Opus, nguồn chính thức, benchmark và review; xuất RDF/query chạy được.
+**Goal:** Thu thập catalog đa hãng, provider/giá Opus, nguồn chính thức và benchmark; xuất RDF/query chạy được. Phần bài nhận xét chủ quan trong kế hoạch ban đầu đã được loại khỏi phạm vi ngày 2026-10-08.
 **Architecture:** Nhánh model_catalog riêng, giữ pipeline research. JSON/HTML snapshots → CSV → RDF, provenance theo quan sát; Fuseki do người dùng nạp.
 **Tech Stack:** Python standard library, RDFLib, OWL RL, Apache Jena Fuseki.
 **Spec:** ../specs/2026-10-05-ai-model-catalog-design.md
@@ -31,7 +31,7 @@
 1. [x] Tests trước: normalizer nhận catalog/endpoints + manifest; trả dictionary tables. Test zero/null/precision, variants, provider và benchmarks; collector test pagination và failed snapshot.
 2. [x] `src/model_catalog/common.py`, `collect.py`: snapshots công khai, checksum, manifests, bounded retries, offline replay; endpoints toàn catalog có concurrency hữu hạn; official HTML sources và Aider.
 3. [x] `normalize.py`, `benchmarks.py`: tables chuẩn hóa với source document ID; match model bằng mapping rõ ràng; unmatched lưu riêng.
-4. [x] `res/ontology.ttl`, `transform.py`, `link.py`: ontology 13 classes, statements/observations có nguồn, dataset metadata và links có evidence.
+4. [x] `res/ontology.ttl`, `transform.py`, `link.py`: ontology hiện có 12 classes, statements/observations có nguồn, dataset metadata và links có evidence.
 5. [x] `src/ask.py`, `validate.py`, `queries/`, Fuseki config/load script: catalog CLI, CQs và đặc biệt query Opus provider/giá.
 6. [x] Thu thập thật, tạo silver/gold, xác minh local; cập nhật README, walkthrough, ontology glossary/CQs, báo coverage thật và giới hạn.
 

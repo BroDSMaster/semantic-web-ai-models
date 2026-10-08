@@ -13,12 +13,32 @@ def card_url(repo):
     return "https://huggingface.co/api/models/" + quote(repo, safe="/")
 
 
+def verified_cards(manifest):
+    """Replay original response bytes; aggregate JSON is not identity evidence."""
+    cards = {}
+    for document in manifest.get("documents", []):
+        if document.get("kind") != "model_card":
+            continue
+        path = (BRONZE / document["file"]).resolve()
+        if not path.is_relative_to((BRONZE / "documents").resolve()):
+            raise ValueError("Model card evidence outside Bronze documents")
+        content = path.read_bytes()
+        if digest(content) != document["sha256"]:
+            raise ValueError("Model card evidence SHA-256 mismatch")
+        payload = json.loads(content)
+        repo = payload.get("id", "")
+        if repo.split("/")[0] not in PUBLISHERS or card_url(repo) != document["url"]:
+            raise ValueError("Model card response ID differs from its publisher API URL")
+        cards[repo] = payload
+    return cards
+
+
 def collect_cards(offline=False):
     manifest = read_json(BRONZE / "manifest.json")
     if offline:
         if not manifest.get("model_cards_file"):
             raise FileNotFoundError("No model card snapshot; first collect online")
-        return read_json(BRONZE / manifest["model_cards_file"])
+        return verified_cards(manifest)
     catalog = read_json(BRONZE / manifest.get("catalog_file", "openrouter_models.json"))
     repos = sorted({m["hugging_face_id"] for m in catalog["data"] if m.get("hugging_face_id")
                     and m["hugging_face_id"].split("/", 1)[0] in PUBLISHERS})

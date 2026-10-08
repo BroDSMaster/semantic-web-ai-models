@@ -23,17 +23,50 @@ def validate():
         if row["model_id"] not in model_ids or row["document_id"] not in docs:
             errors.append("Dangling evaluation " + row["id"])
     manifest = read_json(BRONZE / "manifest.json")
+    from .model_links import checked_payload, verified_model_links
+    model_cache = BRONZE / "model_lookups.json"
+    if model_cache.exists():
+        lookups = read_json(model_cache)
+        expected_links, decisions = verified_model_links(tables, lookups)
+        for lookup in lookups:
+            for field in ("wikidata_source", "dbpedia_source"):
+                if lookup.get(field):
+                    try:
+                        checked_payload(lookup[field])
+                    except (OSError, ValueError, KeyError, TypeError) as exc:
+                        errors.append("Model link evidence invalid: " + str(exc))
+        expected_pairs = {(r["subject"], r["target"]) for r in expected_links}
+        actual_pairs = {(str(s), str(t)) for s, t in graph.subject_objects(OWL.sameAs) if str(s) in model_ids}
+        if expected_pairs != actual_pairs:
+            errors.append("Model identity RDF does not match independently replayed evidence")
+    from .organization_links import checked_payload as checked_openalex_payload, verified_openalex_links
+    openalex_cache = BRONZE / "openalex_lookups.json"
+    openalex_pairs = set()
+    openalex_lookups = read_json(openalex_cache) if openalex_cache.exists() else []
+    if openalex_lookups:
+        expected_openalex, openalex_decisions = verified_openalex_links(tables, openalex_lookups)
+        for lookup in openalex_lookups:
+            if lookup.get("source"):
+                try:
+                    checked_openalex_payload(lookup["source"])
+                except (OSError, ValueError, KeyError, TypeError) as exc:
+                    errors.append("OpenAlex organization evidence invalid: " + str(exc))
+        expected_openalex_pairs = {(r["subject"], r["target"]) for r in expected_openalex}
+        openalex_pairs = {(str(s), str(t)) for s, t in graph.subject_objects(OWL.sameAs)
+                          if str(t).startswith("https://openalex.org/I")}
+        if expected_openalex_pairs != openalex_pairs:
+            errors.append("OpenAlex organization RDF does not match independently replayed evidence")
     for source in manifest["documents"]:
         if not source.get("file"):
             errors.append("Missing preserved response bytes: " + source["url"])
         elif digest((BRONZE / source["file"]).read_bytes()) != source["sha256"]:
             errors.append("Source checksum mismatch: " + source["url"])
-    for table in ("models", "offerings", "prices", "observations", "evaluations", "reviews", "documents"):
+    for table in ("models", "offerings", "prices", "observations", "evaluations", "documents"):
         if len({r["id"] for r in tables[table]}) != len(tables[table]):
             errors.append("Duplicate IDs in " + table)
     counts = {name: len(set(graph.subjects(RDF.type, EX[cls]))) for name, cls in
               [("models", "AIModel"), ("offerings", "ModelOffering"), ("prices", "PriceSpecification"),
-               ("observations", "FactObservation"), ("evaluations", "Evaluation"), ("reviews", "Review"),
+               ("observations", "FactObservation"), ("evaluations", "Evaluation"),
                ("external_links", "ExternalLink")]}
     for name, count in counts.items():
         if count != len(tables[name]):
@@ -48,7 +81,7 @@ def validate():
             query_times[path.name] = round(time.perf_counter() - started, 3)
             print(f"  {len(rows)} rows in {query_times[path.name]}s", flush=True)
             query_results[path.name] = len(rows)
-            if path.name in {"opus_providers_prices.rq", "claude_models.rq", "reviews.rq", "official_sources.rq", "benchmarks.rq"} and not rows:
+            if path.name in {"opus_providers_prices.rq", "claude_models.rq", "official_sources.rq", "benchmarks.rq"} and not rows:
                 errors.append("Required query empty: " + path.name)
         except Exception as exc:
             errors.append(f"Query {path.name}: {type(exc).__name__}: {exc}")
@@ -65,6 +98,12 @@ def validate():
         errors.append("Unexpected OWL RL class inference")
     report = {"errors": errors, "warnings": warnings, "triples": len(graph), "counts": counts,
               "query_rows": query_results, "query_seconds": query_times, "source_snapshots": len(manifest["documents"]),
+              "model_link_snapshots": sum(bool(r.get(field)) for r in (read_json(model_cache) if model_cache.exists() else [])
+                                          for field in ("wikidata_source", "dbpedia_source")),
+              "model_identity_links": len(actual_pairs) if model_cache.exists() else 0,
+              "openalex_snapshots": sum(bool(r.get("source")) for r in openalex_lookups),
+              "openalex_organization_links": len(openalex_pairs),
+              "repository_relations": len(list(graph.triples((None, EX.hasRepository, None)))),
               "owl_rl": "representative fixture; full catalog closure not run", "fuseki": "not started or uploaded by agent"}
     write_json(RES / "validation-report.json", report)
     print(json.dumps(report, indent=2))

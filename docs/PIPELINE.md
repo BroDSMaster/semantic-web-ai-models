@@ -99,11 +99,11 @@ Ngày và coverage thực tế nằm trong `res/coverage.json`.
 | `open_weight_specs.rq` | Total checkpoint parameters, license, library và task theo publisher metadata |
 | `direct_vs_router.rq` | Liệt kê giá direct/router, sắp cạnh nhau theo ID/category; model thiếu một nguồn vẫn xuất hiện; đọc điều kiện |
 | `benchmarks.rq` | Score, scale, config, evaluator attribution và nguồn; không xếp hạng chung các benchmark |
-| `reviews.rq` | Model, bài review, tác giả, ngày, URL, tóm tắt ngắn |
 | `official_sources.rq` | Facts đã trích từ schema chính thức, không phải mọi URL tài liệu liên quan |
 | `coverage.rq` | Số model theo developer/source namespace |
 | `conflicting_observations.rq` | Model context/output/cutoff khác nhau giữa nguồn; không coi cách viết description khác là mâu thuẫn |
 | `external_links.rq` | Links ngoài và bằng chứng identity |
+| `openalex_organizations.rq` | 9 tổ chức local, OpenAlex Institution tương đương và bằng chứng kiểm tra |
 
 Nếu chưa nạp catalog vào Fuseki, truy vấn `AIModel` vẫn có thể ra 0 dù local
 đã có dữ liệu. Kiểm tra bằng:
@@ -161,13 +161,13 @@ Sau khi RDF thay đổi, Fuseki vẫn dùng bản đã nạp trước đó tới
 | Module | Xử lý | Input → output |
 |---|---|---|
 | `common.py` | Paths, identities, Decimal-independent I/O, GET retry, atomic file replacement | URL/records → bytes/JSON/CSV |
-| `collect.py` | Catalog, từng provider endpoint, official docs, benchmark/review pages | Public HTTP GET → bronze nguyên gốc và manifest/checksum |
+| `collect.py` | Catalog, từng provider endpoint, official docs và benchmark pages | Public HTTP GET → bronze nguyên gốc và manifest/checksum |
 | `official_sources.py` | Parse schema đã nhận dạng; không suy đoán giá từ blog | HTML bronze → official-model-facts.json + extraction report |
 | `model_cards.py` | Metadata repository thuộc danh sách publisher xác định rõ, không tải weights | HF public JSON → model-card snapshots, parameter/license/library/task observations |
-| `normalize.py` | Tách model/family/org/offering, đổi đơn vị giá bằng Decimal, source observations | Bronze + facts/reviews config → silver CSV + coverage |
+| `normalize.py` | Tách model/family/org/offering, đổi đơn vị giá bằng Decimal, source observations | Bronze + facts → silver CSV + coverage |
 | `benchmarks.py` | Parse bảng Aider và mapping ID đã chỉ định; giữ cấu hình riêng | HTML/mapping → evaluations hoặc unmatched rows |
 | `transform.py` | Typed RDF và provenance từng statement, bản XML tương đương | Silver → models.ttl/models.rdf + ontology RDF/XML + metadata |
-| `link.py` | Kiểm tra official website ở Wikidata; DBpedia sameAs tới QID đã xác nhận | Online/cache → linked_output.nt + external_links.csv |
+| `link.py` / `model_links.py` / `organization_links.py` | Đối chiếu Wikidata/DBpedia; model theo ID/phiên bản; tổ chức OpenAlex theo ID/name/type/homepage/ROR/QID; kiểm tra lại JSON gốc | Online/cache → linked_output.nt + external_links.csv + linking-report.json |
 | `validate.py` | Checksums, IDs, dangling relations, CSV/RDF counts, CQs, OWL RL fixture | Snapshots/CSV/RDF → validation-report.json |
 | `ask.py` | Query graph model local hoặc endpoint; không cần --dataset | `.rq` + graph → CSV trên terminal |
 
@@ -178,7 +178,7 @@ Sau khi RDF thay đổi, Fuseki vẫn dùng bản đã nạp trước đó tới
 - Catalog created không phải release date. Không trả “model mới nhất toàn
   thế giới” từ ngày này. Tên/model ID không được tự suy ra ngày phát hành.
 - Description/capability claims được attribution; hỗ trợ tools không chứng
-  minh chất lượng coding. Thiếu benchmark/review không phải điểm zero.
+  minh chất lượng coding. Thiếu benchmark không phải điểm zero.
 - Model cards từ publisher namespaces Qwen, Meta Llama, Mistral, Z.AI,
   MiniMax, DeepSeek, Google và OpenAI bổ sung total checkpoint parameters,
   license, library và task khi trường có sẵn. Tổng parameter không phải
@@ -186,8 +186,6 @@ Sau khi RDF thay đổi, Fuseki vẫn dùng bản đã nạp trước đó tới
 - Embedded Artificial Analysis metrics được lấy **qua OpenRouter**, không
   phải gọi trực tiếp AA API. API riêng của AA cần key và chưa được triển khai
   trong bản này; không đặt key thì catalog vẫn có embedded scores.
-- Review hiện là tập nhỏ có biên tập; không crawler toàn Internet hoặc sao
-  chép toàn văn review vào graph. Giá trong review không dùng làm current price.
 - Giá non-token chưa xác định đơn vị giữ `unknown`, không nhân một triệu.
 - Pricing overrides được lưu riêng với `priceTier` và boundary; query so
   direct/router chỉ so base rates và vẫn cần đọc điều kiện. Endpoint tag và

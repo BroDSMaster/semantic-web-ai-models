@@ -1,0 +1,92 @@
+[
+  {
+    "local_key": "developer:openai",
+    "openalex_id": "I4210161460",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4210161460",
+      "sha256": "558c70ef16a5d5a523f8217098f6dff2ad22983e44b9654fb5a781d78a319477",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4210161460-558c70ef16a5d5a523f8217098f6dff2ad22983e44b9654fb5a781d78a319477.json",
+      "retrieved_at": "2026-10-08T07:51:25.895006+00:00"
+    }
+  },
+  {
+    "local_key": "developer:anthropic",
+    "openalex_id": "I4387930290",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4387930290",
+      "sha256": "7a52d81029c2fd672bb0786d7fa5da0b953281283c17b53ffdc49ffd17060427",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4387930290-7a52d81029c2fd672bb0786d7fa5da0b953281283c17b53ffdc49ffd17060427.json",
+      "retrieved_at": "2026-10-08T07:51:26.589514+00:00"
+    }
+  },
+  {
+    "local_key": "developer:google",
+    "openalex_id": "I1291425158",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I1291425158",
+      "sha256": "7b8e0d2d36cfb69a9608aa902f769fc32a22c9f6c6d880d7bb8e9b1c6ea113a9",
+      "snapshot_file": "src/data/bronze/documents/openalex-I1291425158-7b8e0d2d36cfb69a9608aa902f769fc32a22c9f6c6d880d7bb8e9b1c6ea113a9.json",
+      "retrieved_at": "2026-10-08T07:51:27.715068+00:00"
+    }
+  },
+  {
+    "local_key": "developer:meta-llama",
+    "openalex_id": "I4210114444",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4210114444",
+      "sha256": "d566f79f7bb70cec92ff6eb7e97418e345ec9046d8c812eee102e573ac87e1fe",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4210114444-d566f79f7bb70cec92ff6eb7e97418e345ec9046d8c812eee102e573ac87e1fe.json",
+      "retrieved_at": "2026-10-08T07:51:28.829634+00:00"
+    }
+  },
+  {
+    "local_key": "developer:mistralai",
+    "openalex_id": "I4390039361",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4390039361",
+      "sha256": "2103734455292db3e3638b55eaa38614fa235abdc3f9d4bfb17c10c70a040034",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4390039361-2103734455292db3e3638b55eaa38614fa235abdc3f9d4bfb17c10c70a040034.json",
+      "retrieved_at": "2026-10-08T07:51:29.458760+00:00"
+    }
+  },
+  {
+    "local_key": "developer:deepseek",
+    "openalex_id": "I4405257960",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4405257960",
+      "sha256": "e0faa16e5eecbc65ee87e420fe8f41c797eeb76472046b01b8dd114209e1bf8c",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4405257960-e0faa16e5eecbc65ee87e420fe8f41c797eeb76472046b01b8dd114209e1bf8c.json",
+      "retrieved_at": "2026-10-08T07:51:30.116870+00:00"
+    }
+  },
+  {
+    "local_key": "developer:x-ai",
+    "openalex_id": "I4401726768",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4401726768",
+      "sha256": "c7e511cadec17a9b8e8a644eb2f48ba2403c42e4767d99b037b7e2d1a44918bf",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4401726768-c7e511cadec17a9b8e8a644eb2f48ba2403c42e4767d99b037b7e2d1a44918bf.json",
+      "retrieved_at": "2026-10-08T07:51:31.210719+00:00"
+    }
+  },
+  {
+    "local_key": "developer:moonshotai",
+    "openalex_id": "I4405260227",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4405260227",
+      "sha256": "37ec0515103ddd43277684185cf8b4a9bdf766b6bca251c24549f160b3f6716e",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4405260227-37ec0515103ddd43277684185cf8b4a9bdf766b6bca251c24549f160b3f6716e.json",
+      "retrieved_at": "2026-10-08T07:51:32.426267+00:00"
+    }
+  },
+  {
+    "local_key": "developer:cohere",
+    "openalex_id": "I4401726847",
+    "source": {
+      "url": "https://api.openalex.org/institutions/I4401726847",
+      "sha256": "30a32902a89e879ab5d406ba83962492410cc57450ec462c79bc9b4f7213d431",
+      "snapshot_file": "src/data/bronze/documents/openalex-I4401726847-30a32902a89e879ab5d406ba83962492410cc57450ec462c79bc9b4f7213d431.json",
+      "retrieved_at": "2026-10-08T07:51:33.143158+00:00"
+    }
+  }
+]

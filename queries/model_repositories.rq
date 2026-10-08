@@ -1,0 +1,16 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX schema: <https://schema.org/>
+SELECT ?name ?repository ?catalogSource ?modelCardSource ?observedAt WHERE {
+  {
+    SELECT ?model ?repository ?document ?observedAt WHERE {
+      ?observation ex:observedProperty ex:hasRepository ; ex:aboutEntity ?model ;
+                   ex:resourceValue ?repository ; prov:wasDerivedFrom ?document ;
+                   ex:observedAt ?observedAt .
+    }
+  }
+  ?model rdfs:label ?name ; ex:hasRepository ?repository ; ex:relatedDocumentation ?card .
+  ?card ex:sourceKind "model_card" ; schema:url ?modelCardSource .
+  ?document schema:url ?catalogSource .
+} ORDER BY ?name

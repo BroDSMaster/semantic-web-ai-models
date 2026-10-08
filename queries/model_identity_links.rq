@@ -1,0 +1,12 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?name ?externalModel ?reason ?source ?sha256 ?snapshot ?checkedAt WHERE {
+  ?model a ex:AIModel ; rdfs:label ?name ; owl:sameAs ?externalModel .
+  ?evidence a ex:ExternalLink ; ex:linkSubject ?model ; ex:linkTarget ?externalModel ;
+            ex:description ?reason ; prov:wasDerivedFrom ?source .
+  OPTIONAL { ?evidence ex:sha256 ?sha256 }
+  OPTIONAL { ?evidence ex:snapshotFile ?snapshot }
+  OPTIONAL { ?evidence ex:observedAt ?checkedAt }
+} ORDER BY ?name ?externalModel

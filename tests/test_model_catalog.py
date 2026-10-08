@@ -25,6 +25,11 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(tables["prices"][0]["amount"], "0")
         self.assertEqual(tables["prices"][0]["unit"], "million_tokens")
 
+    def test_normalized_domain_excludes_subjective_reviews(self):
+        """The model/API dataset must not expose a review collection."""
+        tables = self.normalize()
+        self.assertNotIn("reviews", tables)
+
     def test_price_decimal_precision_and_non_token_units(self):
         tables = self.normalize({"pricing": {"prompt": "0.000000123456789", "request": "0.01"}})
         by_kind = {p["category"]: p for p in tables["prices"]}
@@ -158,12 +163,29 @@ class CatalogTests(unittest.TestCase):
         tables = normalize({"data": [{"id": "meta-llama/test", "name": "Test", "hugging_face_id": "meta-llama/Test"}]}, {},
                            {"retrieved_at": "2026-10-05T00:00:00Z", "catalog_url": "https://openrouter.ai/api/v1/models",
                             "documents": [{"url": url, "kind": "model_card", "sha256": "example", "retrieved_at": "2026-10-05T00:00:00Z"}]},
-                           model_cards={"meta-llama/Test": {"safetensors": {"total": 70000000000}, "cardData": {"license": "llama3.3"}}})
+                           model_cards={"meta-llama/Test": {"id": "meta-llama/Test", "safetensors": {"total": 70000000000}, "cardData": {"license": "llama3.3"}}})
         facts = {row["predicate"]: row for row in tables["observations"]}
         self.assertEqual(facts["parameterCount"]["value"], "70000000000")
         self.assertEqual(facts["license"]["value"], "llama3.3")
         doc = next(d for d in tables["documents"] if d["id"] == facts["license"]["document_id"])
         self.assertEqual(doc["url"], url)
+
+    def test_repository_relation_requires_exact_hugging_face_id(self):
+        from model_catalog.normalize import normalize
+        from model_catalog.transform import build_graph, EX
+        from rdflib.namespace import OWL
+        from rdflib import URIRef
+        manifest = {"retrieved_at": "2026-10-05T00:00:00Z", "catalog_url": "https://openrouter.ai/api/v1/models",
+                    "documents": [{"url": "https://huggingface.co/api/models/meta-llama/Test", "kind": "model_card"}]}
+        catalog = {"data": [{"id": "meta-llama/test", "name": "Test", "hugging_face_id": "meta-llama/Test"}]}
+        for returned_id in ["meta-llama/Test", "meta-llama/Wrong", None]:
+            with self.subTest(returned_id=returned_id):
+                tables = normalize(catalog, {}, manifest, model_cards={"meta-llama/Test": {"id": returned_id}})
+                graph = build_graph(tables)
+                model = URIRef(tables["models"][0]["id"])
+                links = list(graph.objects(model, EX.hasRepository))
+                self.assertEqual(links, [URIRef("https://huggingface.co/meta-llama/Test")] if returned_id == "meta-llama/Test" else [])
+                self.assertEqual(list(graph.objects(model, OWL.sameAs)), [])
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ ghi lý do identity, roles, sources và scope; [hướng dẫn](PIPELINE.md) mô
 Miền: model AI và các offering API có thông số/giá/đánh giá theo nguồn.
 Người dùng: sinh viên trình bày capstone và người muốn tra model/provider.
 Kịch bản chính: tra một phiên bản Opus, xem ai cung cấp, giá và URL kiểm chứng;
-lọc model có tools/image input; xem benchmark/review có attribution.
+lọc model có tools/image input; xem benchmark có attribution.
 
 | Class | Glossary / identity / example |
 |---|---|
@@ -23,7 +23,6 @@ lọc model có tools/image input; xem benchmark/review có attribution.
 | PriceSpecification | Giá + loại token + unit + điều kiện + nguồn + thời điểm |
 | Benchmark | Metric/protocol + evaluator/version; không gộp các thang đo khác nhau |
 | Evaluation | Một kết quả model trên benchmark trong cấu hình cụ thể |
-| Review | Bài nhận xét có tác giả/URL/ngày; không sinh rating nếu nguồn không có |
 | SourceDocument | Snapshot URL/content/checksum; document không đồng nhất với model |
 | FactObservation | N-ary statement subject/property/value/source/time; giữ được mâu thuẫn |
 | ExternalLink | Mapping identity có bằng chứng, không nối chỉ vì trùng tên |
@@ -35,8 +34,8 @@ trường dữ liệu được khai báo ở ontology thay vì hardcode không c
 Ví dụ giả dùng `res/example-data.ttl`, không load vào dữ liệu thật.
 
 Taxonomy kiểm tra “Every A is a B”: Organization là schema:Organization,
-offering là schema:Service, price là schema:PriceSpecification, review là
-schema:Review, source document là prov:Entity. Không dùng subclass để diễn
+offering là schema:Service, price là schema:PriceSpecification và source document là
+prov:Entity. Không dùng subclass để diễn
 tả membership của model trong family hoặc offering của model.
 
 Identity: percent-encoded source IDs; prices/observations/evaluations dùng
@@ -46,15 +45,17 @@ không trở thành CheapModel/LatestModel theo giá hay thời điểm.
 
 Quan hệ cốt lõi: belongsToFamily, developedBy, offersModel, hostedBy,
 hasPrice, supportsCapability, inputModality/outputModality, evaluatedModel,
-onBenchmark; provenance qua prov:wasDerivedFrom và FactObservation.
+onBenchmark, hasRepository; provenance qua prov:wasDerivedFrom và FactObservation.
+hasRepository nối model tới repository đã đối chiếu ID, range là schema:SoftwareSourceCode;
+không thêm class riêng và không khẳng định repository đồng nhất với model/deployment.
 Datatype giữ Decimal/integer/date/dateTime; unknown không được gán zero/false.
 Không dùng OWL cardinality theo số lượng tình cờ trong snapshot.
 
-Competency questions được hiện thực bởi 13 `.rq` tại `queries/`:
+Competency questions được hiện thực bởi 14 `.rq` tại `queries/`:
 list Claude; Opus providers/prices; model details; tools/context/budget;
-vision; direct-vs-router; benchmark/config/source; reviews; official facts;
+vision; direct-vs-router; benchmark/config/source; official facts;
 coverage; conflicting observations; external link evidence; publisher parameter/license/task metadata. Query source
-trả provenance, không tự kết luận review là sự thật khách quan.
+trả provenance cho các phát biểu và kết quả đánh giá.
 Ngày phát hành chỉ thêm khi có nguồn xác minh; câu hỏi newest release toàn
 thế giới nằm ngoài dữ liệu hiện tại, không thay bằng catalog timestamp.
 
@@ -67,7 +68,7 @@ không được tuyên bố đã kiểm chứng nếu chưa chạy.
 ## 2. Collect relevant data
 
 OpenRouter GET catalog và endpoint của từng source ID; official pricing/model
-docs của chín nhóm nhà phát hành; bảng benchmark Aider và review chọn lọc.
+docs của chín nhóm nhà phát hành và bảng benchmark Aider.
 Bronze giữ bytes nguyên gốc và manifest URL/hash/time. Các document developer
 chỉ là relatedDocumentation nếu chưa có parser field-level.
 
@@ -84,6 +85,15 @@ kèm observation đủ nguồn và thời điểm để truy vết và phát hi�
 Wikidata candidate organizations được kiểm tra P856 official domain; DBpedia
 sameAs phải nối tới QID đã xác nhận. Lưu JSON responses, query và evidence CSV;
 xuất `linked_output.nt`. Không đoán URI DBpedia hoặc model identity từ tên.
+`model_links.py` bổ sung sameAs cấp model khi ID/tên trong catalog gốc, Wikidata
+QID, tên/phiên bản, P178 developer, P31 type và P856 URL model chính thức đều khớp.
+Kiểm tra lại checksum và claims cả khi offline; alias/batch/free không được tự truyền link.
+Hiện xác minh GPT-4 và GPT-4o với Wikidata; DBpedia trả rỗng cho hai QID.
+`organization_links.py` xác minh 9 tổ chức với OpenAlex Institution bằng exact
+local ID/name, OpenAlex ID/name, company type, homepage domain, ROR và QID khi có.
+JSON gốc và checksum được đọc lại khi offline. Z.AI/Qwen/MiniMax được giữ ngoài
+mapping cho tới khi xác định đúng thực thể tổ chức.
+Xem [LINKING.md](LINKING.md) để xem bằng chứng và quan hệ riêng với repository/benchmark.
 Nguồn API/docs là provenance; không xuất sameAs giữa model và trang tài liệu.
 Để công bố 5★ đầy đủ cần URI dereferenceable và deployment phù hợp;
 namespace example.org hiện phục vụ capstone local.

@@ -1,0 +1,85 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+# Change only this ID to inspect another model.
+# The result is deliberately vertical: one row is one stored fact.
+SELECT DISTINCT ?section ?entity ?property ?propertyName ?value ?source ?observedAt
+WHERE {
+  ?model a ex:AIModel ;
+         ex:sourceId "anthropic/claude-opus-4.6" .
+
+  {
+    # Direct model metadata: name, family, developer, modalities, description...
+    BIND("1_model" AS ?section)
+    BIND(?model AS ?entity)
+    ?model ?property ?rawValue .
+    OPTIONAL { ?model prov:wasDerivedFrom ?evidence . ?evidence schema:url ?source }
+  }
+  UNION
+  {
+    # API access routes and their provider, mode, limits and capabilities.
+    BIND("2_api_offering" AS ?section)
+    ?offering ex:offersModel ?model ; ?property ?rawValue .
+    BIND(?offering AS ?entity)
+    OPTIONAL { ?offering prov:wasDerivedFrom ?evidence . ?evidence schema:url ?source }
+    OPTIONAL { ?offering ex:observedAt ?observedAt }
+  }
+  UNION
+  {
+    # Every field of every price attached to an offering for this model.
+    BIND("3_price" AS ?section)
+    ?offering ex:offersModel ?model ; ex:hasPrice ?price .
+    ?price ?property ?rawValue .
+    BIND(?price AS ?entity)
+    OPTIONAL { ?price prov:wasDerivedFrom ?evidence . ?evidence schema:url ?source }
+    OPTIONAL { ?price ex:observedAt ?observedAt }
+  }
+  UNION
+  {
+    # Source-attributed facts about the model or one of its API offerings.
+    BIND("4_sourced_fact" AS ?section)
+    {
+      BIND(?model AS ?entity)
+    }
+    UNION
+    {
+      ?entity ex:offersModel ?model .
+    }
+    ?fact a ex:FactObservation ; ex:aboutEntity ?entity ;
+          ex:observedProperty ?property ; prov:wasDerivedFrom ?evidence .
+    OPTIONAL { ?fact ex:literalValue ?literalValue }
+    OPTIONAL { ?fact ex:resourceValue ?resourceValue }
+    BIND(COALESCE(?literalValue, ?resourceValue) AS ?rawValue)
+    OPTIONAL { ?evidence schema:url ?source }
+    OPTIONAL { ?fact ex:observedAt ?observedAt }
+  }
+  UNION
+  {
+    # Benchmark results, when this exact model ID has an explicit mapping.
+    BIND("5_benchmark" AS ?section)
+    ?evaluation a ex:Evaluation ;
+                ex:evaluatedModel ?model ;
+                ?property ?rawValue .
+    BIND(?evaluation AS ?entity)
+    OPTIONAL { ?evaluation prov:wasDerivedFrom ?evidence . ?evidence schema:url ?source }
+    OPTIONAL { ?evaluation ex:observedAt ?observedAt }
+  }
+  UNION
+  {
+    # Verified links from the local entity to an external knowledge graph.
+    BIND("6_external_link" AS ?section)
+    ?link a ex:ExternalLink ;
+          ex:linkSubject ?model ;
+          ?property ?rawValue .
+    BIND(?link AS ?entity)
+    OPTIONAL { ?link prov:wasDerivedFrom ?evidence . BIND(STR(?evidence) AS ?source) }
+  }
+
+  OPTIONAL { ?property rdfs:label ?propertyName }
+  OPTIONAL { ?rawValue rdfs:label ?valueLabel }
+  BIND(COALESCE(STR(?valueLabel), STR(?rawValue)) AS ?value)
+}
+ORDER BY ?section ?entity ?property ?value

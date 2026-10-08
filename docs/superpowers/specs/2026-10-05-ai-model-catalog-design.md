@@ -8,7 +8,7 @@ Ngày: 2026-10-05. Trạng thái: đã được người dùng chỉ định tri
 ## Mục tiêu và yêu cầu đã xác nhận
 
 Người dùng cần capstone LOD về **model AI**, gồm chức năng, cách sử dụng,
-thông số, giá API, benchmark và review có nguồn. Bao phủ rộng GPT, Claude
+thông số, giá API và benchmark có nguồn. Bao phủ rộng GPT, Claude
 (Opus/Sonnet/Haiku), MiniMax, Qwen, GLM, Mistral, Gemini, Llama và những model
 khác có trong nguồn. `Qwen` là cách viết chuẩn của tên người dùng ghi `qween`.
 OpenRouter là nguồn danh mục chính; bổ sung tài liệu chính thức của hãng.
@@ -53,12 +53,11 @@ nguồn thiết kế, chưa phải dữ liệu đã ingest hoặc cam kết mọ
 | [Meta Llama trên Hugging Face](https://huggingface.co/meta-llama) | Model cards của tổ chức phát hành | Chỉ dùng repository chính thức đã xác nhận; không coi model card là giá API Meta |
 | [Aider leaderboard](https://aider.chat/docs/leaderboards/) | Benchmark coding công khai, có điều kiện đánh giá | Collector bảng HTML có kiểm tra schema; lưu score, cấu hình, ngày và URL |
 | [Artificial Analysis API](https://artificialanalysis.ai/api-reference/) | Benchmark độc lập, tốc độ/độ trễ, pricing tham khảo | Adapter tùy chọn khi có `ARTIFICIAL_ANALYSIS_API_KEY`; không có key thì báo skipped |
-| [Simon Willison](https://simonwillison.net/tags/llms/) | Review/thử nghiệm do tác giả công bố | Danh sách bài cụ thể đã đọc, metadata và tóm tắt ngắn có attribution; không coi trang tag là review một model |
 | Wikidata / DBpedia | Định danh tổ chức hoặc model có thực thể tương ứng | Liên kết có bằng chứng định danh, lưu kết quả lookup và trạng thái |
 
 Không phụ thuộc vào inference API hay API key của OpenAI để đọc tài liệu công
 khai. Artificial Analysis là enrichment tùy chọn, không chặn pipeline chính.
-Review và benchmark có thể thiếu ở một số model; không tạo bản ghi giả để
+Benchmark có thể thiếu ở một số model; không tạo bản ghi giả để
 đạt số lượng. Model không có trên OpenRouter vẫn có thể được thêm bằng nguồn
 chính thức, ví dụ Sol/Astra nếu catalog tại thời điểm thu thập không có chúng.
 
@@ -70,8 +69,8 @@ không tự biến thành facts mới nếu extraction chưa được xác nhậ
 ## Ontology: khái niệm, glossary và identity
 
 Tạo ontology catalog riêng, namespace `https://example.org/aimodels/`;
-ontology nghiên cứu hiện tại tiếp tục tồn tại. Có **13 class catalog** vì giá,
-review và quan sát theo nguồn cần danh tính riêng, không gộp thành thuộc tính
+ontology nghiên cứu hiện tại tiếp tục tồn tại. Có **12 class catalog** vì giá,
+evaluation và quan sát theo nguồn cần danh tính riêng, không gộp thành thuộc tính
 không có bằng chứng. Không tạo class cho từng thương hiệu hay model.
 
 | Class | Định nghĩa / ví dụ | Tiêu chí identity |
@@ -85,15 +84,14 @@ không có bằng chứng. Không tạo class cho từng thương hiệu hay mod
 | `PriceSpecification` | Quan sát một mức giá của offering | Offering + nguồn + thời điểm snapshot + loại giá + điều kiện |
 | `Benchmark` | Định nghĩa bài đánh giá và phiên bản | Nhà đánh giá + benchmark + version nếu có |
 | `Evaluation` | Một kết quả model trên benchmark trong cấu hình cụ thể | Nguồn + run/row ID hoặc hash cấu hình và nội dung |
-| `Review` | Bài review của tác giả, có model được đề cập | URL bài và record ID |
 | `SourceDocument` | Trang tài liệu/API snapshot dùng làm bằng chứng | URL + checksum nội dung snapshot |
 | `FactObservation` | Giá trị/nhận định về một entity từ một nguồn | Subject + predicate + source snapshot + value |
 | `ExternalLink` | Bằng chứng ánh xạ identity ra dataset bên ngoài | Subject + target + loại mapping + nguồn xác nhận |
 
 `ModelOffering` tái sử dụng `schema:Service`; `Organization` tái sử dụng
 `schema:Organization`; `PriceSpecification` tái sử dụng
-`schema:PriceSpecification`; `SourceDocument` là `prov:Entity`;
-`Review` là `schema:Review`. Những class còn lại có định nghĩa cục bộ rõ ràng;
+`schema:PriceSpecification`; `SourceDocument` là `prov:Entity`.
+Những class còn lại có định nghĩa cục bộ rõ ràng;
 không ép AIModel thành một SoftwareApplication nếu ngữ nghĩa không phù hợp.
 Capability và Modality là các concept có thể gắn SKOS label/definition.
 
@@ -117,8 +115,6 @@ domain/range để tự xác nhận dữ liệu nhập sai.
   khi nguồn chỉ công bố giới hạn endpoint.
 - `Evaluation → evaluatedModel → AIModel`; `Evaluation → onBenchmark → Benchmark`;
   lưu score, metric, unit, evaluator, config, thời gian và source.
-- `Review → schema:itemReviewed → AIModel`; title, author, publication date,
-  URL, short summary; rating chỉ có khi nguồn thật sự công bố thang điểm.
 - `ExternalLink` có subject, target, relation, source và evidence; xuất
   `owl:sameAs` chỉ cho identity đã xác nhận.
 
@@ -146,14 +142,13 @@ tự coi đó là một phiên bản model độc lập hoặc gộp vào một 
 - Benchmark giữ score scale, reasoning effort, thinking budget, edit format,
   harness/version và nguồn. Aider cost là chi phí một lần chạy benchmark,
   không phải giá mỗi triệu token. Không xếp hạng chung các phép đo khác nhau.
-- Matching benchmark/review/model card qua mapping ID đã duyệt; fuzzy tên
+- Matching benchmark/model card qua mapping ID đã duyệt; fuzzy tên
   chỉ tạo candidate để kiểm tra. Row không ghép chắc chắn lưu ở unmatched.
 - Tài liệu là `dcterms:source`/PROV, không phải model `owl:sameAs`.
   OpenRouter và HF URL thường là catalog/document resource; không khẳng định
   identity RDF với model khi nguồn không có semantics tương ứng.
 - Dataset metadata ghi license theo từng nguồn, không kế thừa CC0 của
-  OpenAlex cho dữ liệu mới. Review chỉ lưu facts/metadata/tóm tắt ngắn,
-  không xuất toàn văn trong RDF.
+  OpenAlex cho dữ liệu mới.
 
 ## Kiến trúc và thay đổi file
 
@@ -162,7 +157,6 @@ flowchart TD
   OR[OpenRouter JSON catalog/endpoints] --> B[Bronze snapshots + manifests]
   OFF[Official docs + facts có bằng chứng] --> B
   BEN[Aider / Artificial Analysis tùy chọn] --> B
-  REV[Review metadata có biên tập] --> B
   B --> N[Normalize + identity mappings]
   N --> S[Silver CSV]
   S --> T[RDF transform]
@@ -181,10 +175,10 @@ Tạo `src/model_catalog/` với module riêng: `common.py`, `collect.py`,
   time, checksum, trạng thái; snapshot không chứa secrets.
 - Silver mới: `src/data/silver/`: models, families, organizations,
   offerings, prices, capabilities, modalities, observations, evaluations,
-  benchmarks, reviews, documents, external_links, unmatched CSV.
+  benchmarks, documents, external_links, unmatched CSV.
 - Gold mới: `src/data/gold/models.ttl` và `models.rdf`.
-- Config mới: `res/sources.json`, `res/identity-mappings.json`,
-  `res/official-model-facts.json`, `res/reviews.json` có source per record.
+- Config mới: `res/sources.json`, `res/identity-mappings.json` và
+  `res/official-model-facts.json` có source per record.
 - Ontology/examples mới: `res/ontology.ttl`, `res/model-example-data.ttl`.
 - Links/metadata mới: `res/linked_output.nt`, `res/dataset-metadata.ttl`.
 - Query mới: `queries/`; giữ nguyên các research queries hiện có.
@@ -215,12 +209,11 @@ không rỗng; enrichment lỗi tạo warning, không phá dữ liệu đã hợ
 6. So offering OpenRouter và direct provider khi identity đã xác nhận.
 7. Tra benchmark của model cùng metric, scale, config và evaluator.
 8. Tìm kết quả coding cao nhất trong cùng benchmark/version/config.
-9. Tra review, tác giả, ngày, URL và model được đề cập.
-10. Tra nguồn chính thức về capabilities/claims của model.
-11. Tìm observations mâu thuẫn, dữ liệu thiếu và rows chưa ghép model.
-12. Tra Wikidata/DBpedia links và bằng chứng identity.
-13. Đếm coverage theo hãng và theo nguồn dữ liệu.
-14. Tra phiên bản mới nhất theo release date đã xác minh; kết quả chỉ trong
+9. Tra nguồn chính thức về capabilities/claims của model.
+10. Tìm observations mâu thuẫn, dữ liệu thiếu và rows chưa ghép model.
+11. Tra Wikidata/DBpedia links và bằng chứng identity.
+12. Đếm coverage theo hãng và theo nguồn dữ liệu.
+13. Tra phiên bản mới nhất theo release date đã xác minh; kết quả chỉ trong
     corpus, loại alias và ghi rõ unknown release date.
 
 Mỗi CQ có SPARQL `.rq`, fixture và expected answers. Chỉ viết câu hỏi thành
@@ -242,7 +235,7 @@ Tiêu chí kiểm tra được giao cho người dùng chạy:
 
 Không ghi “tests pass”, số triples hoặc “đã đạt 5★ public” khi chưa có bằng
 chứng. Namespace example.org vẫn cần được thay bằng URI dereferenceable khi
-muốn công bố LOD thật trên Web. Benchmark/review coverage có thể thưa và phải
+muốn công bố LOD thật trên Web. Benchmark coverage có thể thưa và phải
 hiển thị rõ trong manifest/README thay vì hứa mọi model có đủ mọi trường.
 
 ## Mapping năm bước capstone
@@ -250,7 +243,7 @@ hiển thị rõ trong manifest/README thay vì hứa mọi model có đủ mọ
 | Bước | Deliverable |
 |---|---|
 | 1. Ontology | Requirements, CQs, glossary, taxonomy/properties, identity decisions, model ontology và examples |
-| 2. Collect | Public catalog/doc/benchmark snapshots và manifests; reviews có nguồn |
+| 2. Collect | Public catalog/doc/benchmark snapshots và manifests |
 | 3. RDF 4★ | CSV chuẩn hóa, HTTP URI ổn định, vocabulary chuẩn, typed RDF Turtle/RDF XML |
 | 4. Links 5★ | Wikidata/DBpedia identity links có evidence; nguồn docs là provenance riêng |
 | 5. Query | CLI chọn catalog graph, SPARQL queries và cấu hình Apache Jena Fuseki |

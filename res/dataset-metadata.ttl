@@ -575,9 +575,6 @@
         <https://platform.claude.com/docs/en/about-claude/pricing>,
         <https://platform.claude.com/docs/en/models/overview>,
         <https://platform.minimax.io/docs/guides/pricing-paygo>,
-        <https://simonwillison.net/2025/Oct/29/minimax-m2/>,
-        <https://simonwillison.net/2026/Feb/17/claude-sonnet-46/>,
-        <https://simonwillison.net/2026/May/28/claude-opus-4-8/>,
         <https://www.alibabacloud.com/help/en/model-studio/models> ;
     dcterms:title "AI model catalog, offerings, sourced prices and evaluations" .
 

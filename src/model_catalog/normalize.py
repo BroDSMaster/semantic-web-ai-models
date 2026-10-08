@@ -15,7 +15,7 @@ DEVELOPERS = {"openai": ("OpenAI", "GPT"), "anthropic": ("Anthropic", "Claude"),
 TOKEN_CATEGORIES = {"prompt", "completion", "input_cache_read", "input_cache_write", "input_cache_write_1h"}
 UNITS = {"request": "request", "image": "image", "web_search": "search", "internal_reasoning": "unknown"}
 TABLES = ["models", "families", "organizations", "offerings", "prices", "capabilities", "modalities",
-          "observations", "evaluations", "benchmarks", "reviews", "documents", "external_links", "unmatched"]
+          "observations", "evaluations", "benchmarks", "documents", "external_links", "unmatched"]
 
 
 def number(value):
@@ -28,7 +28,7 @@ def number(value):
         return None
 
 
-def normalize(catalog, endpoints, manifest, official_facts=None, reviews=None, model_cards=None):
+def normalize(catalog, endpoints, manifest, official_facts=None, model_cards=None):
     tables = {key: [] for key in TABLES}
     index = {key: {} for key in TABLES}
     timestamp = manifest["retrieved_at"]
@@ -152,11 +152,14 @@ def normalize(catalog, endpoints, manifest, official_facts=None, reviews=None, m
         observe(ident, "description", raw.get("description"), catalog_doc)
         repo = raw.get("hugging_face_id")
         if repo and repo in (model_cards or {}):
-            from .model_cards import card_url
+            from .model_cards import card_url, PUBLISHERS
             url = card_url(repo)
-            if url in source_docs:
+            if url in source_docs and model_cards[repo].get("id") == repo and repo.split("/")[0] in PUBLISHERS:
                 card = model_cards[repo]
                 doc = document(url, "Publisher model card: " + repo, "model_card")
+                # Catalog explicitly names the repository; HF confirms that exact ID exists.
+                # This does not establish equality with weights used by an API deployment.
+                observe(ident, "hasRepository", "https://huggingface.co/" + repo, catalog_doc, resource=True)
                 metadata = card.get("cardData") or {}
                 license_value = metadata.get("license")
                 if isinstance(license_value, (str, list)):
@@ -234,19 +237,6 @@ def normalize(catalog, endpoints, manifest, official_facts=None, reviews=None, m
                      {"pricing": fact["pricing"], "context_length": fact.get("facts", {}).get("contextLength", "")},
                      doc, mode=fact.get("tier", "standard"), per_million=True, conditions=fact.get("conditions", ""))
 
-    for review in reviews or []:
-        if review.get("source_url") not in source_docs:
-            continue
-        doc = document(review["source_url"], kind="review")
-        for slug in review.get("model_ids", []):
-            match = next((m for m in index["models"].values() if m["source_id"] == slug), None)
-            if not match:
-                add("unmatched", {"id": digest([review, slug]), "kind": "review", "name": review["title"],
-                                  "reason": "explicit model ID absent from catalog", "source_url": review["source_url"]})
-                continue
-            add("reviews", {"id": uri("review", digest([review["source_url"], slug])), "model_id": match["id"],
-                            "name": review["title"], "author": review["author"], "date": review.get("date", ""),
-                            "summary": review.get("summary", ""), "document_id": doc, "source_url": review["source_url"]})
     for key in TABLES:
         tables[key] = sorted(index[key].values(), key=lambda row: row["id"])
     return tables
@@ -259,10 +249,10 @@ def endpoint_url_for(model):
 
 def main():
     manifest = read_json(BRONZE / "manifest.json")
+    from .model_cards import verified_cards
     tables = normalize(read_json(BRONZE / manifest.get("catalog_file", "openrouter_models.json")),
                        read_json(BRONZE / manifest.get("endpoints_file", "openrouter_endpoints.json")),
-                       manifest, read_json(RES / "official-model-facts.json"), read_json(RES / "reviews.json"),
-                       read_json(BRONZE / manifest["model_cards_file"]) if manifest.get("model_cards_file") else {})
+                       manifest, read_json(RES / "official-model-facts.json"), verified_cards(manifest))
     from .benchmarks import add_aider
     add_aider(tables, manifest)
     write_tables(tables)

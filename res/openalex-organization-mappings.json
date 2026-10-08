@@ -1,0 +1,89 @@
+{
+  "notes": "Reviewed organization identities. Every link is rechecked against exact local ID/name and checksum-bound OpenAlex JSON: OpenAlex ID, display name, company type, official homepage domain and ROR must all match. Z.AI/Zhipu AI, Qwen/Alibaba and MiniMax are intentionally excluded pending an exact organization decision.",
+  "organizations": [
+    {
+      "local_key": "developer:openai",
+      "local_name": "OpenAI",
+      "openalex_id": "I4210161460",
+      "display_name": "OpenAI (United States)",
+      "homepage_domains": ["openai.com"],
+      "ror": "https://ror.org/05wx9n238",
+      "type": "company"
+    },
+    {
+      "local_key": "developer:anthropic",
+      "local_name": "Anthropic",
+      "openalex_id": "I4387930290",
+      "display_name": "Anthropic (United States)",
+      "homepage_domains": ["anthropic.com"],
+      "ror": "https://ror.org/056y0v115",
+      "type": "company"
+    },
+    {
+      "local_key": "developer:google",
+      "local_name": "Google",
+      "openalex_id": "I1291425158",
+      "display_name": "Google (United States)",
+      "homepage_domains": ["google.com"],
+      "ror": "https://ror.org/00njsd438",
+      "type": "company"
+    },
+    {
+      "local_key": "developer:meta-llama",
+      "local_name": "Meta",
+      "openalex_id": "I4210114444",
+      "display_name": "Meta (United States)",
+      "homepage_domains": ["meta.com"],
+      "ror": "https://ror.org/01zbnvs85",
+      "type": "company",
+      "wikidata": "Q380"
+    },
+    {
+      "local_key": "developer:mistralai",
+      "local_name": "Mistral AI",
+      "openalex_id": "I4390039361",
+      "display_name": "Mistral AI (France)",
+      "homepage_domains": ["mistral.ai"],
+      "ror": "https://ror.org/05w9p7918",
+      "type": "company"
+    },
+    {
+      "local_key": "developer:deepseek",
+      "local_name": "DeepSeek",
+      "openalex_id": "I4405257960",
+      "display_name": "DeepSeek (China)",
+      "homepage_domains": ["deepseek.com"],
+      "ror": "https://ror.org/05wa54d95",
+      "type": "company",
+      "wikidata": "Q131577453"
+    },
+    {
+      "local_key": "developer:x-ai",
+      "local_name": "xAI",
+      "openalex_id": "I4401726768",
+      "display_name": "xAI (United States)",
+      "homepage_domains": ["x.ai"],
+      "ror": "https://ror.org/05febkk55",
+      "type": "company"
+    },
+    {
+      "local_key": "developer:moonshotai",
+      "local_name": "Moonshot AI",
+      "openalex_id": "I4405260227",
+      "display_name": "Moonshot AI (China)",
+      "homepage_domains": ["moonshot.ai"],
+      "ror": "https://ror.org/03ej19f56",
+      "type": "company",
+      "wikidata": "Q130270266"
+    },
+    {
+      "local_key": "developer:cohere",
+      "local_name": "Cohere",
+      "openalex_id": "I4401726847",
+      "display_name": "Cohere (Canada)",
+      "homepage_domains": ["cohere.com"],
+      "ror": "https://ror.org/050yr0479",
+      "type": "company"
+    }
+  ]
+}

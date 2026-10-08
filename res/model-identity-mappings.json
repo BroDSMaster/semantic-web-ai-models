@@ -1,0 +1,23 @@
+{
+  "notes": "Reviewed model identities only. Undated catalog IDs identify the named model, not an API provider, dated snapshot, batch or free offering. No fuzzy matching or propagated family identity. Each candidate must pass fresh source checks.",
+  "models": [
+    {
+      "source_id": "openai/gpt-4",
+      "label": "GPT-4",
+      "qid": "Q116709136",
+      "developer_qid": "Q21708200",
+      "developer_id": "developer:openai",
+      "type_qid": "Q131406845",
+      "official_urls": ["https://openai.com/product/gpt-4", "https://openai.com/gpt-4"]
+    },
+    {
+      "source_id": "openai/gpt-4o",
+      "label": "GPT-4o",
+      "qid": "Q125919502",
+      "developer_qid": "Q21708200",
+      "developer_id": "developer:openai",
+      "type_qid": "Q131406845",
+      "official_urls": ["https://openai.com/index/hello-gpt-4o"]
+    }
+  ]
+}

@@ -1,13 +1,14 @@
 # Kiểm chứng AI model catalog
 
-Snapshot thu thập ngày 2026-10-05 được kiểm chứng local lại sau khi tách project ngày 2026-10-07. Fuseki không được khởi động hoặc nạp dữ liệu trong lần tách này.
+Snapshot catalog ngày 2026-10-05 được kiểm chứng local lại ngày 2026-10-08 sau khi thêm liên kết model và tổ chức. JSON Wikidata/DBpedia/OpenAlex mới được truy xuất ngày 2026-10-08. Fuseki không được khởi động hoặc nạp dữ liệu trong lần này.
 
 ## Kết quả
 
-- 17 unit/regression tests riêng của aimodels đạt. Tests nghiên cứu đã chuyển sang airesearch.
-- Cả 13 file SPARQL thực thi thành công trên graph đầy đủ.
-- Graph kết hợp có 353,882 triples; CSV/RDF entity counts khớp, không có dangling price/evaluation hoặc ID trùng.
-- 576 source snapshots vượt kiểm tra SHA-256 của response bytes lưu tại bronze.
+- 34 unit/regression tests riêng của aimodels đạt; gồm kiểm tra OpenAlex ID/name/type/homepage/ROR/QID, domain không chứa dữ liệu nhận xét chủ quan, sai phiên bản model, checksum bị sửa và sai repository HF.
+- Cả 15 file SPARQL thực thi thành công trên graph đầy đủ.
+- Graph kết hợp có 354.640 triples; CSV/RDF entity counts khớp, không có dangling price/evaluation hoặc ID trùng.
+- 573 source snapshots vượt kiểm tra SHA-256 của response bytes lưu tại bronze.
+- 4 snapshots Wikidata/DBpedia và 9 snapshots OpenAlex được kiểm tra riêng. RDF khớp kết quả đối chiếu lại: 2 sameAs model, 14 sameAs tổ chức và 102 quan hệ tới 92 repository HF.
 - OWL RL kiểm tra trên fixture đại diện của ontology; không chạy closure toàn catalog.
 - CLI ask.py đã chạy thành công với query Opus và lưu 336 dòng kết quả.
 
@@ -19,15 +20,17 @@ Snapshot thu thập ngày 2026-10-05 được kiểm chứng local lại sau khi
 | `conflicting_observations.rq` | 0 | 0.253 |
 | `coverage.rq` | 58 | 0.045 |
 | `direct_vs_router.rq` | 1257 | 4.182 |
-| `external_links.rq` | 5 | 0.01 |
+| `external_links.rq` | 16 | 0.012 |
+| `model_identity_links.rq` | 2 | Xem report mới |
+| `model_repositories.rq` | 102 | Xem report mới |
 | `model_details.rq` | 116 | 0.072 |
 | `official_sources.rq` | 399 | 1.643 |
 | `open_weight_specs.rq` | 391 | 2.789 |
+| `openalex_organizations.rq` | 9 | 0.062 |
 | `opus_providers_prices.rq` | 336 | 6.731 |
-| `reviews.rq` | 4 | 0.016 |
 | `vision_models.rq` | 295 | 0.055 |
 
-Thời gian trên không bao gồm đọc/parse RDF từ đĩa. Query conflicts trả 0 là kết quả hợp lệ: không thấy model context/output/cutoff có nhiều giá trị trong tập quan sát đang xét. Không chứng minh mọi nguồn luôn đồng thuận.
+Các thời gian số trong bảng được giữ từ lần kiểm tra ngày 07/10; số dòng đã đối chiếu ngày 08/10. Thời gian lần chạy mới nằm trong `validation-report.json`, không bao gồm đọc/parse RDF từ đĩa. Query conflicts trả 0 là kết quả hợp lệ: không thấy model context/output/cutoff có nhiều giá trị trong tập quan sát đang xét. Không chứng minh mọi nguồn luôn đồng thuận.
 
 ## Bằng chứng và chạy lại
 
@@ -48,4 +51,4 @@ PYTHONPATH=src .venv/bin/python -m model_catalog.validate
 
 Đây là kiểm chứng local, chưa xác minh query qua Fuseki server của người dùng. Ba Hugging Face responses không khớp repository ID đã bị bỏ qua; một ứng viên identity Wikidata chưa xác nhận được official website nên không xuất sameAs. Những cảnh báo này nằm trong coverage/link report, không bị coi là dữ liệu đã xác minh.
 
-Benchmark/review chỉ có cho một phần model. Giá trực tiếp có parser nhận dạng cho OpenAI, Anthropic, MiniMax và Z.AI; các hãng khác có catalog/router prices và tài liệu liên quan. Các listing alias/free/batch không phải những bộ weights độc lập. Namespace example.org cần được thay và xuất bản để công bố LOD truy cập công khai.
+Benchmark chỉ có cho một phần model. Giá trực tiếp có parser nhận dạng cho OpenAI, Anthropic, MiniMax và Z.AI; các hãng khác có catalog/router prices và tài liệu liên quan. Các listing alias/free/batch không phải những bộ weights độc lập. Namespace example.org cần được thay và xuất bản để công bố LOD truy cập công khai.

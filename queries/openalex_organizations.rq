@@ -1,0 +1,19 @@
+PREFIX ex: <https://example.org/aimodels/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+SELECT ?organizationName ?openalexInstitution ?reason ?source ?sha256 ?checkedAt WHERE {
+  ?organization a ex:Organization ;
+                rdfs:label ?organizationName ;
+                owl:sameAs ?openalexInstitution .
+  FILTER(STRSTARTS(STR(?openalexInstitution), "https://openalex.org/I"))
+  ?evidence a ex:ExternalLink ;
+            ex:linkSubject ?organization ;
+            ex:linkTarget ?openalexInstitution ;
+            ex:description ?reason ;
+            prov:wasDerivedFrom ?source .
+  OPTIONAL { ?evidence ex:sha256 ?sha256 }
+  OPTIONAL { ?evidence ex:observedAt ?checkedAt }
+}
+ORDER BY ?organizationName

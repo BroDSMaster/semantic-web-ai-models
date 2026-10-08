@@ -2944,33 +2944,6 @@
       "retrieved_at": "2026-10-05T04:43:57.899406+00:00"
     },
     {
-      "id": "review-minimax-m2",
-      "name": "Simon Willison: MiniMax M2",
-      "kind": "review",
-      "url": "https://simonwillison.net/2025/Oct/29/minimax-m2/",
-      "file": "documents/review-minimax-m2-8292d67cddb0d8cfe0beaf0afc1df25db8c4b406ee7d4d969d8694637e00350d.html",
-      "sha256": "8292d67cddb0d8cfe0beaf0afc1df25db8c4b406ee7d4d969d8694637e00350d",
-      "retrieved_at": "2026-10-05T04:43:58.525969+00:00"
-    },
-    {
-      "id": "review-sonnet-46",
-      "name": "Simon Willison: Sonnet 4.6",
-      "kind": "review",
-      "url": "https://simonwillison.net/2026/Feb/17/claude-sonnet-46/",
-      "file": "documents/review-sonnet-46-1f67c0ed891fe8210557c61d960766c1944545342676083abb1bccb9e8a5bf5e.html",
-      "sha256": "1f67c0ed891fe8210557c61d960766c1944545342676083abb1bccb9e8a5bf5e",
-      "retrieved_at": "2026-10-05T04:43:58.803698+00:00"
-    },
-    {
-      "id": "review-opus-48",
-      "name": "Simon Willison: Opus 4.8",
-      "kind": "review",
-      "url": "https://simonwillison.net/2026/May/28/claude-opus-4-8/",
-      "file": "documents/review-opus-48-a0030485943f5acc584ae50ccbcd39d062ab4249a5945fc75682a61e2e65a808.html",
-      "sha256": "a0030485943f5acc584ae50ccbcd39d062ab4249a5945fc75682a61e2e65a808",
-      "retrieved_at": "2026-10-05T04:43:59.077675+00:00"
-    },
-    {
       "id": "hf:MiniMaxAI/MiniMax-M2.7",
       "url": "https://huggingface.co/api/models/MiniMaxAI/MiniMax-M2.7",
       "name": "Publisher model card: MiniMaxAI/MiniMax-M2.7",
