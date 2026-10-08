@@ -66,6 +66,11 @@ class PagesSiteTests(unittest.TestCase):
             self.assertNotIn("gradient", css)
             self.assertNotIn("backdrop-filter", css)
 
+    def test_pages_workflow_uses_one_artifact_name_per_run_attempt(self):
+        workflow = (ROOT / ".github/workflows/pages.yml").read_text()
+        self.assertIn("github-pages-${GITHUB_RUN_ATTEMPT}", workflow)
+        self.assertIn("artifact_name: ${{ needs.build.outputs.artifact_name }}", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()
