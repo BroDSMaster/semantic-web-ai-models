@@ -50,6 +50,22 @@ class PagesSiteTests(unittest.TestCase):
             metadata = Graph().parse(output / "data/dataset-metadata.ttl", format="turtle")
             self.assertTrue(metadata)
 
+    def test_site_content_is_english_and_visual_style_is_simple(self):
+        from scripts.build_site import build
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            build(output)
+            html = "\n".join(path.read_text() for path in output.rglob("*.html"))
+            javascript = (output / "assets/app.js").read_text()
+            css = (output / "assets/styles.css").read_text()
+
+            self.assertIn('<html lang="en">', html)
+            for vietnamese_text in ["Tổng quan", "Tổ chức", "Đang tải", "Không có kết quả", "Mọi nhà phát triển"]:
+                self.assertNotIn(vietnamese_text, html + javascript)
+            self.assertNotIn("gradient", css)
+            self.assertNotIn("backdrop-filter", css)
+
 
 if __name__ == "__main__":
     unittest.main()
