@@ -198,3 +198,15 @@ Sau khi RDF thay đổi, Fuseki vẫn dùng bản đã nạp trước đó tới
   xác minh; workflow Pages xuất bản namespace, RDF distribution và license công khai.
 - Mỗi nguồn có điều khoản riêng; metadata mới không mang license CC0 của
   OpenAlex. Tài liệu giá có thể thay đổi, parser schema fail sẽ báo rõ.
+
+## Kiểm tra SHACL
+
+Sau khi cập nhật thư viện bằng `.venv/bin/python -m pip install -r requirements.txt`,
+`model_catalog.validate` tự kiểm tra SHACL. Chạy riêng:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m model_catalog.shacl
+```
+
+Luật: `res/shapes.ttl`. Báo cáo: `res/shacl-report.json`, `.ttl`, `.txt`.
+Xem [SHACL.md](SHACL.md) cho input/output, điều kiện và demo lỗi.

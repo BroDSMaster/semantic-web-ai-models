@@ -13,6 +13,11 @@ def validate():
     tables = read_tables()
     graph = load_model_graph()
     errors, warnings = [], []
+    from .shacl import validate_shacl
+    print("Checking SHACL constraints...", flush=True)
+    shacl_report = validate_shacl(graph)
+    if not shacl_report["conforms"]:
+        errors.append(f"SHACL failed: {shacl_report['result_count']} results; see res/shacl-report.json")
     model_ids = {r["id"] for r in tables["models"]}
     docs = {r["id"] for r in tables["documents"]}
     offerings = {r["id"] for r in tables["offerings"]}
@@ -111,7 +116,8 @@ def validate():
               "wikidata_dbpedia_links": len(actual_pairs),
               "linked_local_entities": len({str(s) for s, _ in graph.subject_objects(OWL.sameAs)}),
               "repository_relations": len(list(graph.triples((None, EX.hasRepository, None)))),
-              "owl_rl": "representative fixture; full catalog closure not run", "fuseki": "not started or uploaded by agent"}
+              "owl_rl": "representative fixture; full catalog closure not run", "shacl": {k: v for k, v in shacl_report.items() if k != "results"},
+              "fuseki": "not started or uploaded by agent"}
     write_json(RES / "validation-report.json", report)
     print(json.dumps(report, indent=2))
     if errors:

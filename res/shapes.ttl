@@ -1,0 +1,116 @@
+@prefix ex: <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+# Validate asserted RDF without inference: missing links/types must not be inferred away.
+# Unknown optional facts stay optional. Conflicting sourced observations may coexist.
+ex:NamedEntityShape a sh:NodeShape ;
+    sh:targetClass ex:Organization, ex:ModelFamily, ex:Capability, ex:Modality, ex:Benchmark ;
+    sh:nodeKind sh:IRI ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] .
+
+ex:AIModelShape a sh:NodeShape ; sh:targetClass ex:AIModel ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:sourceId ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:belongsToFamily ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:ModelFamily ] ;
+    sh:property [ sh:path ex:developedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:Organization ] ;
+    sh:property [ sh:path ex:inputModality ; sh:nodeKind sh:IRI ; sh:class ex:Modality ] ;
+    sh:property [ sh:path ex:outputModality ; sh:nodeKind sh:IRI ; sh:class ex:Modality ] ;
+    sh:property [ sh:path ex:supportsCapability ; sh:nodeKind sh:IRI ; sh:class ex:Capability ] ;
+    sh:property [ sh:path ex:hasRepository ; sh:nodeKind sh:IRI ; sh:pattern "^https://huggingface[.]co/[^/]+/[^/]+$" ] ;
+    sh:property [ sh:path ex:relatedDocumentation ; sh:nodeKind sh:IRI ; sh:class ex:SourceDocument ] ;
+    sh:property [ sh:path owl:sameAs ; sh:maxCount 0 ; sh:message "Model-level sameAs is excluded by this project's identity policy." ] .
+
+ex:ModelOfferingShape a sh:NodeShape ; sh:targetClass ex:ModelOffering ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path ex:offersModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:AIModel ] ;
+    sh:property [ sh:path ex:hostedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:or ( [ sh:class ex:Organization ] [ sh:class schema:Service ] ) ;
+        sh:not [ sh:class ex:ModelOffering ] ] ;
+    sh:property [ sh:path ex:offeringKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "direct" "openrouter_catalog" "openrouter_endpoint" ) ] ;
+    sh:property [ sh:path ex:serviceMode ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:hasPrice ; sh:nodeKind sh:IRI ; sh:class ex:PriceSpecification ] ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:SourceDocument ] ;
+    sh:property [ sh:path ex:observedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] .
+
+ex:PriceShape a sh:NodeShape ; sh:targetClass ex:PriceSpecification ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path ex:priceAmount ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path ex:priceCategory ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:priceUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:currency ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[A-Z]{3}$" ] ;
+    sh:property [ sh:path ex:discount ; sh:datatype xsd:decimal ; sh:maxInclusive 1 ] ;
+    sh:property [ sh:path ex:minPromptTokens ; sh:datatype xsd:integer ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path [ sh:inversePath ex:hasPrice ] ; sh:minCount 1 ; sh:maxCount 1 ; sh:class ex:ModelOffering ] ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:SourceDocument ] ;
+    sh:property [ sh:path ex:observedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] .
+
+ex:SourceDocumentShape a sh:NodeShape ; sh:targetClass ex:SourceDocument ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path schema:url ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^https?://" ] ;
+    sh:property [ sh:path ex:sourceKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:sha256 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[0-9a-f]{64}$" ] ;
+    sh:property [ sh:path ex:snapshotFile ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:observedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] .
+
+ex:ObservationShape a sh:NodeShape ; sh:targetClass ex:FactObservation ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path ex:aboutEntity ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:or ( [ sh:class ex:AIModel ] [ sh:class ex:ModelOffering ] ) ] ;
+    sh:property [ sh:path ex:observedProperty ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:SourceDocument ] ;
+    sh:property [ sh:path ex:observedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] ;
+    sh:xone (
+        [ sh:property [ sh:path ex:literalValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:Literal ] ;
+          sh:property [ sh:path ex:resourceValue ; sh:maxCount 0 ] ]
+        [ sh:property [ sh:path ex:resourceValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+          sh:property [ sh:path ex:literalValue ; sh:maxCount 0 ] ]
+    ) .
+
+ex:EvaluationShape a sh:NodeShape ; sh:targetClass ex:Evaluation ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path ex:evaluatedModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:AIModel ] ;
+    sh:property [ sh:path ex:onBenchmark ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:Benchmark ] ;
+    sh:property [ sh:path ex:score ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path ex:scoreUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:evaluationConfig ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path ex:attribution ; sh:minCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:class ex:SourceDocument ] .
+
+# Identity source URLs are raw API/query URLs, not catalog SourceDocument entities.
+ex:ExternalLinkShape a sh:NodeShape ; sh:targetClass ex:ExternalLink ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path ex:linkSubject ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:or ( [ sh:class ex:Organization ] [ sh:class schema:Service ] ) ;
+        sh:not [ sh:class ex:ModelOffering ] ] ;
+    sh:property [ sh:path ex:linkTarget ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^https?://" ] ;
+    sh:property [ sh:path ex:description ; sh:minCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^https?://" ] ;
+    sh:property [ sh:path ex:sha256 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[0-9a-f]{64}$" ] ;
+    sh:property [ sh:path ex:snapshotFile ; sh:minCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ex:observedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] ;
+    sh:sparql [ sh:message "ExternalLink must describe an asserted owl:sameAs triple." ;
+        sh:select """SELECT $this WHERE {
+          $this <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkSubject> ?s ;
+                <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkTarget> ?t .
+          FILTER NOT EXISTS { ?s <http://www.w3.org/2002/07/owl#sameAs> ?t }
+        }""" ] .
+
+ex:SameAsShape a sh:NodeShape ; sh:targetSubjectsOf owl:sameAs ;
+    sh:or ( [ sh:class ex:Organization ] [ sh:class schema:Service ] ) ;
+    sh:not [ sh:class ex:ModelOffering ] ;
+    sh:property [ sh:path owl:sameAs ; sh:nodeKind sh:IRI ; sh:pattern "^https?://" ] ;
+    sh:sparql [ sh:message "Each owl:sameAs target requires an ExternalLink evidence record." ;
+        sh:select """SELECT $this ?value WHERE {
+          $this <http://www.w3.org/2002/07/owl#sameAs> ?value .
+          FILTER NOT EXISTS {
+            ?link a <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#ExternalLink> ;
+              <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkSubject> $this ;
+              <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#linkTarget> ?value .
+          }
+        }""" ] .
+
+# Shared checks apply wherever convenience triples have these optional properties.
+ex:TokenLimitShape a sh:NodeShape ; sh:targetSubjectsOf ex:contextLength, ex:maxOutputTokens, ex:parameterCount ;
+    sh:property [ sh:path ex:contextLength ; sh:datatype xsd:integer ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path ex:maxOutputTokens ; sh:datatype xsd:integer ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path ex:parameterCount ; sh:datatype xsd:integer ; sh:minInclusive 0 ] .

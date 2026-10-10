@@ -1265,3 +1265,17 @@ hành, có một category giá cụ thể, theo điều kiện và source URL đ
 9. **Giá là snapshot.** Query trả giá đã lưu ở thời điểm thu thập, không gọi live API.
 10. **Validation thành công không nói dữ liệu không bao giờ lỗi thời.** Nó chứng minh
     artifact hiện tại nhất quán với snapshot và các quy tắc kiểm tra của project.
+
+## Kiểm chứng bổ sung bằng SHACL
+
+`res/shapes.ttl` là bộ luật do project thiết kế, tách riêng khỏi ontology và dữ liệu.
+`src/model_catalog/shacl.py` đọc graph kết hợp (ontology, Gold, links, metadata),
+kiểm tra bằng pySHACL rồi xuất `res/shacl-report.json`, `.ttl`, `.txt`.
+`validate.py` gọi cùng bộ kiểm tra và thất bại nếu graph không conforms.
+Luật bao gồm model/offering, giá decimal không âm, nguồn/checksum/timestamp,
+observation có đúng một loại giá trị, benchmark và evidence cho từng sameAs.
+SHACL kiểm tra cấu trúc; việc đối chiếu danh tính và checksum của bytes nguồn vẫn
+do validator/link modules đảm nhiệm.
+
+Xem [docs/SHACL.md](docs/SHACL.md) để đọc từng luật, input/output và các lệnh demo
+trên fixture hợp lệ/giá sai mà không sửa dataset thật.

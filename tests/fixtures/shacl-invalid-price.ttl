@@ -1,0 +1,34 @@
+@prefix ex: <https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#> .
+@prefix t: <https://example.test/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+t:model a ex:AIModel ; rdfs:label "Demo model" ; ex:sourceId "demo/model" ;
+    ex:developedBy t:company ; ex:belongsToFamily t:family .
+t:company a ex:Organization ; rdfs:label "Demo company" .
+t:family a ex:ModelFamily ; rdfs:label "Demo family" .
+t:azure a schema:Service ; rdfs:label "Azure" ; owl:sameAs <http://www.wikidata.org/entity/Q725967> .
+t:offering a ex:ModelOffering ; ex:offersModel t:model ; ex:hostedBy t:azure ;
+    ex:offeringKind "openrouter_endpoint" ; ex:serviceMode "standard" ; ex:hasPrice t:price ;
+    prov:wasDerivedFrom t:document ; ex:observedAt "2026-10-10T00:00:00Z"^^xsd:dateTime .
+t:price a ex:PriceSpecification ; ex:priceAmount "five" ;
+    ex:priceCategory "prompt" ; ex:currency "USD" ; ex:priceUnit "million_tokens" ;
+    prov:wasDerivedFrom t:document ; ex:observedAt "2026-10-10T00:00:00Z"^^xsd:dateTime .
+t:document a ex:SourceDocument ; schema:url <https://example.test/api/models> ;
+    ex:sourceKind "catalog" ; ex:sha256 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" ;
+    ex:snapshotFile "src/data/bronze/documents/demo.json" ; ex:observedAt "2026-10-10T00:00:00Z"^^xsd:dateTime .
+t:observation a ex:FactObservation ; ex:aboutEntity t:model ; ex:observedProperty ex:description ;
+    ex:literalValue "Demo fact" ; prov:wasDerivedFrom t:document ; ex:observedAt "2026-10-10T00:00:00Z"^^xsd:dateTime .
+t:benchmark a ex:Benchmark ; rdfs:label "Demo benchmark" .
+t:evaluation a ex:Evaluation ; ex:evaluatedModel t:model ; ex:onBenchmark t:benchmark ;
+    ex:score "0"^^xsd:decimal ; ex:scoreUnit "percent" ; ex:evaluationConfig "demo" ;
+    ex:attribution "Demo evaluator" ; prov:wasDerivedFrom t:document .
+t:link a ex:ExternalLink ; ex:linkSubject t:azure ; ex:linkTarget <http://www.wikidata.org/entity/Q725967> ;
+    ex:description "Synthetic fixture, not a real identity verification" ;
+    prov:wasDerivedFrom <https://www.wikidata.org/wiki/Special:EntityData/Q725967.json> ;
+    ex:sha256 "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" ;
+    ex:snapshotFile "src/data/bronze/documents/demo-wikidata.json" ;
+    ex:observedAt "2026-10-10T00:00:00Z"^^xsd:dateTime .

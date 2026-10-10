@@ -199,6 +199,8 @@ Xem [sơ đồ toàn bộ ontology](docs/ONTOLOGY_DIAGRAM.md) để xem đủ 12
 
 ### Kiểm tra cụ thể
 
+Project có thêm SHACL: [res/shapes.ttl](res/shapes.ttl) quy định trường bắt buộc, kiểu dữ liệu, quan hệ và bằng chứng; `validate.py` tự gọi kiểm tra. Chạy riêng bằng `PYTHONPATH=src .venv/bin/python -m model_catalog.shacl`. Báo cáo ở `res/shacl-report.json`, `.ttl`, `.txt`. Xem [SHACL.md](docs/SHACL.md) để đọc luật và demo RDF sai.
+
 [test_model_catalog.py](tests/test_model_catalog.py) kiểm tra giá 0 khác giá chưa biết, độ chính xác số thập phân, đơn vị, chiết khấu, provider khác developer, phiên bản free/batch, schema API và query Opus có giá/nguồn đúng trên dữ liệu nhỏ.
 
 [validate.py](src/model_catalog/validate.py) kiểm tra checksum nguồn, ID duy nhất, quan hệ không trỏ tới record thiếu, số thực thể CSV/RDF bằng nhau và chạy mọi file query. OWL RL là bộ quy tắc suy luận; kiểm tra hiện dùng fixture đại diện, không chạy suy luận toàn bộ catalog.

@@ -28,21 +28,21 @@
     "vision_models.rq": 295
   },
   "query_seconds": {
-    "benchmarks.rq": 0.22,
-    "cheap_tool_models.rq": 0.794,
-    "claude_models.rq": 0.022,
-    "conflicting_observations.rq": 0.213,
-    "coverage.rq": 0.046,
-    "direct_vs_router.rq": 3.525,
-    "external_links.rq": 0.016,
-    "linked_providers.rq": 0.191,
-    "model_details.rq": 0.051,
-    "model_repositories.rq": 0.154,
-    "official_sources.rq": 1.336,
-    "open_weight_specs.rq": 2.161,
-    "openalex_organizations.rq": 0.148,
-    "opus_providers_prices.rq": 4.786,
-    "vision_models.rq": 0.039
+    "benchmarks.rq": 0.213,
+    "cheap_tool_models.rq": 1.482,
+    "claude_models.rq": 0.038,
+    "conflicting_observations.rq": 0.345,
+    "coverage.rq": 0.051,
+    "direct_vs_router.rq": 5.074,
+    "external_links.rq": 0.02,
+    "linked_providers.rq": 0.277,
+    "model_details.rq": 0.071,
+    "model_repositories.rq": 0.267,
+    "official_sources.rq": 1.847,
+    "open_weight_specs.rq": 3.395,
+    "openalex_organizations.rq": 0.216,
+    "opus_providers_prices.rq": 7.299,
+    "vision_models.rq": 0.056
   },
   "source_snapshots": 573,
   "openalex_snapshots": 9,
@@ -51,5 +51,13 @@
   "linked_local_entities": 43,
   "repository_relations": 102,
   "owl_rl": "representative fixture; full catalog closure not run",
+  "shacl": {
+    "conforms": true,
+    "result_count": 0,
+    "data_triples": 355218,
+    "shapes_file": "/home/puda14/Desktop/Project/semantic-web/aimodels/res/shapes.ttl",
+    "inference": "none",
+    "seconds": 78.82
+  },
   "fuseki": "not started or uploaded by agent"
 }
