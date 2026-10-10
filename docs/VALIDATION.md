@@ -4,11 +4,11 @@ Snapshot catalog ngày 2026-10-05 được kiểm chứng local lại ngày 2026
 
 ## Kết quả
 
-- SHACL đạt trên 355.218 triples: `conforms: true`, 0 kết quả vi phạm; lượt kiểm tra đầy đủ mất 78,82 giây cho riêng SHACL. Luật tại `res/shapes.ttl`, báo cáo tại `res/shacl-report.json`, `.ttl`, `.txt`.
+- SHACL đạt trên 355.221 triples: `conforms: true`, 0 kết quả vi phạm. Luật tại `res/shapes.ttl`, báo cáo tại `res/shacl-report.json`, `.ttl`, `.txt`.
 
 - Unit/regression tests riêng của aimodels đạt; 9 tests SHACL kiểm tra cả dữ liệu hợp lệ và lỗi được chủ động tạo; gồm kiểm tra OpenAlex ID/name/type/homepage/ROR/QID, domain không chứa dữ liệu nhận xét chủ quan, checksum bị sửa và sai repository HF.
 - Cả 15 file SPARQL thực thi thành công trên graph đầy đủ.
-- Graph kết hợp có 355.218 triples; CSV/RDF entity counts khớp, không có dangling price/evaluation hoặc ID trùng.
+- Graph kết hợp có 355.221 triples; CSV/RDF entity counts khớp, không có dangling price/evaluation hoặc ID trùng.
 - 573 source snapshots vượt kiểm tra SHA-256 của response bytes lưu tại bronze.
 - 9 snapshots OpenAlex được phát lại kiểm tra riêng. 50 snapshots Wikidata/DBpedia được kiểm tra checksum và phát lại mapping. RDF có 77 sameAs cho tổ chức/dịch vụ và 102 quan hệ tới 92 repository HF; không có sameAs cấp model.
 - OWL RL kiểm tra trên fixture đại diện của ontology; không chạy closure toàn catalog.

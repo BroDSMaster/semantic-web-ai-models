@@ -127,6 +127,6 @@ validator và các module link hiện có. Hai lớp kiểm tra bổ sung cho nh
 
 ## Kết quả trên snapshot hiện tại
 
-Ngày 10/10/2026: kiểm tra 355.218 triples, `conforms: true`, 0 vi phạm.
+Ngày 10/10/2026: kiểm tra 355.221 triples, `conforms: true`, 0 vi phạm.
 SHACL mất 78,82 giây trong lần chạy này; thời gian thay đổi theo máy.
 15 query SPARQL của validator toàn pipeline đều thực thi thành công.

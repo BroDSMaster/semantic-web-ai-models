@@ -470,6 +470,10 @@ Ontology tái sử dụng RDF, RDFS, OWL, XSD, Schema.org, PROV-O và Dublin Cor
 `xsd:decimal`; thời gian snapshot dùng `xsd:dateTime`; provenance dùng
 `prov:wasDerivedFrom`.
 
+Ba axiom `owl:disjointWith` khai báo rằng `AIModel` không thể đồng thời là
+`Organization` hoặc `PriceSpecification`, và `Evaluation` không thể đồng thời là
+`Benchmark`.
+
 ### 5.3 Input và output
 
 ```text
@@ -1031,7 +1035,7 @@ Kết quả hiện tại:
 | Kiểm tra | Kết quả |
 |---|---:|
 | Error | 0 |
-| Graph kết hợp | 355.218 triples |
+| Graph kết hợp | 355.221 triples |
 | Model | 481 |
 | Offering | 1.909 |
 | Price | 8.174 |

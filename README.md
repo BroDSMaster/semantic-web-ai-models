@@ -104,7 +104,7 @@ Snapshot thu thập ngày 05/10/2026 có:
 | Thông tin bổ sung | 92 bộ metadata model từ đơn vị phát hành trên Hugging Face |
 | Đánh giá | 471 kết quả benchmark có model, phép đo, điểm, cấu hình và nguồn |
 | Liên kết ngoài | 77 identity links: 42 Wikidata + 26 DBpedia + 9 OpenAlex; 43 URI local của tổ chức/dịch vụ có liên kết (developer/provider có thể cùng công ty); 102 quan hệ model → repository Hugging Face |
-| Graph kết hợp | 355.218 triples; 15 file query; query Opus trả 336 dòng giá. Các liên kết OpenAlex được xác minh ngày 08/10/2026 |
+| Graph kết hợp | 355.221 triples; 15 file query; query Opus trả 336 dòng giá. Các liên kết OpenAlex được xác minh ngày 08/10/2026 |
 
 Một listing là một mục trong danh mục. Tên gọi khác, bản miễn phí hoặc bản chạy theo lô có thể cùng dùng một model; số listing không phải số bộ trọng số độc lập. Điểm đánh giá chỉ có cho một phần model.
 
@@ -189,7 +189,7 @@ Thiết kế theo [ONTOLOGY_ENGINEERING_SKILL.md](../ONTOLOGY_ENGINEERING_SKILL.
 
 Context length là số token có thể đưa vào ngữ cảnh; token là đơn vị chia nhỏ văn bản model xử lý. Hỗ trợ tools nghĩa là API hỗ trợ yêu cầu gọi công cụ; nó chưa chứng minh model làm tốt mọi tác vụ.
 
-**Axiom** là quy tắc logic. Ontology tái sử dụng `schema:Organization`, `schema:Service`, `schema:PriceSpecification` và `prov:Entity` làm lớp cha phù hợp. **Domain/range** mô tả loại ở hai đầu thuộc tính và có thể suy ra type; kiểm tra dữ liệu thiếu được thực hiện trong validator.
+**Axiom** là quy tắc logic. Ontology tái sử dụng `schema:Organization`, `schema:Service`, `schema:PriceSpecification` và `prov:Entity` làm lớp cha phù hợp. **Domain/range** mô tả loại ở hai đầu thuộc tính và có thể suy ra type; `owl:disjointWith` ngăn `AIModel` đồng thời là `Organization`/`PriceSpecification` và ngăn `Evaluation` đồng thời là `Benchmark`. Kiểm tra dữ liệu thiếu được thực hiện trong validator.
 
 Claude là một family nối tới Opus bằng quan hệ; family không là lớp cha của từng phiên bản. Tài liệu nguồn được mô hình riêng để một thuộc tính có nhiều quan sát khác nhau mà vẫn giữ nguồn/thời điểm.
 

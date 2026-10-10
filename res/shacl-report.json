@@ -1,9 +1,9 @@
 {
   "conforms": true,
   "result_count": 0,
-  "data_triples": 355218,
+  "data_triples": 355221,
   "shapes_file": "/home/puda14/Desktop/Project/semantic-web/aimodels/res/shapes.ttl",
   "inference": "none",
-  "seconds": 78.82,
+  "seconds": 66.344,
   "results": []
 }

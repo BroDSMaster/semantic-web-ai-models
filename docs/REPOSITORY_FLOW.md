@@ -403,7 +403,7 @@ Trạng thái đã kiểm tra gần nhất:
 ```text
 31 tests passed
 15 SPARQL queries executed
-355.218 combined triples
+355.221 combined triples
 77 organization/service identity links
 0 model identity links
 0 validator errors

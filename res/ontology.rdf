@@ -120,6 +120,8 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
     <rdfs:label>AI model</rdfs:label>
     <rdfs:comment>A source-identified AI model/version. IDs and aliases are not merged without identity evidence.</rdfs:comment>
+    <owl:disjointWith rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization"/>
+    <owl:disjointWith rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#PriceSpecification"/>
   </rdf:Description>
   <rdf:Description rdf:about="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#priceAmount">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
@@ -420,6 +422,7 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
     <rdfs:label>Evaluation</rdfs:label>
     <rdfs:comment>One model's reported result on a benchmark with a recorded scale, configuration and source.</rdfs:comment>
+    <owl:disjointWith rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Benchmark"/>
   </rdf:Description>
   <rdf:Description rdf:nodeID="n0c9676441d484882a12941bbd7038356b2">
     <rdf:first rdf:resource="https://brodsmaster.github.io/semantic-web-ai-models/data/aimodels.ttl#Organization"/>

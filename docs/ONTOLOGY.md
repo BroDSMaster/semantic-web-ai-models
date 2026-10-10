@@ -41,6 +41,11 @@ offering là schema:Service, price là schema:PriceSpecification và source docu
 prov:Entity. Không dùng subclass để diễn
 tả membership của model trong family hoặc offering của model.
 
+Ba disjointness axiom loại trừ các kiểu thực thể không tương thích:
+`AIModel` disjoint với `Organization` và `PriceSpecification`; `Evaluation`
+disjoint với `Benchmark`. Reasoner báo mâu thuẫn nếu một individual đồng thời
+thuộc hai class trong một cặp này.
+
 Identity: percent-encoded source IDs; prices/observations/evaluations dùng
 hash các trường identity và snapshot. Family identity gồm source namespace
 và tên họ. Một vai trò hosting không biến organization thành model. Một model

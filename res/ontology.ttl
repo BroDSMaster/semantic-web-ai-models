@@ -24,6 +24,10 @@ ex:SourceDocument a owl:Class ; rdfs:subClassOf prov:Entity ; rdfs:label "Source
 ex:FactObservation a owl:Class ; rdfs:label "Fact observation" ; rdfs:comment "A statement about a subject, property and value with source provenance; may conflict with another source." .
 ex:ExternalLink a owl:Class ; rdfs:label "External identity evidence" ; rdfs:comment "An external identity mapping with evidence; document URLs are not entity identity." .
 
+# These entity kinds cannot describe the same individual.
+ex:AIModel owl:disjointWith ex:Organization, ex:PriceSpecification .
+ex:Evaluation owl:disjointWith ex:Benchmark .
+
 ex:belongsToFamily a owl:ObjectProperty ; rdfs:domain ex:AIModel ; rdfs:range ex:ModelFamily ; rdfs:label "belongs to family" ; rdfs:comment "Model to its documented family." .
 ex:developedBy a owl:ObjectProperty ; rdfs:domain ex:AIModel ; rdfs:range ex:Organization ; rdfs:label "developed by" ; rdfs:comment "Model to its developer, distinct from hosting service." .
 ex:offersModel a owl:ObjectProperty ; rdfs:domain ex:ModelOffering ; rdfs:range ex:AIModel ; rdfs:label "offers model" ; rdfs:comment "Offering to model accessed through it." .
